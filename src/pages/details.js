@@ -38,7 +38,7 @@ export default function Details() {
           sm={12}
           xs={24}
         >
-          <Image src={testPostImage} width={150} height={150} />
+          <Image src={testPostImage.src} width={150} height={150} />
         </Col>
       </Row>
       <Row className="post-row" gutter={32}>
