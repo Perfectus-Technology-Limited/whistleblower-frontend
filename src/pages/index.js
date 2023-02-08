@@ -1,5 +1,11 @@
 import Head from "next/head";
+import { Col, Row } from "antd";
+import PostCard from "@/components/PostCard";
 
+const style = {
+  background: "#0092ff",
+  padding: "8px 0",
+};
 
 export default function Home() {
   return (
@@ -12,7 +18,14 @@ export default function Home() {
       </Head>
       <main>
         <div>
-          <h1 style={{color:"#ffffff"}}>Home Page</h1>
+          <Row style={{ margin: "20px 0px" }}>
+            <Col span={24} style={{ textAlign: "center" }}>
+              <h1 style={{ color: "#ffffff" }}>Home Title</h1>
+            </Col>
+          </Row>
+          <Row>
+            <PostCard />
+          </Row>
         </div>
       </main>
     </>
