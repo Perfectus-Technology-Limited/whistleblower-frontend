@@ -1,9 +1,13 @@
+import PostCard from "@/components/PostCard";
+import { Row } from "antd";
 import React from "react";
 
 function Leaks() {
   return (
     <div>
-      <h1 style={{ color: "#ffffff" }}>Leaks Page</h1>
+      <Row>
+        <PostCard/>
+      </Row>
     </div>
   );
 }
