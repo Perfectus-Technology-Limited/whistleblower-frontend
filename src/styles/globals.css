@@ -94,13 +94,101 @@
   .entire-navbardiv {
     display: none !important;
   }
+}
+
+.gutter-row {
+  margin: 25px 0px;
+}
+
+.col-main-div {
+  background-color: #000000 !important;
+  display: flex;
+  justify-content: center;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 20px;
+}
+
+.card-footer-arrows {
+  display: flex;
+  justify-content: space-between;
+}
+
+.publisher-wallet-address-div {
+  display: flex;
+}
+
+.publisher-wallet-address {
+  width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ant-card-body {
+  padding: 24px 24px 4px 24px !important;
+}
+
+.avatar-div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.display-page-image {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.display-page-header-row {
+  align-items: center;
+}
+
+.post-row {
+  margin-top: 25px;
+}
+
+.display-page-title {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.leaked-doc-col h2 {
+  color: #ffffff;
+  font-size: 25px;
+}
+
+.post-col .post-text {
+  text-align: justify;
+}
+
+.post-rating-col {
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.post-rater {
+  position: absolute;
+  top: 250px;
+}
+
+@media screen and (max-width: 767px) {
   .logo-col {
     width: 100%;
     justify-content: center;
   }
+  .display-page-image {
+    display: none;
+  }
 }
 
-@media screen and (min-width: 768px) {
+@media screen and (min-width: 769px) {
   .mobile-entire-navbar {
     display: none !important;
   }
