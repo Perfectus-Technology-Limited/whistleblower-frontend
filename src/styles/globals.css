@@ -139,10 +139,52 @@
   margin-bottom: 10px;
 }
 
+.display-page-image {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.display-page-header-row {
+  align-items: center;
+}
+
+.post-row {
+  margin-top: 25px;
+}
+
+.display-page-title {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.leaked-doc-col h2 {
+  color: #ffffff;
+  font-size: 25px;
+}
+
+.post-col .post-text {
+  text-align: justify;
+}
+
+.post-rating-col {
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+}
+
+.post-rater {
+  position: absolute;
+  top: 250px;
+}
+
 @media screen and (max-width: 767px) {
   .logo-col {
     width: 100%;
     justify-content: center;
+  }
+  .display-page-image {
+    display: none;
   }
 }
 
