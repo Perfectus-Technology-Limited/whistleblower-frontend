@@ -6,7 +6,7 @@ function Leaks() {
   return (
     <div>
       <Row>
-        <PostCard />
+        <PostCard  />
       </Row>
     </div>
   );
