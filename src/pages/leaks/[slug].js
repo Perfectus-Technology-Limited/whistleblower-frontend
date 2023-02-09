@@ -1,12 +1,18 @@
-import DocList from "@/components/DocList";
+import FileList from "@/components/FileList";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import { Col, Row } from "antd";
 import { Empty } from "antd";
-import Image from "next/image";
-import testPostImage from "../../images/test-post-image.jpeg";
 
 export default function Details() {
+  const IncreeseHandle = () => {
+    console.log("increese");
+  };
+
+  const DecreeseHandle = () => {
+    console.log("decreese");
+  };
+
   return (
     <div className="detais-page-main-div">
       <Row
@@ -16,13 +22,14 @@ export default function Details() {
           justifyContent: "center",
         }}
         className="display-page-header-row"
+        gutter={32}
       >
         <Col
           className="display-page-title"
-          xl={16}
+          xl={24}
           lg={16}
-          md={16}
-          sm={12}
+          md={24}
+          sm={24}
           xs={24}
         >
           <h1 style={{ color: "#fff", fontSize: "30px" }}>
@@ -30,23 +37,19 @@ export default function Details() {
           </h1>
           <h3 style={{ color: "#fff" }}>08/02/2023</h3>
         </Col>
-        <Col
-          className="display-page-image"
-          xl={8}
-          lg={8}
-          md={8}
-          sm={12}
-          xs={24}
-        >
-          <Image src={testPostImage.src} width={150} height={150} />
-        </Col>
       </Row>
+
       <Row className="post-row" gutter={32}>
         <Col xl={4} lg={6} md={4} sm={4} xs={4} className="post-rating-col">
           <div className="post-rater">
             <div style={{ display: "flex", alignItems: "center" }}>
               <div style={{ display: "flex", alignItems: "center" }}>
-                <IconArrowUpSquareFill height={"2.5em"} width={"2.5em"} />
+                <IconArrowUpSquareFill
+                  onClick={IncreeseHandle}
+                  height={"2.5em"}
+                  width={"2.5em"}
+                  style={{ cursor: "pointer" }}
+                />
               </div>
               <div style={{ fontSize: "25px", marginLeft: "10px" }}>45</div>
             </div>
@@ -58,7 +61,12 @@ export default function Details() {
               }}
             >
               <div style={{ display: "flex", alignItems: "center" }}>
-                <IconArrowDownSquareFill height={"2.5em"} width={"2.5em"} />
+                <IconArrowDownSquareFill
+                  onClick={DecreeseHandle}
+                  height={"2.5em"}
+                  width={"2.5em"}
+                  style={{ cursor: "pointer" }}
+                />
               </div>
               <div style={{ fontSize: "25px", marginLeft: "10px" }}>40</div>
             </div>
@@ -119,7 +127,8 @@ export default function Details() {
         <Col xl={8} lg={6} md={24} sm={24} xs={24} className="leaked-doc-col">
           <h2>Leaked Documents</h2>
           <div style={{ paddingTop: "40px" }}>
-            <Empty style={{ color: "#ffffff" }} />
+            {/* <Empty style={{ color: "#ffffff" }} /> */}
+            <FileList />
           </div>
         </Col>
       </Row>
