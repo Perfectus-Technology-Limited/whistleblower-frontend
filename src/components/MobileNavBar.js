@@ -14,6 +14,7 @@ export default function MobileNavBar() {
 
   const onSelect = ({ key }) => {
     router.push(key); // navigate to the selected page
+    setOpen(false);
   };
 
   const [open, setOpen] = useState(false);

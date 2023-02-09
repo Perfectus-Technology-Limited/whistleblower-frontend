@@ -208,6 +208,35 @@
   background-color: transparent !important;
 }
 
+.avatar-div .ant-avatar {
+  width: 35px !important;
+  height: 35px !important;
+}
+
+.search-input .ant-input {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+.search-input .ant-input-search .ant-input:focus,
+.search-input .ant-input-search .ant-input:hover {
+  border-color: #66d280 !important;
+}
+
+.search-input .ant-btn-primary {
+  background-color: #000000 !important;
+  border-color: #ffffff !important;
+}
+
+.search-input .ant-btn-primary:hover {
+  background-color: #66d280 !important;
+  border-color: #66d280 !important;
+}
+
+.search-input .ant-input::placeholder{
+  color: #ffffff !important;
+}
+
 @media screen and (max-width: 767px) {
   .logo-col {
     width: 100%;
