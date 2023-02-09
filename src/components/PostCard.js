@@ -3,6 +3,7 @@ import { Avatar, Card, Col, Footer } from "antd";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import { useRouter } from "next/router";
+import IconBxUserCircle from "@/utils/IconBxUserCircle";
 
 const { Meta } = Card;
 
@@ -31,7 +32,19 @@ function PostCard() {
         >
           <div className="avatar-div">
             <Meta
-              avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
+              avatar={
+                <Avatar
+                  src={
+                    <IconBxUserCircle
+                      style={{
+                        color: "#000000",
+                        width: "2.5em",
+                        height: "2.5em",
+                      }}
+                    />
+                  }
+                />
+              }
             />
             <div style={{ display: "flex", flexDirection: "column" }}>
               <span className="publisher-wallet-address">

@@ -24,6 +24,12 @@ export default function Home() {
             </Col>
           </Row>
           <Row>
+            <Col>
+              <h2 style={{ color: "#ffffff" }}>Featured</h2>
+            </Col>
+          </Row>
+          <Row>
+            <PostCard />
             <PostCard />
           </Row>
         </div>

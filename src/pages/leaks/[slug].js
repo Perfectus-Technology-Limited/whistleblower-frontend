@@ -1,7 +1,8 @@
 import FileList from "@/components/FileList";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
-import { Col, Row } from "antd";
+import IconBxUserCircle from "@/utils/IconBxUserCircle";
+import { Avatar, Col, Row } from "antd";
 import { Empty } from "antd";
 
 export default function Details() {
@@ -129,6 +130,30 @@ export default function Details() {
           <div style={{ paddingTop: "40px" }}>
             {/* <Empty style={{ color: "#ffffff" }} /> */}
             <FileList />
+          </div>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              paddingTop: "40px",
+            }}
+          >
+            <div>
+              <Avatar size={72} icon={<IconBxUserCircle />} />
+            </div>
+            <div style={{ color: "#ffffff" }}>
+              <p
+                style={{
+                  width: "300px",
+                  whiteSpace: "nowrap",
+                  overflow: "hidden",
+                  textOverflow: "ellipsis",
+                }}
+              >
+                0x5b9141b2258A45B133b61D32112fC9369D95Af24
+              </p>
+              <p>09/02/2023</p>
+            </div>
           </div>
         </Col>
       </Row>
