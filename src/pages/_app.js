@@ -1,22 +1,14 @@
 import "@/styles/globals.css";
-import { Breadcrumb, Layout, Menu, theme } from "antd";
+import { Layout } from "antd";
 const { Header, Content, Footer } = Layout;
-import { navlinks } from "@/constants";
 import { useRouter } from "next/router";
 import NavBar from "@/components/NavBar";
 import FooterComp from "@/components/FooterComponents";
+import { store } from "../app/store";
+import { Provider } from "react-redux";
 
 export default function App({ Component, pageProps }) {
   const router = useRouter();
-  const items = navlinks.map((link) => ({
-    key: link.id,
-    label: `${link.name}`,
-    link: link.navlink,
-  }));
-
-  const onSelect = ({ key }) => {
-    router.push(key); // navigate to the selected page
-  };
 
   return (
     <>
@@ -39,11 +31,12 @@ export default function App({ Component, pageProps }) {
           }}
         >
           <div>
-            <Component {...pageProps} />
+            <Provider store={store}>
+              <Component {...pageProps} />
+            </Provider>
           </div>
         </Content>
-        <Footer style={{ backgroundColor: "#000000" }}
-        >
+        <Footer style={{ backgroundColor: "#000000" }}>
           <FooterComp />
         </Footer>
       </Layout>
