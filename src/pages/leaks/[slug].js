@@ -4,14 +4,18 @@ import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconBxUserCircle from "@/utils/IconBxUserCircle";
 import { Avatar, Col, Row } from "antd";
 import { Empty } from "antd";
+import { useState } from "react";
 
 export default function Details() {
+  const [like, setLike] = useState(0);
+  const [dislike, setDislike] = useState(0);
+
   const IncreeseHandle = () => {
-    console.log("increese");
+    setLike(like + 1);
   };
 
   const DecreeseHandle = () => {
-    console.log("decreese");
+    setDislike(dislike + 1);
   };
 
   return (
@@ -52,7 +56,7 @@ export default function Details() {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              <div style={{ fontSize: "25px", marginLeft: "10px" }}>45</div>
+              <div style={{ fontSize: "25px", marginLeft: "10px" }}>{like}</div>
             </div>
             <div
               style={{
@@ -69,7 +73,9 @@ export default function Details() {
                   style={{ cursor: "pointer" }}
                 />
               </div>
-              <div style={{ fontSize: "25px", marginLeft: "10px" }}>40</div>
+              <div style={{ fontSize: "25px", marginLeft: "10px" }}>
+                {dislike}
+              </div>
             </div>
           </div>
         </Col>
