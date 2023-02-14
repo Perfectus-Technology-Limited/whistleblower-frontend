@@ -118,7 +118,7 @@ function Submit() {
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
-                <Dragger multiple={true}>
+                <Dragger multiple={true} action="">
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined style={{ color: "#64ec67" }} />
                   </p>
