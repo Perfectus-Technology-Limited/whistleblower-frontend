@@ -4,6 +4,7 @@ export const CustomConnectionButton = () => {
   const [windowSize, setWindowSize] = useState(0);
   const [balance, setBalance] = useState("");
   const [address, setAddress] = useState("");
+
   useEffect(() => {
     const handleWindowResize = () => {
       setWindowSize(window.innerWidth);
@@ -35,6 +36,7 @@ export const CustomConnectionButton = () => {
           account &&
           chain &&
           (!authenticationStatus || authenticationStatus === "authenticated");
+
         useEffect(() => {
           if (account.displayBalance) {
             setBalance(account.displayBalance);
@@ -43,6 +45,7 @@ export const CustomConnectionButton = () => {
             setAddress(account.displayName);
           }
         }, [account]);
+
         return (
           <div
             {...(!ready && {
@@ -66,6 +69,7 @@ export const CustomConnectionButton = () => {
                   </button>
                 );
               }
+
               if (chain.unsupported) {
                 return (
                   <button
@@ -78,6 +82,7 @@ export const CustomConnectionButton = () => {
                   </button>
                 );
               }
+
               return (
                 <div style={{ display: "flex" }}>
                   <button
@@ -106,7 +111,11 @@ export const CustomConnectionButton = () => {
                         )}
                       </div>
                     )}
-                    {windowSize > 1100 ? chain.name : windowSize<769?chain.name:""}
+                    {windowSize > 1100
+                      ? chain.name
+                      : windowSize < 769
+                      ? chain.name
+                      : ""}
                   </button>
                   <button
                     onClick={openAccountModal}

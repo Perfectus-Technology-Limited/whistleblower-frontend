@@ -117,23 +117,6 @@
   }
 }
 
-.chainName {
-  display: none;
-}
-
-.address {
-  display: none !important;
-}
-
-/* @media screen and (min-width:1100px) {
-  .chainName{
-    display: none !important;
-  }
-  .address{
-    display: none !important;
-  }
-} */
-
 .gutter-row {
   margin: 25px 0px;
 }
@@ -385,9 +368,6 @@
   }
   .submit-page-main-div {
     margin-top: 20px;
-  }
-  .mobile-web3-buttons {
-    display: flex;
   }
 }
 

@@ -15,13 +15,13 @@ import {
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-import { binance } from "../../public/pngwing.com.png";
 
 bsc.hasIcon = true;
 bsc.iconUrl = "/bscmain.png";
-bscTestnet.name="BSC Testnet"
+bscTestnet.name = "BSC Testnet";
 bscTestnet.hasIcon = true;
 bscTestnet.iconUrl = "/bsctest.png";
+
 const { chains, provider } = configureChains(
   [bscTestnet, bsc],
   [publicProvider()]
