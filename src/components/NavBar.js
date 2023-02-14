@@ -2,7 +2,9 @@ import { navlinks } from "@/constants";
 import { Menu } from "antd";
 import { useRouter } from "next/router";
 import MobileNavBar from "./MobileNavBar";
-
+import {
+  ConnectButton,
+} from "@rainbow-me/rainbowkit";
 export default function NavBar() {
   const router = useRouter();
 
@@ -40,7 +42,10 @@ export default function NavBar() {
             />
           </div>
           <div>
-            <button className="connect-btn">connect</button>
+            <ConnectButton />
+            {/* <button className="connect-btn">
+             
+            </button> */}
           </div>
         </div>
       </div>
