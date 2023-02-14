@@ -3,7 +3,6 @@ import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconBxUserCircle from "@/utils/IconBxUserCircle";
 import { Avatar, Col, Row } from "antd";
-import { Empty } from "antd";
 import { useState } from "react";
 
 export default function Details() {
