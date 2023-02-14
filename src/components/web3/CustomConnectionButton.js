@@ -38,11 +38,9 @@ export const CustomConnectionButton = () => {
           (!authenticationStatus || authenticationStatus === "authenticated");
 
         useEffect(() => {
-          if (account.displayBalance) {
-            setBalance(account.displayBalance);
-          }
-          if (account.displayName) {
-            setAddress(account.displayName);
+          if (account) {
+            setBalance(account?.displayBalance)
+            setAddress(account?.displayName)
           }
         }, [account]);
 
@@ -114,8 +112,8 @@ export const CustomConnectionButton = () => {
                     {windowSize > 1100
                       ? chain.name
                       : windowSize < 769
-                      ? chain.name
-                      : ""}
+                        ? chain.name
+                        : ""}
                   </button>
                   <button
                     onClick={openAccountModal}
