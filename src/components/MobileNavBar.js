@@ -3,7 +3,7 @@ import IconHamburgerMenu from "@/utils/HamburgerIcon";
 import { Drawer, Menu } from "antd";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { CustomConnectionButton } from "./web3/CustomConnectionButton";
+import { CustomConnectionButtonForMobile } from "./web3/CustomConnectionButton";
 
 export default function MobileNavBar() {
   const router = useRouter();
@@ -68,11 +68,10 @@ export default function MobileNavBar() {
             onSelect={onSelect}
           />
         </div>
-        <div style={{ marginTop: "4px" }}>
-          {/* <button className="connect-btn" style={{ width: "100%" }}>
-            Connect
-          </button> */}
-          <CustomConnectionButton/>
+        <div
+          style={{ marginTop: "4px", overflow: "hidden", paddingRight: "8px" }}
+        >
+          <CustomConnectionButtonForMobile />
         </div>
       </Drawer>
     </>
