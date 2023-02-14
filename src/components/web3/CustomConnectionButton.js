@@ -40,8 +40,8 @@ export const CustomConnectionButton = () => {
 
         useEffect(() => {
           if (account) {
-            setBalance(account.displayBalance);
-            setAddress(account.displayName);
+            setBalance(account?.displayBalance);
+            setAddress(account?.displayName);
           }
         }, [account]);
 
@@ -199,7 +199,7 @@ export const CustomConnectionButtonForMobile = () => {
                     type="button"
                     className="connect-btn"
                     style={{
-                      width: "100%",
+                      width:"100%"
                     }}
                   >
                     Connect
