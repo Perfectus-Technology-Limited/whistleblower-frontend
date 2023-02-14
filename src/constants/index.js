@@ -14,6 +14,11 @@ export const navlinks = [
     name: "Submit",
     navlink: "/submit",
   },
+  {
+    id: "/test",
+    name: "test",
+    navlink: "/test",
+  },
 ];
 
 export const footernavlinks = [

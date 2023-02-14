@@ -7,6 +7,7 @@ import { store } from "../app/store";
 import { Provider } from "react-redux";
 import "@rainbow-me/rainbowkit/styles.css";
 
+
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -15,6 +16,7 @@ import {
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
+
 
 bsc.hasIcon = true;
 bsc.iconUrl = "/bscmain.png";
