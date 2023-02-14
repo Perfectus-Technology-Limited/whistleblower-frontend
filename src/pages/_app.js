@@ -5,38 +5,52 @@ import NavBar from "@/components/NavBar";
 import FooterComp from "@/components/FooterComponents";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
-import '@rainbow-me/rainbowkit/styles.css';
+import "@rainbow-me/rainbowkit/styles.css";
 
 import {
   getDefaultWallets,
   RainbowKitProvider,
-} from '@rainbow-me/rainbowkit';
-import { configureChains, createClient, WagmiConfig } from 'wagmi';
-import { bscTestnet, bsc } from 'wagmi/chains';
-import { publicProvider } from 'wagmi/providers/public';
+  darkTheme,
+} from "@rainbow-me/rainbowkit";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { bscTestnet, bsc } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
+import { binance } from "../../public/pngwing.com.png";
 
+bsc.hasIcon = true;
+bsc.iconUrl = "/bscmain.png";
+bscTestnet.name="BSC Testnet"
+bscTestnet.hasIcon = true;
+bscTestnet.iconUrl = "/bsctest.png";
 const { chains, provider } = configureChains(
   [bscTestnet, bsc],
-  [
-    publicProvider()
-  ]
+  [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-  appName: 'Whistleblower',
-  chains
+  appName: "Whistleblower",
+  chains,
 });
 
 const wagmiClient = createClient({
   autoConnect: true,
   connectors,
-  provider
+  provider,
 });
 
 export default function App({ Component, pageProps }) {
   return (
     <WagmiConfig client={wagmiClient}>
-      <RainbowKitProvider chains={chains}>
+      <RainbowKitProvider
+        theme={darkTheme({
+          accentColor: "#0e9aa7",
+          accentColorForeground: "white",
+          borderRadius: "small",
+          fontStack: "system",
+          overlayBlur: "small",
+        })}
+        chains={chains}
+      >
         <Layout>
           <Header
             style={{

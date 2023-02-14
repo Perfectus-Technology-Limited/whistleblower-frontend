@@ -5,6 +5,7 @@ import MobileNavBar from "./MobileNavBar";
 import {
   ConnectButton,
 } from "@rainbow-me/rainbowkit";
+import { CustomConnectionButton } from "./web3/CustomConnectionButton";
 export default function NavBar() {
   const router = useRouter();
 
@@ -42,7 +43,8 @@ export default function NavBar() {
             />
           </div>
           <div>
-            <ConnectButton />
+            <CustomConnectionButton/>
+            {/* <ConnectButton /> */}
             {/* <button className="connect-btn">
              
             </button> */}
