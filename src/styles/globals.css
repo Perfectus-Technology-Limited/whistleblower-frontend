@@ -6,6 +6,36 @@
   font-family: "Roboto Mono", monospace !important;
 }
 
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
 .full-screen-nav-menu {
   width: 100%;
 }
@@ -29,7 +59,7 @@
 
 .connect-btn {
   background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #ff0000;
   color: #fff;
   font-size: 12px !important;
   letter-spacing: 2px;
@@ -42,7 +72,7 @@
 }
 
 .connect-btn:hover {
-  background: linear-gradient(to right, #74ec67, #66d280);
+  background: linear-gradient(to right, #440202, #ff0000);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #fff;
 }
@@ -376,4 +406,52 @@
     flex-direction: column;
     text-align: center !important;
   }
+}
+
+/* antd customize */
+
+.ant-tabs {
+  color: white;
+}
+.ant-tabs-nav-more .anticon svg {
+  color: white;
+  font-size: 30px;
+  margin-right: 0;
+  text-align: right;
+}
+.ant-tabs .ant-tabs-tab + .ant-tabs-tab,
+.ant-tabs .ant-tabs-tab {
+  /* color: #66d280; */
+  padding: 6px 20px;
+  margin-left: 10px;
+}
+
+.ant-tabs .ant-tabs-tab.ant-tabs-tab-active {
+  border-top: 1px solid #1677ff;
+  border-left: 1px solid #1677ff;
+  border-right: 1px solid #1677ff;
+  border-radius: 7px 7px 0 0;
+}
+
+.ant-pagination .ant-pagination-options-quick-jumper input,
+.ant-pagination .ant-pagination-item-active,
+.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: white;
+  background: #272727;
+  border: none;
+}
+
+.ant-pagination .ant-pagination-item a {
+  color: white;
+}
+
+.ant-pagination
+  .ant-pagination-jump-prev
+  .ant-pagination-item-container
+  .ant-pagination-item-ellipsis,
+.ant-pagination
+  .ant-pagination-jump-next
+  .ant-pagination-item-container
+  .ant-pagination-item-ellipsis {
+  color: rgb(255, 255, 255);
 }
