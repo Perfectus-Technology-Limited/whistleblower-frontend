@@ -1,14 +1,19 @@
 import React, { useEffect, useState } from "react";
 import {
   createCampaign,
+  getContractGreetingMessage,
   getNumberOfCampaigns,
+  getWeb3Provider,
+  setContractGreetingMsg,
 } from "@/blockchain/bsc/web3.service";
-import { useAccount, useConnect, useDisconnect } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useSigner } from "wagmi";
 
 const test = () => {
+  const { data: signerData } = useSigner();
+
   const { address } = useAccount();
   const [numberOfCampaigns, setNumberOfCampaigns] = useState(0);
-
+  const [greetingMessage, setGreetingMessage] = useState("");
   const getNumberOfCampaign = async () => {
     const response = await getNumberOfCampaigns();
     setNumberOfCampaigns(response);
@@ -16,7 +21,7 @@ const test = () => {
   };
 
   const createNewCampaign = async () => {
-    address;
+    console.log("address : ", address);
     const name = "kiruthi";
     const title = "kiruthi";
     const description = "kiruthi";
@@ -34,13 +39,23 @@ const test = () => {
     );
     return transaction;
   };
+  const provider=getWeb3Provider()
+  const fetchGreeting = async () => {
+    const response = await getContractGreetingMessage();
+    setGreetingMessage(response);
+  };
 
   useEffect(() => {
     getNumberOfCampaign();
+    fetchGreeting();
   }, []);
 
   const handlerCreate = async () => {
-    createNewCampaign();
+    await createNewCampaign();
+  };
+
+  const handlerSetGreeting = async () => {
+    await setContractGreetingMsg(provider.getSigner());
   };
 
   return (
@@ -50,6 +65,8 @@ const test = () => {
       }}
     >
       <button onClick={handlerCreate}>create</button>
+      <button onClick={handlerSetGreeting}>Set Greeting</button>
+      {greetingMessage}
     </div>
   );
 };

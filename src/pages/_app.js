@@ -7,7 +7,6 @@ import { store } from "../app/store";
 import { Provider } from "react-redux";
 import "@rainbow-me/rainbowkit/styles.css";
 
-
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -16,7 +15,7 @@ import {
 import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
-
+import { jsonRpcProvider } from 'wagmi/providers/jsonRpc';
 
 bsc.hasIcon = true;
 bsc.iconUrl = "/bscmain.png";
@@ -26,7 +25,12 @@ bscTestnet.iconUrl = "/bsctest.png";
 
 const { chains, provider } = configureChains(
   [bscTestnet, bsc],
-  [publicProvider()]
+  [
+    publicProvider(),
+    jsonRpcProvider({
+      rpc: () => ({ http: "https://data-seed-prebsc-2-s2.binance.org:8545" }),
+    }),
+  ]
 );
 
 const { connectors } = getDefaultWallets({
