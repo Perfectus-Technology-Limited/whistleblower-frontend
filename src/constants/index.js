@@ -19,6 +19,11 @@ export const navlinks = [
     name: "test",
     navlink: "/test",
   },
+  {
+    id: "/upload",
+    name: "upload",
+    navlink: "/upload",
+  },
 ];
 
 export const footernavlinks = [
