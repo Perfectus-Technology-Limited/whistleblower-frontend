@@ -1,10 +1,8 @@
 import { navlinks } from "@/constants";
 import { Menu } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import MobileNavBar from "./MobileNavBar";
-import {
-  ConnectButton,
-} from "@rainbow-me/rainbowkit";
 import { CustomConnectionButton } from "./web3/CustomConnectionButton";
 export default function NavBar() {
   const router = useRouter();
@@ -25,7 +23,9 @@ export default function NavBar() {
         style={{ display: "flex", justifyContent: "space-between" }}
       >
         <div>
-          <h1 style={{ color: "#74ec67" }}>LOGO</h1>
+          <Link href={"/"}>
+            <h1 style={{ color: "#74ec67" }}>LOGO</h1>
+          </Link>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -43,7 +43,7 @@ export default function NavBar() {
             />
           </div>
           <div>
-            <CustomConnectionButton/>
+            <CustomConnectionButton />
             {/* <ConnectButton /> */}
             {/* <button className="connect-btn">
              
