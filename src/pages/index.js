@@ -1,6 +1,11 @@
 import Head from "next/head";
-import { Col, Row } from "antd";
+import { Avatar, Card, Col, Row, Skeleton } from "antd";
 import PostCard from "@/components/PostCard";
+import {
+  EditOutlined,
+  EllipsisOutlined,
+  SettingOutlined,
+} from "@ant-design/icons";
 
 const style = {
   background: "#0092ff",
@@ -8,6 +13,7 @@ const style = {
 };
 
 export default function Home() {
+  const { Meta } = Card;
   return (
     <>
       <Head>
@@ -16,21 +22,129 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main>
+      <main className="container">
         <div>
-          <Row style={{ margin: "20px 0px" }}>
-            <Col span={24} style={{ textAlign: "center" }}>
-              <h1 style={{ color: "#ffffff" }}>Home Title</h1>
+          <Row style={{ margin: "20px 0px" ,border:"1px solid white"}}>
+            <Col
+              className="gutter-row"
+              span={24}
+              style={{ textAlign: "center" }}
+            >
+              <h1 style={{ color: "#ffffff" }}>Map area</h1>
             </Col>
           </Row>
           <Row>
-            <Col>
-              <h2 style={{ color: "#ffffff" }}>Featured</h2>
-            </Col>
+            <Row>
+              <Col className="gutter-row">
+                <h2 style={{ color: "#ffffff" }}>Featured</h2>
+              </Col>
+            </Row>
+            <Row justify="space-between">
+              <PostCard />
+              <PostCard />
+              <PostCard />
+              <PostCard />
+              <PostCard />
+              <PostCard />
+              <PostCard />
+              <PostCard />
+            </Row>
           </Row>
-          <Row>
-            <PostCard />
-            <PostCard />
+
+          <Row className="gutter-row" justify="space-between">
+            <Col span={24} className="gutter-row">
+              <h2 style={{ color: "#ffffff" }}>Third Section</h2>
+            </Col>
+            <Col
+              className="gutter-row"
+              xxl={6}
+              xl={6}
+              lg={8}
+              md={12}
+              sm={24}
+              xs={24}
+              style={{ background: "RED" }}
+              span={4}
+            >
+              <div className="col-main-div">
+                <Card
+                  style={{
+                    width: 300,
+                    marginTop: 16,
+                  }}
+                >
+                  <Skeleton loading={true} avatar active>
+                    <Meta
+                      avatar={
+                        <Avatar src="https://joeschmoe.io/api/v1/random" />
+                      }
+                      title="Card title"
+                      description="This is the description"
+                    />
+                  </Skeleton>
+                </Card>
+              </div>
+            </Col>
+            <Col
+              className="gutter-row"
+              xxl={6}
+              xl={6}
+              lg={8}
+              md={12}
+              sm={24}
+              xs={24}
+              style={{ background: "RED" }}
+              span={4}
+            >
+              <div className="col-main-div">
+                <Card
+                  style={{
+                    width: 300,
+                    marginTop: 16,
+                  }}
+                >
+                  <Skeleton loading={true} avatar active>
+                    <Meta
+                      avatar={
+                        <Avatar src="https://joeschmoe.io/api/v1/random" />
+                      }
+                      title="Card title"
+                      description="This is the description"
+                    />
+                  </Skeleton>
+                </Card>
+              </div>
+            </Col>
+            <Col
+              className="gutter-row"
+              xxl={6}
+              xl={6}
+              lg={8}
+              md={12}
+              sm={24}
+              xs={24}
+              style={{ background: "RED" }}
+              span={4}
+            >
+              <div className="col-main-div">
+                <Card
+                  style={{
+                    width: 300,
+                    marginTop: 16,
+                  }}
+                >
+                  <Skeleton loading={true} avatar active>
+                    <Meta
+                      avatar={
+                        <Avatar src="https://joeschmoe.io/api/v1/random" />
+                      }
+                      title="Card title"
+                      description="This is the description"
+                    />
+                  </Skeleton>
+                </Card>
+              </div>
+            </Col>
           </Row>
         </div>
       </main>
