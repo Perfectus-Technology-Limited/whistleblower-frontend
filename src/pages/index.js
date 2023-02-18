@@ -67,7 +67,7 @@ export default function Home() {
           .attr("fill", "red")
           .duration(800)
 
-          .attr("transform", "translate(" + x + "," + y + ") scale(.75)");
+          .attr("transform", "translate(" + x + "," + y + ") scale(.50)");
 
         var cc = features[j].geometry.properties.countryCode;
 

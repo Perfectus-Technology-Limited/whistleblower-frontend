@@ -458,8 +458,9 @@
 
 /* for map */
 .marker {
-  fill: #ff0000;
+  fill: #8D1212;
   stroke: #ffffff;
+  stroke-width: 0.1px;
   fill-opacity: 0.75;
   transition: all 0.2s ease-in-out;
 }
@@ -470,7 +471,7 @@
 }
 
 .marks .feature {
-  fill: #328d28;
+  fill: #001F18;
   /* stroke: #c0c0bb; */
   /* 74ec67 */
 }
