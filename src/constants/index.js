@@ -1,9 +1,9 @@
 export const navlinks = [
-  {
-    id: "/",
-    name: "Home",
-    navlink: "/dice",
-  },
+  // {
+  //   id: "/",
+  //   name: "Home",
+  //   navlink: "/dice",
+  // },
   {
     id: "/leaks",
     name: "leaks",
