@@ -298,3 +298,284 @@ export const catogories = [
   "Conflicts of interest",
   "Misuse of funds",
 ];
+
+export const getCountries = () => {
+  return {
+    type: "FeatureCollection",
+    features: [
+      {
+        type: "Feature",
+        id: "1",
+        geometry: {
+          type: "Point",
+          coordinates: ["55.30472", "25.25817"],
+          properties: {
+            name: "United Arab Emirates",
+            countryCode: "AE",
+            value: "1.19",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "8",
+        geometry: {
+          type: "Point",
+          coordinates: ["-65", "-35"],
+          properties: {
+            name: "Argentina",
+            countryCode: "AR",
+            value: "0.03",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "12",
+        geometry: {
+          type: "Point",
+          coordinates: ["134.0", "-25.0"],
+          properties: {
+            name: "Australia",
+            countryCode: "AU",
+            value: "10.64",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "30",
+        geometry: {
+          type: "Point",
+          coordinates: ["-52", "-10"],
+          properties: {
+            name: "Brazil",
+            countryCode: "BR",
+            value: "0.20",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "37",
+        geometry: {
+          type: "Point",
+          coordinates: ["-112.0", "60.0"],
+          properties: {
+            name: "Canada",
+            countryCode: "CA",
+            value: "4.17",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "47",
+        geometry: {
+          type: "Point",
+          coordinates: ["103.7", "34.7"],
+          properties: {
+            name: "China",
+            countryCode: "CN",
+            value: "2.59",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "50",
+        geometry: {
+          type: "Point",
+          coordinates: ["-82.38304", "23.13302"],
+          properties: {
+            name: "Cuba",
+            countryCode: "CU",
+            value: "0",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "56",
+        geometry: {
+          type: "Point",
+          coordinates: ["10.0", "51.0"],
+          properties: {
+            name: "Germany",
+            countryCode: "DE",
+            value: "4.57",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "67",
+        geometry: {
+          type: "Point",
+          coordinates: ["-3.70256", "40.4165"],
+          properties: {
+            name: "Spain",
+            countryCode: "ES",
+            value: "2.95",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "74",
+        geometry: {
+          type: "Point",
+          coordinates: ["2.5", "46.5"],
+          properties: {
+            name: "France",
+            countryCode: "FR",
+            value: "4.37",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "88",
+        geometry: {
+          type: "Point",
+          coordinates: ["23.71622", "37.97945"],
+          properties: {
+            name: "Greece",
+            countryCode: "GR",
+            value: "0.68",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "104",
+        geometry: {
+          type: "Point",
+          coordinates: ["79", "23"],
+          properties: {
+            name: "India",
+            countryCode: "IN",
+            value: "1.20",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "108",
+        geometry: {
+          type: "Point",
+          coordinates: ["-18", "65"],
+          properties: {
+            name: "Iceland",
+            countryCode: "IS",
+            value: "0.13",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "114",
+        geometry: {
+          type: "Point",
+          coordinates: ["36.8166667", "-1.2833333"],
+          properties: {
+            name: "Kenya",
+            countryCode: "KE",
+            value: "0.14",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "173",
+        geometry: {
+          type: "Point",
+          coordinates: ["-76", "-10"],
+          properties: {
+            name: "Peru",
+            countryCode: "PE",
+            value: "0.06",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "196",
+        geometry: {
+          type: "Point",
+          coordinates: ["17", "64"],
+          properties: {
+            name: "Sweden",
+            countryCode: "SE",
+            value: "1.24",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "217",
+        geometry: {
+          type: "Point",
+          coordinates: ["100.50144", "13.75398"],
+          properties: {
+            name: "Thailand",
+            countryCode: "TH",
+            value: "0.62",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "224",
+        geometry: {
+          type: "Point",
+          coordinates: ["32.8542709350586", "39.9198743755027"],
+          properties: {
+            name: "Turkey",
+            countryCode: "TR",
+            value: "0.30",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "233",
+        geometry: {
+          type: "Point",
+          coordinates: ["-100.7", "40.1"],
+          properties: {
+            name: "United States",
+            countryCode: "US",
+            value: "28.77",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "240",
+        geometry: {
+          type: "Point",
+          coordinates: ["106.62965", "10.82302"],
+          properties: {
+            name: "Vietnam",
+            countryCode: "VN",
+            value: "0.10",
+          },
+        },
+      },
+      {
+        type: "Feature",
+        id: "247",
+        geometry: {
+          type: "Point",
+          coordinates: ["24", "-31"],
+          properties: {
+            name: "South Africa",
+            countryCode: "ZA",
+            value: "1.84",
+          },
+        },
+      },
+    ],
+  };
+};

@@ -7,28 +7,6 @@ const { Search } = Input;
 
 function Leaks() {
   const onSearch = (value) => console.log(value);
-  const data = [
-    {
-      title: "Title 1",
-    },
-    {
-      title: "Title 2",
-    },
-    {
-      title: "Title 3",
-    },
-    {
-      title: "Title 4",
-    },
-    {
-      title: "Title 5",
-    },
-    {
-      title: "Title 6",
-    },
-  ];
-
-  const { TabPane } = Tabs;
   const [mode, setMode] = useState("top");
 
   return (
@@ -88,7 +66,7 @@ function Leaks() {
         <Row
           style={{
             width: "100%",
-            marginTop:"30px"
+            marginTop: "30px",
           }}
         >
           <Pagination
