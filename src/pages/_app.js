@@ -27,9 +27,9 @@ const { chains, provider } = configureChains(
   [bscTestnet, bsc],
   [
     publicProvider(),
-    jsonRpcProvider({
-      rpc: () => ({ http: "https://data-seed-prebsc-2-s2.binance.org:8545" }),
-    }),
+    // jsonRpcProvider({
+    //   rpc: () => ({ http: "https://data-seed-prebsc-2-s2.binance.org:8545" }),
+    // }),
   ]
 );
 
