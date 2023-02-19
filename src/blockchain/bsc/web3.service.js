@@ -1,4 +1,5 @@
 import { ethers } from "ethers";
+import { useContractRead } from "wagmi";
 import { config } from "./web3.config";
 
 export const getWeb3Provider = () => {
@@ -91,9 +92,21 @@ export const createCampaign = async () => {
   }
 };
 
-const contractABI1 =
+export const contractABI1 =
   '[{"inputs":[{"internalType":"string","name":"_greetings","type":"string"}],"name":"setGreeting","outputs":[],"stateMutability":"nonpayable","type":"function"},{"inputs":[],"name":"getGreetings","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"greetings","outputs":[{"internalType":"string","name":"","type":"string"}],"stateMutability":"view","type":"function"}]';
-const contractAddress1 = "0x2dF5D95c191603ADAd09De904d2FD9e29Fed3566";
+export const contractAddress1 = "0x2dF5D95c191603ADAd09De904d2FD9e29Fed3566";
+
+export const Greeting = () => {
+  const { data, isLoading, error } = useContractRead(
+    {
+      addressOrName: contractAddress1,
+      contractInterface: contractABI1,
+    },
+    "getGreetings"
+  );
+
+  return data, isLoading, error;
+};
 
 export const getContractGreetingMessage = async () => {
   try {
@@ -119,9 +132,7 @@ export const setContractGreetingMsg = async (signer) => {
       JSON.parse(contractABI1),
       provider
     );
-    const contractInstanceWithSigner = contractInstance.connect(
-      signer
-    );
+    const contractInstanceWithSigner = contractInstance.connect(signer);
     const txReceipt = await contractInstanceWithSigner.setGreeting(
       "adeei poda dei"
     );

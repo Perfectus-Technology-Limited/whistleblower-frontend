@@ -1,61 +1,73 @@
 import React, { useEffect, useState } from "react";
 import {
+  contractABI1,
+  contractAddress1,
   createCampaign,
   getContractGreetingMessage,
   getNumberOfCampaigns,
   getWeb3Provider,
+  Greeting,
   setContractGreetingMsg,
 } from "@/blockchain/bsc/web3.service";
-import { useAccount, useConnect, useDisconnect, useSigner } from "wagmi";
+import {
+  useAccount,
+  useConnect,
+  useContractRead,
+  useContractWrite,
+  useDisconnect,
+  usePrepareContractWrite,
+  useSigner,
+} from "wagmi";
 
 const test = () => {
-  const { data: signerData } = useSigner();
+  const [resData, setResData] = useState("");
+  const [writeData, setWriteData] = useState("");
+  const [isWritingLoading, setIsWritingLoading] = useState(false)
 
-  const { address } = useAccount();
-  const [numberOfCampaigns, setNumberOfCampaigns] = useState(0);
-  const [greetingMessage, setGreetingMessage] = useState("");
-  const getNumberOfCampaign = async () => {
-    const response = await getNumberOfCampaigns();
-    setNumberOfCampaigns(response);
-    console.log(response);
-  };
+  const { data, isLoading, refetch } = useContractRead({
+    address: contractAddress1,
+    abi: contractABI1,
+    functionName: "getGreetings",
+  });
 
-  const createNewCampaign = async () => {
-    console.log("address : ", address);
-    const name = "kiruthi";
-    const title = "kiruthi";
-    const description = "kiruthi";
-    const target = 100;
-    const deadline = 2342354563;
-    const image = "kiruthi";
-    const transaction = await createCampaign(
-      address,
-      name,
-      title,
-      description,
-      target,
-      deadline,
-      image
-    );
-    return transaction;
-  };
-  const provider=getWeb3Provider()
-  const fetchGreeting = async () => {
-    const response = await getContractGreetingMessage();
-    setGreetingMessage(response);
-  };
+  const { config } = usePrepareContractWrite({
+    address: contractAddress1,
+    abi: contractABI1,
+    functionName: "setGreeting",
+    args: ["BYE BYE Morining 5"],
+  });
 
   useEffect(() => {
-    getNumberOfCampaign();
-    fetchGreeting();
-  }, []);
+    console.log('sm data', data)
+  },[data])
+
+  const {
+    data: writeDatares,
+    isLoading: writeDataIsLoading,
+    isSuccess,
+    writeAsync
+  } = useContractWrite(config);
+
+  const handleWrite = async () => {
+    try {
+      console.log('hello')
+      setIsWritingLoading(true)
+      const txRecepit = await writeAsync?.()
+      await txRecepit?.wait()
+      refetch?.()
+      setIsWritingLoading(false)
+    } catch (error) {
+      setIsWritingLoading(false)
+      console.log('error while writing to smart contract', error)
+    }
+  }
 
   const handlerCreate = async () => {
-    await createNewCampaign();
+    // await createNewCampaign();
   };
 
   const handlerSetGreeting = async () => {
-    await setContractGreetingMsg(provider.getSigner());
+    // await setContractGreetingMsg(provider.getSigner());
   };
 
   return (
@@ -66,7 +78,11 @@ const test = () => {
     >
       <button onClick={handlerCreate}>create</button>
       <button onClick={handlerSetGreeting}>Set Greeting</button>
-      {greetingMessage}
+      <button disabled={isWritingLoading} onClick={handleWrite}>
+        Feed
+      </button>
+      <div>{!isLoading && resData}</div>
+      {/* <div>{!writeDataIsLoading && writeData}</div> */}
     </div>
   );
 };
