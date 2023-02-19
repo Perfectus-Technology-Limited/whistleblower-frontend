@@ -1,9 +1,8 @@
 import Head from "next/head";
 import { Avatar, Card, Col, Divider, Row, Skeleton } from "antd";
 import PostCard from "@/components/PostCard";
-import * as d3 from "d3";
-import { useEffect, useRef, useState } from "react";
-import { getCountries } from "@/constants";
+import Map from "@/components/map/Index";
+import ThirdSectionCard from "@/components/ThirdSectionCard";
 
 const style = {
   background: "#0092ff",
@@ -11,81 +10,7 @@ const style = {
 };
 
 export default function Home() {
-  const [data, setData] = useState([]);
   const { Meta } = Card;
-  const promises = [];
-  const paths = new Map();
-  const svgRef = useRef();
-  const projection = d3.geoMercator();
-  const path = d3.geoPath().projection(projection);
-
-  const files = [
-    "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson",
-    "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/data_gpsLocSurfer.csv",
-  ];
-
-  function row(d) {
-    paths.set(d.name, +d.population);
-  }
-
-  useEffect(() => {
-    files.forEach(function (url, index) {
-      promises.push(index ? d3.csv(url, row) : d3.json(url));
-    });
-
-    Promise.all(promises).then(function (promise) {
-      setData(promise);
-    });
-
-    // pin section
-    var countries = getCountries();
-    var features = countries.features;
-
-    var values = features.map(function (d) {
-      return [+d.geometry.properties.value, d.geometry.properties.countryCode];
-    });
-
-    for (var j = 0; j < features.length; j++) {
-      if (features[j].geometry.properties.value > 0) {
-        var v = features[j].geometry.properties.value;
-        var randColour = ["#765", "#987"][Math.floor(Math.random() * 2)];
-
-        var x = projection(features[j].geometry.coordinates)[0],
-          y = projection(features[j].geometry.coordinates)[1];
-
-        var marker = d3
-          .select(svgRef.current)
-          .append("svg:path")
-          .attr("class", "marker")
-          .attr(
-            "d",
-            "M0,0l-8.8-17.7C-12.1-24.3-7.4-32,0-32h0c7.4,0,12.1,7.7,8.8,14.3L0,0z"
-          )
-          .attr("transform", "translate(" + x + "," + y + ") scale(0)")
-          .transition()
-          .delay(400)
-          .attr("fill", "red")
-          .duration(800)
-          .attr("transform", "translate(" + x + "," + y + ") scale(.75)");
-
-        var cc = features[j].geometry.properties.countryCode;
-
-        d3.select(svgRef.current)
-          .append("svg:text")
-          .attr("x", x)
-          .attr("fill", "#fff")
-          .attr("y", y)
-          .attr("dx", ".5em")
-          .attr("dy", ".35em")
-          .text(cc)
-          .attr("class", "cc");
-      }
-    }
-  }, []);
-
-  if (!data) {
-    return <pre>Loading...</pre>;
-  }
 
   return (
     <>
@@ -96,143 +21,38 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container">
-        <div>
-          <Row>
-            <Col
-              className="gutter-row"
-              span={24}
-              style={{ color: "red", textAlign: "center" }}
-            >
-              <div span={24} style={{ color: "#ffffff" }}>
-                <svg ref={svgRef} span={24} viewBox="0 0 960 500">
-                  <g className="marks" span={24}>
-                    <path
-                      span={24}
-                      className="sphere"
-                      d={path({ type: "Sphere" })}
-                    />
-                    {data[0]?.features.map((feature, i) => (
-                      <path className="feature" key={i} d={path(feature)} />
-                    ))}
-                  </g>
-                </svg>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Row>
-              <Col className="gutter-row">
-                <h2 style={{ color: "#ffffff" }}>Featured</h2>
-              </Col>
-            </Row>
-            <Row justify="space-between">
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-            </Row>
-          </Row>
+        <Map />
 
-          <Row className="gutter-row" justify="space-between">
-            <Col span={24} className="gutter-row">
-              <h2 style={{ color: "#ffffff" }}>Third Section</h2>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
+        <Row>
+          <Row>
+            <Col className="gutter-row">
+              <h2 style={{ color: "#ffffff" }}>Featured</h2>
             </Col>
           </Row>
-        </div>
+          <Row justify="space-between">
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+          </Row>
+        </Row>
+
+        <Row className="gutter-row" justify="space-between">
+          <Col span={24} className="gutter-row">
+            <h2 style={{ color: "#ffffff" }}>Third Section</h2>
+          </Col>
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+        </Row>
       </main>
     </>
   );

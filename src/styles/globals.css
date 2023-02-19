@@ -420,7 +420,6 @@
 }
 .ant-tabs .ant-tabs-tab + .ant-tabs-tab,
 .ant-tabs .ant-tabs-tab {
-  /* color: #66d280; */
   padding: 6px 20px;
   margin-left: 10px;
 }
@@ -458,23 +457,17 @@
 
 /* for map */
 .marker {
-  fill: #ff0000;
   stroke: #ffffff;
+  stroke-width: 0.1px;
+  fill: #ff0000;
   fill-opacity: 0.75;
   transition: all 0.2s ease-in-out;
 }
 .marker:hover {
-  fill: #8d3155;
   fill-opacity: 1;
   cursor: pointer;
 }
 
 .marks .feature {
-  fill: #328d28;
-  /* stroke: #c0c0bb; */
-  /* 74ec67 */
+  fill: #001f18;
 }
-
-/* .marks .sphere {
-  fill: #ececec18;
-} */
