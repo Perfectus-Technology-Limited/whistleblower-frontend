@@ -16,14 +16,18 @@ function Paths({ projection }) {
   }
 
   useEffect(() => {
-    files.forEach(function (url, index) {
-      promises.push(index ? d3.csv(url, row) : d3.json(url));
-    });
+    promises.push(d3.json(files[0]));
 
     Promise.all(promises).then(function (promise) {
       setData(promise);
     });
+
+    console.log(data);
   }, []);
+
+  useEffect(() => {
+    // console.log(d3.json(url));
+  }, [data]);
 
   if (!data) {
     return <>dfgbfg</>;
@@ -32,7 +36,7 @@ function Paths({ projection }) {
   return (
     <>
       <g className="marks" span={24}>
-        <path span={24} className="sphere" d={path({ type: "Sphere" })} />
+        {/* <path span={24} className="sphere" d={path({ type: "Sphere" })} /> */}
         {data[0]?.features.map((feature, i) => (
           <path className="feature" key={i} d={path(feature)} />
         ))}

@@ -10,10 +10,11 @@ function Map() {
     <>
       <Row>
         <Col className="gutter-row" span={24}>
-          <svg viewBox="0 0 960 500">
+          <Marker projection={projection} />
+          {/* <svg viewBox="0 0 960 500">
             <Paths projection={projection} />
             <Marker projection={projection} />
-          </svg>
+          </svg> */}
         </Col>
       </Row>
     </>
