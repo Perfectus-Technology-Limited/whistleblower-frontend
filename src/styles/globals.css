@@ -502,3 +502,13 @@
   margin-inline-start: 0px !important;
   margin-inline-end: 0px !important;
 }
+
+span.ant-select-selection-placeholder {
+  color: #424444 !important;
+}
+
+.site-tagline{
+  margin: 50px 0px 10px 0px;
+  text-align: center;
+  color: #74ec67 !important;
+}
