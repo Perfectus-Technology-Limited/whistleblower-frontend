@@ -120,8 +120,6 @@ function Marker({ projection }) {
       //   .attr("class", "text-label")
       //   .attr("alignment-baseline", "middle");
     }
-
-    console.log(data);
   }, [data]);
 
   return (
