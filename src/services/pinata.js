@@ -1,6 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
-
+import { DateTime } from "luxon";
 // handler image upload to pinata
 export const handlerImageUpload = async (
   selectedFile,
@@ -119,22 +119,16 @@ export const handlerDropImage = async (
   }
 };
 
-export const handlerPinningJson = async (values, setIsLoading, setPercent) => {
+export const handlerPinningJson = async (values, setPercent) => {
   try {
-    console.log("values", values);
-    setIsLoading(true);
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-
+    const fileName = `leaks-${DateTime.now().valueOf()}`
     const data = {
       pinataOptions: {
         cidVersion: 1,
       },
       pinataMetadata: {
-        name: "testing",
-        keyvalues: {
-          customKey: "customValue",
-          customKey2: "customValue2",
-        },
+        name: fileName,
       },
       pinataContent: values,
     };
@@ -165,16 +159,13 @@ export const handlerPinningJson = async (values, setIsLoading, setPercent) => {
       options
     );
 
-    if (res.data.IpfsHash) {
-      message.success("Json uploaded successfully : " + res.data.IpfsHash);
-      setTimeout(() => {
-        setPercent(0);
-        setIsLoading(false);
-      }, 4000);
+    if (res && res.status === 200) {
+      return res?.data?.IpfsHash
+    } else {
+      return null
     }
-    return res.data.IpfsHash;
   } catch (error) {
-    setIsLoading(false);
-    console.log(error);
+    console.log("ERROR something went wrong while uploading the file to IPFS", error)
+    return null
   }
 };

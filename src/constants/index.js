@@ -296,7 +296,7 @@ export const countryList = [
   "Åland Islands",
 ];
 
-export const catogories = [
+export const categories = [
   "fraud",
   "corruption",
   "Harassment",
