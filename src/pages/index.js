@@ -1,11 +1,8 @@
 import Head from "next/head";
-import { Avatar, Card, Col, Row, Skeleton } from "antd";
+import { Avatar, Card, Col, Divider, Row, Skeleton } from "antd";
 import PostCard from "@/components/PostCard";
-import {
-  EditOutlined,
-  EllipsisOutlined,
-  SettingOutlined,
-} from "@ant-design/icons";
+import Map from "@/components/map/Index";
+import ThirdSectionCard from "@/components/ThirdSectionCard";
 
 const style = {
   background: "#0092ff",
@@ -14,6 +11,7 @@ const style = {
 
 export default function Home() {
   const { Meta } = Card;
+  const array = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <>
       <Head>
@@ -23,130 +21,42 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container">
-        <div>
-          <Row style={{ margin: "20px 0px" ,border:"1px solid white"}}>
-            <Col
-              className="gutter-row"
-              span={24}
-              style={{ textAlign: "center" }}
-            >
-              <h1 style={{ color: "#ffffff" }}>Map area</h1>
-            </Col>
-          </Row>
-          <Row>
-            <Row>
-              <Col className="gutter-row">
-                <h2 style={{ color: "#ffffff" }}>Featured</h2>
-              </Col>
-            </Row>
-            <Row justify="space-between">
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-              <PostCard />
-            </Row>
-          </Row>
+        <Map />
 
-          <Row className="gutter-row" justify="space-between">
-            <Col span={24} className="gutter-row">
-              <h2 style={{ color: "#ffffff" }}>Third Section</h2>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
-            </Col>
-            <Col
-              className="gutter-row"
-              xxl={6}
-              xl={6}
-              lg={8}
-              md={12}
-              sm={24}
-              xs={24}
-              style={{ background: "RED" }}
-              span={4}
-            >
-              <div className="col-main-div">
-                <Card
-                  style={{
-                    width: 300,
-                    marginTop: 16,
-                  }}
-                >
-                  <Skeleton loading={true} avatar active>
-                    <Meta
-                      avatar={
-                        <Avatar src="https://joeschmoe.io/api/v1/random" />
-                      }
-                      title="Card title"
-                      description="This is the description"
-                    />
-                  </Skeleton>
-                </Card>
-              </div>
+        <Row>
+          <Row>
+            <Col className="gutter-row">
+              <h2 style={{ color: "#ffffff" }}>Featured</h2>
             </Col>
           </Row>
-        </div>
+          <Row justify="space-between">
+
+            {array.map((row, index) => (
+              <PostCard key={index} index={index} />
+            ))}
+
+            {/* <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard />
+            <PostCard /> */}
+          </Row>
+        </Row>
+
+        <Row className="gutter-row" justify="space-between">
+          <Col span={24} className="gutter-row">
+            <h2 style={{ color: "#ffffff" }}>Third Section</h2>
+          </Col>
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+          <ThirdSectionCard />
+        </Row>
       </main>
     </>
   );
