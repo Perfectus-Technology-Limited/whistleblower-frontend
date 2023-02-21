@@ -3,6 +3,9 @@ import { Avatar, Card, Col, Divider, Row, Skeleton } from "antd";
 import PostCard from "@/components/PostCard";
 import Map from "@/components/map/Index";
 import ThirdSectionCard from "@/components/ThirdSectionCard";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import Loader from "@/components/Loader";
 
 const style = {
   background: "#0092ff",
@@ -12,6 +15,21 @@ const style = {
 export default function Home() {
   const { Meta } = Card;
   const array = [1, 2, 3, 4, 5, 6, 7, 8];
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (router.isReady) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
     <>
       <Head>
@@ -21,11 +39,13 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="container">
-        <div className="site-tagline">
-          <h1>
-            Whistleblowers unite! Your voice can change the world!
-          </h1>
-        </div>
+        <Row>
+          <Col span={24} className="gutter-row">
+            <h2 style={{ color: "#74ec67", fontFamily: "sans-serif" }}>
+              Whistleblowers unite! Your voice can change the world!
+            </h2>
+          </Col>
+        </Row>
         <Map />
 
         <Row>

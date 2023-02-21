@@ -1,13 +1,14 @@
 import React from "react";
 
-export default function Loader({ isLoading }) {
+function Loader() {
   return (
     <>
-      {isLoading && (
-        <div className="loader-div">
-          <img src="/loader.svg" className="loder-svg" />
-        </div>
-      )}
+      <div className="center">
+        <div className="ring"></div>
+        <span className="loading-text">loading...</span>
+      </div>
     </>
   );
 }
+
+export default Loader;
