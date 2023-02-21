@@ -6,7 +6,7 @@ import FooterComp from "@/components/FooterComponents";
 import { store } from "../app/store";
 import { Provider } from "react-redux";
 import "@rainbow-me/rainbowkit/styles.css";
-
+import Head from "next/head";
 import {
   getDefaultWallets,
   RainbowKitProvider,
@@ -58,6 +58,12 @@ export default function App({ Component, pageProps }) {
         chains={chains}
       >
         <Layout>
+          <Head>
+            <title>Whistleblowers unite!</title>
+            <meta name="description" content="Whistleblowers unite! Your voice can change the world!" />
+            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <link rel="icon" href="/favicon.ico" />
+          </Head>
           <Header
             style={{
               position: "sticky",
