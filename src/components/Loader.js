@@ -1,6 +1,6 @@
 import React from "react";
 
-function Loader() {
+function PageLoader() {
   return (
     <>
       <div className="center">
@@ -11,4 +11,4 @@ function Loader() {
   );
 }
 
-export default Loader;
+export default PageLoader;

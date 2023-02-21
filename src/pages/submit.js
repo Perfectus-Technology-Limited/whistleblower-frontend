@@ -21,6 +21,7 @@ import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
 import axios from "axios";
+import PageLoader from "@/components/Loader";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -38,6 +39,7 @@ const onFinishFailed = (errorInfo) => {
 function Submit() {
   const [selectedFile, setSelectedFile] = useState();
   const [isLoading, setIsLoading] = useState(false);
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
   const [leakJsonCID, setSetLeakJsonCID] = useState("");
@@ -244,10 +246,20 @@ function Submit() {
     console.log("TT fileHashes", fileHashes);
   }, [fileHashes]);
 
+  useEffect(() => {
+    if (router.isReady) {
+      setIsPageLoading(false);
+    }
+  }, [router]);
+
+  if (isPageLoading ) {
+    return <PageLoader />;
+  }
+
   return (
     <div className="submit-page-main-div container">
-      <Loader isLoading={isLoading} />
-      <Loader isLoading={isCreateLeakLoading} />
+      {/* <Loader isLoading={isLoading} /> */}
+      {/* <Loader isLoading={isCreateLeakLoading} /> */}
 
       <Row>
         <Col span={24}>
