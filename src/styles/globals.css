@@ -377,3 +377,7 @@
     text-align: center !important;
   }
 }
+
+span.ant-select-selection-placeholder {
+  color: #424444 !important;
+}
