@@ -5,7 +5,8 @@ import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconBxUserCircle from "@/utils/IconBxUserCircle";
 import { Avatar, Col, Row } from "antd";
 import { Empty } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Details() {
   const [like, setLike] = useState(0);
