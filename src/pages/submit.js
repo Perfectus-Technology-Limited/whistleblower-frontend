@@ -148,7 +148,11 @@ function Submit() {
   };
 
   const [files, setFiles] = useState("");
-  const handleFIlepload = (file) => {
+
+  const handleFIlepload = ({file}) => {
+    setFiles(pre => {
+      
+    })
     axios.post("http://loacalhost:3000/images", file, {
       onUploadProgress: (event) => {},
     });
