@@ -1,4 +1,5 @@
-import Loader from "@/components/Loader";
+import PageLoader from "@/components/loaders/PageLoader";
+import Loader from "@/components/loaders/PageLoader";
 import PostCard from "@/components/PostCard";
 import { Col, Row, Input, Tabs, Radio, Pagination } from "antd";
 import { useRouter } from "next/router";
@@ -13,14 +14,16 @@ function Leaks() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
   useEffect(() => {
     if (router.isReady) {
-      setIsLoading(false);
+      setIsPageLoading(false);
     }
   }, [router]);
 
-  if (isLoading) {
-    return <Loader />;
+  if (isPageLoading) {
+    return <PageLoader />;
   }
 
   return (

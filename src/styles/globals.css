@@ -536,9 +536,27 @@ span.ant-select-selection-placeholder {
 
 /* loader svg */
 .loader-div {
-  
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  position: fixed;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.829);
+  z-index: 9999;
 }
-/* FOR LOADER */
+
+.loader-svg::backdrop {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* FOR PAGE LOADER */
 .center {
   display: flex;
   text-align: center;
@@ -554,8 +572,7 @@ span.ant-select-selection-placeholder {
   background-color: rgba(0, 0, 0, 0.829);
   z-index: 9999;
 }
-.loader-svg::backdrop {
-}
+
 .ring {
   position: absolute;
   width: 200px;

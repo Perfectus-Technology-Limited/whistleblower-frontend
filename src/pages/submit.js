@@ -3,14 +3,7 @@ import { Alert, Col, Progress, Row, Space, Typography } from "antd";
 import { Button, Form, Input, Select, Upload, message } from "antd";
 import { countryList } from "@/constants";
 import { categories } from "@/constants";
-import {
-  DeleteColumnOutlined,
-  DeleteFilled,
-  DeleteOutlined,
-  DeleteRowOutlined,
-  FileOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, FileOutlined, InboxOutlined } from "@ant-design/icons";
 import {
   handlerDropImage,
   handlerImageUpload,
@@ -19,9 +12,9 @@ import {
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { useRouter } from "next/router";
-import Loader from "@/components/Loader";
 import axios from "axios";
-import PageLoader from "@/components/Loader";
+import PageLoader from "@/components/loaders/PageLoader";
+import LoaderSvg from "@/components/loaders/LoaderSvg";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -252,14 +245,14 @@ function Submit() {
     }
   }, [router]);
 
-  if (isPageLoading ) {
+  if (isPageLoading) {
     return <PageLoader />;
   }
 
   return (
     <div className="submit-page-main-div container">
-      {/* <Loader isLoading={isLoading} /> */}
-      {/* <Loader isLoading={isCreateLeakLoading} /> */}
+      <LoaderSvg isLoading={isLoading} />
+      <LoaderSvg isLoading={isCreateLeakLoading} />
 
       <Row>
         <Col span={24}>

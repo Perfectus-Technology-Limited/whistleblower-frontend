@@ -1,11 +1,13 @@
 import FileList from "@/components/FileList";
-import Loader from "@/components/Loader";
+import PageLoader from "@/components/loaders/PageLoader";
+import Loader from "@/components/loaders/PageLoader";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconBxUserCircle from "@/utils/IconBxUserCircle";
 import { Avatar, Col, Row } from "antd";
 import { Empty } from "antd";
-import { useState } from "react";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 
 export default function Details() {
   const [like, setLike] = useState(0);
@@ -13,16 +15,16 @@ export default function Details() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
 
+  const [isPageLoading, setIsPageLoading] = useState(true);
+
   useEffect(() => {
     if (router.isReady) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      setIsPageLoading(false);
     }
   }, [router]);
 
-  if (isLoading) {
-    return <Loader />;
+  if (isPageLoading) {
+    return <PageLoader />;
   }
 
   const IncreeseHandle = () => {
