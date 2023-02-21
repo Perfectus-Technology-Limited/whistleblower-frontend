@@ -15,9 +15,7 @@ function Leaks() {
 
   useEffect(() => {
     if (router.isReady) {
-      setTimeout(() => {
-        setIsLoading(false);
-      }, 1000);
+      setIsLoading(false);
     }
   }, [router]);
 
