@@ -155,7 +155,6 @@ function Submit() {
               >
                 <Select
                   placeholder="Select Country"
-                  noStyle
                   showSearch>
                   {countryList.map((country, index) => {
                     return (

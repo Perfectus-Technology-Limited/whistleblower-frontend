@@ -1,4 +1,3 @@
-import DocList from "@/components/DocList";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import { Col, Row } from "antd";
