@@ -300,282 +300,453 @@ export const catogories = [
 ];
 
 export const getCountries = () => {
-  return {
-    type: "FeatureCollection",
-    features: [
-      {
-        type: "Feature",
-        id: "1",
-        geometry: {
-          type: "Point",
-          coordinates: ["55.30472", "25.25817"],
-          properties: {
-            name: "United Arab Emirates",
-            countryCode: "AE",
-            value: "1.19",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "8",
-        geometry: {
-          type: "Point",
-          coordinates: ["-65", "-35"],
-          properties: {
-            name: "Argentina",
-            countryCode: "AR",
-            value: "0.03",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "12",
-        geometry: {
-          type: "Point",
-          coordinates: ["134.0", "-25.0"],
-          properties: {
-            name: "Australia",
-            countryCode: "AU",
-            value: "10.64",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "30",
-        geometry: {
-          type: "Point",
-          coordinates: ["-52", "-10"],
-          properties: {
-            name: "Brazil",
-            countryCode: "BR",
-            value: "0.20",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "37",
-        geometry: {
-          type: "Point",
-          coordinates: ["-112.0", "60.0"],
-          properties: {
-            name: "Canada",
-            countryCode: "CA",
-            value: "4.17",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "47",
-        geometry: {
-          type: "Point",
-          coordinates: ["103.7", "34.7"],
-          properties: {
-            name: "China",
-            countryCode: "CN",
-            value: "2.59",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "50",
-        geometry: {
-          type: "Point",
-          coordinates: ["-82.38304", "23.13302"],
-          properties: {
-            name: "Cuba",
-            countryCode: "CU",
-            value: "0",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "56",
-        geometry: {
-          type: "Point",
-          coordinates: ["10.0", "51.0"],
-          properties: {
-            name: "Germany",
-            countryCode: "DE",
-            value: "4.57",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "67",
-        geometry: {
-          type: "Point",
-          coordinates: ["-3.70256", "40.4165"],
-          properties: {
-            name: "Spain",
-            countryCode: "ES",
-            value: "2.95",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "74",
-        geometry: {
-          type: "Point",
-          coordinates: ["2.5", "46.5"],
-          properties: {
-            name: "France",
-            countryCode: "FR",
-            value: "4.37",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "88",
-        geometry: {
-          type: "Point",
-          coordinates: ["23.71622", "37.97945"],
-          properties: {
-            name: "Greece",
-            countryCode: "GR",
-            value: "0.68",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "104",
-        geometry: {
-          type: "Point",
-          coordinates: ["79", "23"],
-          properties: {
-            name: "India",
-            countryCode: "IN",
-            value: "1.20",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "108",
-        geometry: {
-          type: "Point",
-          coordinates: ["-18", "65"],
-          properties: {
-            name: "Iceland",
-            countryCode: "IS",
-            value: "0.13",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "114",
-        geometry: {
-          type: "Point",
-          coordinates: ["36.8166667", "-1.2833333"],
-          properties: {
-            name: "Kenya",
-            countryCode: "KE",
-            value: "0.14",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "173",
-        geometry: {
-          type: "Point",
-          coordinates: ["-76", "-10"],
-          properties: {
-            name: "Peru",
-            countryCode: "PE",
-            value: "0.06",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "196",
-        geometry: {
-          type: "Point",
-          coordinates: ["17", "64"],
-          properties: {
-            name: "Sweden",
-            countryCode: "SE",
-            value: "1.24",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "217",
-        geometry: {
-          type: "Point",
-          coordinates: ["100.50144", "13.75398"],
-          properties: {
-            name: "Thailand",
-            countryCode: "TH",
-            value: "0.62",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "224",
-        geometry: {
-          type: "Point",
-          coordinates: ["32.8542709350586", "39.9198743755027"],
-          properties: {
-            name: "Turkey",
-            countryCode: "TR",
-            value: "0.30",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "233",
-        geometry: {
-          type: "Point",
-          coordinates: ["-100.7", "40.1"],
-          properties: {
-            name: "United States",
-            countryCode: "US",
-            value: "28.77",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "240",
-        geometry: {
-          type: "Point",
-          coordinates: ["106.62965", "10.82302"],
-          properties: {
-            name: "Vietnam",
-            countryCode: "VN",
-            value: "0.10",
-          },
-        },
-      },
-      {
-        type: "Feature",
-        id: "247",
-        geometry: {
-          type: "Point",
-          coordinates: ["24", "-31"],
-          properties: {
-            name: "South Africa",
-            countryCode: "ZA",
-            value: "1.84",
-          },
-        },
-      },
-    ],
-  };
+  return [
+    {
+      homelat: 45,
+      homelon: -124,
+      homecontinent: "North America",
+      n: 7,
+    },
+    {
+      homelat: 45,
+      homelon: -123,
+      homecontinent: "North America",
+      n: 1,
+    },
+    {
+      homelat: 44.8,
+      homelon: -1.1,
+      homecontinent: "Europe",
+      n: 4,
+    },
+    {
+      homelat: 44.8,
+      homelon: -0.6,
+      homecontinent: "Europe",
+      n: 846,
+    },
+    {
+      homelat: 44.2,
+      homelon: 24.5,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 44.2,
+      homelon: 28.6,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 44,
+      homelon: -116.9,
+      homecontinent: "North America",
+      n: 7,
+    },
+    {
+      homelat: 44,
+      homelon: -115,
+      homecontinent: "North America",
+      n: 1,
+    },
+    {
+      homelat: 43.6,
+      homelon: 10.3,
+      homecontinent: "NA",
+      n: 1,
+    },
+    {
+      homelat: 43.6,
+      homelon: 13,
+      homecontinent: "Europe",
+      n: 2,
+    },
+    {
+      homelat: 43.5,
+      homelon: -1.4,
+      homecontinent: "Europe",
+      n: 17,
+    },
+    {
+      homelat: 43.5,
+      homelon: -1.3,
+      homecontinent: "Europe",
+      n: 3,
+    },
+    {
+      homelat: 43.5,
+      homelon: -5.4,
+      homecontinent: "Europe",
+      n: 10,
+    },
+    {
+      homelat: 43.5,
+      homelon: -80.2,
+      homecontinent: "North America",
+      n: 6,
+    },
+    {
+      homelat: 43.5,
+      homelon: -79.9,
+      homecontinent: "North America",
+      n: 21,
+    },
+    {
+      homelat: 43.5,
+      homelon: -123.6,
+      homecontinent: "North America",
+      n: 1,
+    },
+    {
+      homelat: 43.5,
+      homelon: -116.6,
+      homecontinent: "North America",
+      n: 3,
+    },
+    {
+      homelat: 43.4,
+      homelon: 1.7,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 43.4,
+      homelon: 3.6,
+      homecontinent: "Europe",
+      n: 2,
+    },
+    {
+      homelat: 43.4,
+      homelon: -4.3,
+      homecontinent: "Europe",
+      n: 18,
+    },
+    {
+      homelat: 43.4,
+      homelon: -4.1,
+      homecontinent: "Europe",
+      n: 44,
+    },
+    {
+      homelat: 40.4,
+      homelon: -3.6,
+      homecontinent: "Europe",
+      n: 8,
+    },
+    {
+      homelat: 40.4,
+      homelon: -3.5,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 40.4,
+      homelon: -3.3,
+      homecontinent: "Europe",
+      n: 4,
+    },
+    {
+      homelat: -35.4,
+      homelon: 150,
+      homecontinent: "Australia",
+      n: 73,
+    },
+    {
+      homelat: -37.8,
+      homelon: 174.9,
+      homecontinent: "NA",
+      n: 14,
+    },
+    {
+      homelat: -38.2,
+      homelon: -57.7,
+      homecontinent: "NA",
+      n: 3,
+    },
+    {
+      homelat: -40.9,
+      homelon: 174.9,
+      homecontinent: "NA",
+      n: 191,
+    },
+    {
+      homelat: -41.3,
+      homelon: 174.8,
+      homecontinent: "Australia",
+      n: 44,
+    },
+    {
+      homelat: -42,
+      homelon: 172,
+      homecontinent: "Australia",
+      n: 16,
+    },
+    {
+      homelat: -82.9,
+      homelon: 135,
+      homecontinent: "Antarctica",
+      n: 4,
+    },
+    {
+      homelat: -54.8,
+      homelon: -68.3,
+      homecontinent: "South America",
+      n: 4,
+    },
+
+    {
+      homelat: -52.4,
+      homelon: -71,
+      homecontinent: "South America",
+      n: 2,
+    },
+
+    {
+      homelat: -51.6,
+      homelon: -69.2,
+      homecontinent: "NA",
+      n: 1,
+    },
+
+    {
+      homelat: -47.8,
+      homelon: -65.9,
+      homecontinent: "NA",
+      n: 2,
+    },
+    {
+      homelat: -46.5,
+      homelon: -71.6,
+      homecontinent: "South America",
+      n: 2,
+    },
+
+    {
+      homelat: -46.1,
+      homelon: 169.6,
+      homecontinent: "Australia",
+      n: 1,
+    },
+    {
+      homelat: -45.9,
+      homelon: -67.5,
+      homecontinent: "South America",
+      n: 2,
+    },
+    {
+      homelat: -45.9,
+      homelon: 170.5,
+      homecontinent: "Australia",
+      n: 62,
+    },
+
+    {
+      homelat: -44.9,
+      homelon: 168.7,
+      homecontinent: "Australia",
+      n: 1,
+    },
+
+    {
+      homelat: -43.5,
+      homelon: 172.6,
+      homecontinent: "Australia",
+      n: 62,
+    },
+    {
+      homelat: -43.3,
+      homelon: -65.1,
+      homecontinent: "South America",
+      n: 10,
+    },
+    {
+      homelat: -43.3,
+      homelon: -65,
+      homecontinent: "South America",
+      n: 5,
+    },
+
+    {
+      homelat: -42.9,
+      homelon: -71.3,
+      homecontinent: "South America",
+      n: 4,
+    },
+    {
+      homelat: -42.9,
+      homelon: 147.1,
+      homecontinent: "Australia",
+      n: 32,
+    },
+    {
+      homelat: -42.9,
+      homelon: 147.3,
+      homecontinent: "Australia",
+      n: 1,
+    },
+
+    {
+      homelat: -42.8,
+      homelon: -65,
+      homecontinent: "South America",
+      n: 26,
+    },
+
+    {
+      homelat: -42.4,
+      homelon: 173.7,
+      homecontinent: "NA",
+      n: 24,
+    },
+    {
+      homelat: -42,
+      homelon: 172,
+      homecontinent: "Australia",
+      n: 16,
+    },
+    {
+      homelat: 51.4,
+      homelon: -2.7,
+      homecontinent: "Europe",
+      n: 2,
+    },
+    {
+      homelat: 51.4,
+      homelon: -2.6,
+      homecontinent: "Europe",
+      n: 3,
+    },
+    {
+      homelat: 51.4,
+      homelon: -2.4,
+      homecontinent: "Europe",
+      n: 48,
+    },
+    {
+      homelat: 53.3,
+      homelon: -1.3,
+      homecontinent: "Europe",
+      n: 2,
+    },
+    {
+      homelat: 53.3,
+      homelon: -1.1,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 59.1,
+      homelon: 37.9,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 59.2,
+      homelon: 9.6,
+      homecontinent: "Europe",
+      n: 1,
+    },
+    {
+      homelat: 70.4,
+      homelon: 29.5,
+      homecontinent: "Europe",
+      n: 13,
+    },
+    {
+      homelat: 76.3,
+      homelon: -100.1,
+      homecontinent: "North America",
+      n: 1,
+    },
+    {
+      homelat: 78.2,
+      homelon: 15.6,
+      homecontinent: "Europe",
+      n: 3,
+    },
+    {
+      homelat: 13.9,
+      homelon: 121.6,
+      homecontinent: "Asia",
+      n: 2,
+    },
+    {
+      homelat: 13.9,
+      homelon: 121.9,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 17.4,
+      homelon: 78.4,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 17.4,
+      homelon: 78.5,
+      homecontinent: "Asia",
+      n: 35,
+    },
+    {
+      homelat: 17.4,
+      homelon: 102.8,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 18.8,
+      homelon: 73.4,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 18.8,
+      homelon: 73.5,
+      homecontinent: "Asia",
+      n: 9,
+    },
+    {
+      homelat: 18.8,
+      homelon: 99,
+      homecontinent: "Asia",
+      n: 15,
+    },
+    {
+      homelat: 36.2,
+      homelon: 44,
+      homecontinent: "Asia",
+      n: 2,
+    },
+    {
+      homelat: 36.2,
+      homelon: 138,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 36.2,
+      homelon: 138.3,
+      homecontinent: "Asia",
+      n: 847,
+    },
+    {
+      homelat: 36.2,
+      homelon: 139.2,
+      homecontinent: "Asia",
+      n: 2,
+    },
+    {
+      homelat: 36.2,
+      homelon: 139.4,
+      homecontinent: "Asia",
+      n: 1,
+    },
+    {
+      homelat: 36.2,
+      homelon: 139.5,
+      homecontinent: "Asia",
+      n: 1,
+    },
+  ];
 };
