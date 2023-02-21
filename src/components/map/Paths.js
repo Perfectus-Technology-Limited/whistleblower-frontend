@@ -25,10 +25,6 @@ function Paths({ projection }) {
     console.log(data);
   }, []);
 
-  useEffect(() => {
-    // console.log(d3.json(url));
-  }, [data]);
-
   if (!data) {
     return <>dfgbfg</>;
   }
