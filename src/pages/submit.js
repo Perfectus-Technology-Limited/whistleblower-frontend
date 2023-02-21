@@ -13,6 +13,7 @@ import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { useRouter } from "next/router";
 import Loader from "@/components/Loader";
+import axios from "axios";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -146,14 +147,24 @@ function Submit() {
     },
   };
 
+  const [files, setFiles] = useState("");
+
+  const handleFIlepload = ({file}) => {
+    setFiles(pre => {
+      
+    })
+    axios.post("http://loacalhost:3000/images", file, {
+      onUploadProgress: (event) => {},
+    });
+  };
+
   return (
-    <div className="submit-page-main-div">
+    <div className="submit-page-main-div container">
       <Loader isLoading={isLoading} />
       <Loader isLoading={isCreateLeakLoading} />
 
       <Row>
-        <Col xl={6} lg={2} md={1}></Col>
-        <Col xl={12} lg={20} md={22}>
+        <Col xl={15} lg={15} md={24}>
           <div className="submit-page-form-main-div">
             <Form
               layout="vertical"
@@ -259,7 +270,7 @@ function Submit() {
                 />
               </Form.Item>
               <Form.Item
-                label="Upload Files"
+                label="Upload Cover Image"
                 name="uploadFiles"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
@@ -271,9 +282,7 @@ function Submit() {
                   <p className="ant-upload-text">
                     Click or drag file to this area to upload
                   </p>
-                  <p className="ant-upload-hint">
-                    files, images and screenshots, audio files, video
-                  </p>
+                  <p className="ant-upload-hint">For cover image</p>
                 </Dragger>
               </Form.Item>
               <Row className="submit">
@@ -302,7 +311,54 @@ function Submit() {
             </Form>
           </div>
         </Col>
-        <Col xl={6} lg={2} md={1}></Col>
+        <Col xl={1} lg={1}></Col>
+
+        <Col xl={8} lg={8} md={24}>
+          <Form
+            layout="vertical"
+            name="basic"
+            onFinish={onFinish}
+            onFinishFailed={onFinishFailed}
+            initialValues={{
+              country: null,
+              category: null,
+              city: "",
+              description: "",
+              title: "",
+            }}
+            labelCol={{
+              span: 24,
+            }}
+            wrapperCol={{
+              span: 24,
+            }}
+            size="large"
+            className="submit-page-form"
+          >
+            <Form.Item
+              label="Upload Files"
+              name="uploadFiles"
+              valuePropName="fileList"
+              getValueFromEvent={normFile}
+            >
+              <Dragger {...props}>
+                <p className="ant-upload-drag-icon">
+                  <InboxOutlined style={{ color: "#64ec67" }} />
+                </p>
+                <p className="ant-upload-text">
+                  Click or drag file to this area to upload
+                </p>
+                <p className="ant-upload-hint">
+                  files, images and screenshots, audio files, video
+                </p>
+              </Dragger>
+
+              <Upload multiple customRequest={handleFIlepload}>
+                <div style={{ padding: "5px", color: "green" }}>upload</div>
+              </Upload>
+            </Form.Item>
+          </Form>
+        </Col>
       </Row>
     </div>
   );
