@@ -180,7 +180,7 @@
   text-overflow: ellipsis;
 }
 
-.published-date{
+.published-date {
   font-size: 12px;
 }
 
@@ -438,9 +438,15 @@
 
 .ant-pagination .ant-pagination-options-quick-jumper input,
 .ant-pagination .ant-pagination-item-active,
-.ant-select:not(.ant-select-customize-input) .ant-select-selector {
+.ant-select:not(.ant-select-customize-input) {
   color: white;
   background: #272727;
+  border: none;
+}
+
+.pagination .ant-select:not(.ant-select-customize-input) .ant-select-selector {
+  color: white;
+  background: #272727 !important;
   border: none;
 }
 
@@ -460,6 +466,18 @@
   color: rgb(255, 255, 255);
 }
 
+.ant-form-item {
+  color: #74ec67;
+}
+
+.ant-typography {
+  color: #74ec67 !important;
+}
+
+.ant-progress .ant-progress-text {
+  color: #74ec67 !important;
+}
+
 /* for map */
 .marker {
   stroke: #ffffff;
@@ -477,27 +495,26 @@
   fill: #001f18;
 }
 
-.text-label{
+.text-label {
   fill: #ffffff;
 }
 
-.ant-card-meta-title{
+.ant-card-meta-title {
   color: #74ec67 !important;
 }
 
-.ant-card-meta-description{
+.ant-card-meta-description {
   color: #878787 !important;
 }
 
-.leak-card{
+.leak-card {
   margin-top: 0px !important;
   margin-inline-start: 0px !important;
   margin-inline-end: 0px !important;
   border: 1px solid #ff0000 !important;
 }
 
-
-.leak-card > .ant-card-cover{
+.leak-card > .ant-card-cover {
   margin-top: 0px !important;
   margin-inline-start: 0px !important;
   margin-inline-end: 0px !important;
@@ -507,7 +524,7 @@ span.ant-select-selection-placeholder {
   color: #424444 !important;
 }
 
-.site-tagline{
+.site-tagline {
   margin: 50px 0px 10px 0px;
   text-align: center;
   color: #74ec67 !important;

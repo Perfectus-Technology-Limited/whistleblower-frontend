@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Alert, Col, Row } from "antd";
+import { Alert, Col, Progress, Row, Space, Typography } from "antd";
 import { Button, Form, Input, Select, Upload, message } from "antd";
 import { countryList } from "@/constants";
 import { categories } from "@/constants";
-import { InboxOutlined } from "@ant-design/icons";
+import {
+  DeleteColumnOutlined,
+  DeleteFilled,
+  DeleteOutlined,
+  DeleteRowOutlined,
+  FileOutlined,
+  InboxOutlined,
+} from "@ant-design/icons";
 import {
   handlerDropImage,
   handlerImageUpload,
@@ -18,7 +25,6 @@ const { Dragger } = Upload;
 const { TextArea } = Input;
 
 const normFile = (e) => {
-  console.log("Upload event:", e);
   if (Array.isArray(e)) {
     return e;
   }
@@ -33,6 +39,7 @@ function Submit() {
   const [selectedFile, setSelectedFile] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
+  const [fileHashes, setFileHashes] = useState([]);
   const [leakJsonCID, setSetLeakJsonCID] = useState("");
   const [isCreateLeakLoading, setIsCreateLeakLoading] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount();
@@ -85,7 +92,8 @@ function Submit() {
         category: values?.category,
         title: values?.title,
         description: values?.description,
-        uploadedFiles: hashes,
+        coverImage: hashes,
+        files: fileHashes,
       };
       const CID = await handlerPinningJson(payload);
       if (CID) {
@@ -103,6 +111,7 @@ function Submit() {
   };
 
   const props = {
+    // maxCount:1,
     name: "file",
     listType: "text",
     onRemove: async (file) => {
@@ -136,7 +145,6 @@ function Submit() {
         const response = await handlerImageUpload(selectedFile);
         setHashes([...hashes, response]);
         if (response) {
-          console.log(hashes);
           setIsLoading(false);
           message.success("File uploading has been successfully");
         } else {
@@ -149,14 +157,92 @@ function Submit() {
 
   const [files, setFiles] = useState("");
 
-  const handleFIlepload = ({file}) => {
-    setFiles(pre => {
-      
-    })
-    axios.post("http://loacalhost:3000/images", file, {
-      onUploadProgress: (event) => {},
+  const handleFIlepload = async ({ file }) => {
+    const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
+
+    setFiles((pre) => {
+      return { ...pre, [file.uid]: file };
     });
+
+    const getFileObject = (Progress) => {
+      return {
+        name: file.name,
+        uid: file.uid,
+        Progress: Progress,
+      };
+    };
+
+    const formData = new FormData();
+
+    formData.append("file", file);
+
+    const metaData = JSON.stringify({
+      name: file?.name,
+    });
+
+    formData.append("pinataMetadata", metaData);
+
+    const pinataOptions = JSON.stringify({
+      cidVersion: 0,
+    });
+
+    formData.append("pinataOptions", pinataOptions);
+
+    const options = {
+      maxBodyLength: "Infinity",
+      headers: {
+        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+        Authorization: `Bearer ${JWT}`,
+      },
+      onUploadProgress: (event) => {
+        console.log("TT event", event);
+        const { loaded, total } = event;
+        let percentage = Math.floor((loaded * 100) / total);
+        // console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
+        setFiles((pre) => {
+          return { ...pre, [file.uid]: getFileObject(percentage) };
+        });
+      },
+    };
+
+    const res = await axios.post(
+      "https://api.pinata.cloud/pinning/pinFileToIPFS",
+      formData,
+      options
+    );
+    let hash;
+    if (res.data.IpfsHash) {
+      hash = { uid: file.uid, cid: res.data.IpfsHash, meta: metaData };
+      setFileHashes((fileHashes) => [...fileHashes, ...[hash]]);
+      message.success(`File upload success ${JSON.parse(metaData).name}`);
+    }
   };
+
+  const handlerRemove = async (uid) => {
+    const find = fileHashes.find((obj) => {
+      return obj.uid === uid;
+    });
+    console.log(find);
+    if (find) {
+      setIsLoading(true);
+      const response = await handlerDropImage(find.cid);
+      if (response) {
+        setFiles(Object.values(files).filter((obj) => obj.uid !== uid));
+        setFileHashes(fileHashes.filter((obj) => obj.cid !== response));
+        setIsLoading(false);
+        message.success("File delted succesfully");
+      } else {
+        setIsLoading(false);
+        message.success("File delted failed");
+      }
+    } else {
+      console.log("file not available");
+    }
+  };
+
+  useEffect(() => {
+    console.log("TT fileHashes", fileHashes);
+  }, [fileHashes]);
 
   return (
     <div className="submit-page-main-div container">
@@ -164,8 +250,8 @@ function Submit() {
       <Loader isLoading={isCreateLeakLoading} />
 
       <Row>
-        <Col xl={15} lg={15} md={24}>
-          <div className="submit-page-form-main-div">
+        <Col span={24}>
+          <div className="submit-page-form-main-div" span={24}>
             <Form
               layout="vertical"
               name="basic"
@@ -186,107 +272,204 @@ function Submit() {
               }}
               size="large"
               className="submit-page-form"
+              span={24}
             >
-              <Form.Item
-                label="country"
-                name="country"
-                required={[
-                  { required: true, message: "Please Select Your Country!" },
-                ]}
-                rules={[
-                  { required: true, message: "Please select the country!" },
-                ]}
-              >
-                <Select
-                  placeholder="Select Country"
-                  showSearch>
-                  {countryList.map((country, index) => {
-                    return (
-                      <Select.Option key={index} value={country}>
-                        {country}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
+              <Row span={24}>
+                <Col xl={16} lg={16} md={24} sm={24} xs={24}>
+                  <Form.Item
+                    label="country"
+                    name="country"
+                    required={[
+                      {
+                        required: true,
+                        message: "Please Select Your Country!",
+                      },
+                    ]}
+                    rules={[
+                      { required: true, message: "Please select the country!" },
+                    ]}
+                  >
+                    <Select placeholder="Select Country" showSearch>
+                      {countryList.map((country, index) => {
+                        return (
+                          <Select.Option key={index} value={country}>
+                            {country}
+                          </Select.Option>
+                        );
+                      })}
+                    </Select>
+                  </Form.Item>
 
-              <Form.Item
-                label="city"
-                name="city"
-                required={[
-                  {
-                    required: true,
-                    message: "Please Select Your city!",
-                  },
-                ]}
-                rules={[{ required: true, message: "Please enter the city!" }]}
-              >
-                <Input placeholder="city" />
-              </Form.Item>
+                  <Form.Item
+                    label="city"
+                    name="city"
+                    required={[
+                      {
+                        required: true,
+                        message: "Please Select Your city!",
+                      },
+                    ]}
+                    rules={[
+                      { required: true, message: "Please enter the city!" },
+                    ]}
+                  >
+                    <Input placeholder="city" />
+                  </Form.Item>
 
-              <Form.Item
-                label="Category"
-                name="category"
-                required={[
-                  { required: true, message: "Please Select the category!" },
-                ]}
-                rules={[
-                  { required: true, message: "Please select the category!" },
-                ]}
-              >
-                <Select placeholder="Select Category">
-                  {categories.map((category, index) => {
-                    return (
-                      <Select.Option key={index} value={category}>
-                        {category}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
-              </Form.Item>
-              <Form.Item
-                label="Title"
-                name="title"
-                required={[
-                  { required: true, message: "Please Enter the Title!" },
-                ]}
-                rules={[{ required: true, message: "Please enter the title!" }]}
-              >
-                <Input placeholder="Add a title" />
-              </Form.Item>
-              <Form.Item
-                label="Description"
-                name="description"
-                required={[
-                  { required: true, message: "Please Enter the description!" },
-                ]}
-                rules={[
-                  { required: true, message: "Please enter the description" },
-                ]}
-              >
-                <TextArea
-                  rows={10}
-                  placeholder="Full description of the issue"
-                />
-              </Form.Item>
-              <Form.Item
-                label="Upload Cover Image"
-                name="uploadFiles"
-                valuePropName="fileList"
-                getValueFromEvent={normFile}
-              >
-                <Dragger {...props}>
-                  <p className="ant-upload-drag-icon">
-                    <InboxOutlined style={{ color: "#64ec67" }} />
-                  </p>
-                  <p className="ant-upload-text">
-                    Click or drag file to this area to upload
-                  </p>
-                  <p className="ant-upload-hint">For cover image</p>
-                </Dragger>
-              </Form.Item>
+                  <Form.Item
+                    label="Category"
+                    name="category"
+                    required={[
+                      {
+                        required: true,
+                        message: "Please Select the category!",
+                      },
+                    ]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please select the category!",
+                      },
+                    ]}
+                  >
+                    <Select placeholder="Select Category">
+                      {categories.map((category, index) => {
+                        return (
+                          <Select.Option key={index} value={category}>
+                            {category}
+                          </Select.Option>
+                        );
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    label="Title"
+                    name="title"
+                    required={[
+                      { required: true, message: "Please Enter the Title!" },
+                    ]}
+                    rules={[
+                      { required: true, message: "Please enter the title!" },
+                    ]}
+                  >
+                    <Input placeholder="Add a title" />
+                  </Form.Item>
+                  <Form.Item
+                    label="Description"
+                    name="description"
+                    required={[
+                      {
+                        required: true,
+                        message: "Please Enter the description!",
+                      },
+                    ]}
+                    rules={[
+                      {
+                        required: true,
+                        message: "Please enter the description",
+                      },
+                    ]}
+                  >
+                    <TextArea
+                      rows={10}
+                      placeholder="Full description of the issue"
+                    />
+                  </Form.Item>
+                  <Form.Item
+                    label="Upload Cover Image"
+                    name="uploadFiles"
+                    valuePropName="fileList"
+                    getValueFromEvent={normFile}
+                  >
+                    <Dragger {...props}>
+                      <p className="ant-upload-drag-icon">
+                        <InboxOutlined style={{ color: "#64ec67" }} />
+                      </p>
+                      <p className="ant-upload-text">
+                        Click or drag file to this area to upload
+                      </p>
+                      <p className="ant-upload-hint">For cover image</p>
+                    </Dragger>
+                  </Form.Item>
+                </Col>
+
+                <Col
+                  xl={8}
+                  lg={8}
+                  md={24}
+                  sm={24}
+                  xs={24}
+                  style={{ display: "flex" }}
+                >
+                  <Col xl={3} lg={3}></Col>
+                  <Col xl={21} lg={21} md={24} sm={24} xs={24}>
+                    <Form.Item
+                      label="Upload Files"
+                      className="submit-page-form"
+                    >
+                      <Dragger
+                        multiple
+                        customRequest={handleFIlepload}
+                        showUploadList={false}
+                      >
+                        <p className="ant-upload-drag-icon">
+                          <InboxOutlined style={{ color: "#64ec67" }} />
+                        </p>
+                        <p className="ant-upload-text">
+                          Click or drag file to this area to upload
+                        </p>
+                        <p className="ant-upload-hint">
+                          files, images and screenshots, audio files, video
+                        </p>
+                      </Dragger>
+
+                      <Upload
+                        multiple
+                        customRequest={handleFIlepload}
+                        showUploadList={false}
+                      ></Upload>
+
+                      {Object.values(files)?.map((file, i) => {
+                        return (
+                          <div
+                            key={i}
+                            style={{
+                              padding: "5px 5px 0 5px",
+                              width: "100%",
+                              margin: "10px 0",
+                            }}
+                          >
+                            <Space
+                              direction="horizontal"
+                              key={i}
+                              className="main-space"
+                            >
+                              <FileOutlined className="file-icon" />
+                              <Typography className="filename">
+                                <div>{file.name}</div>
+                              </Typography>
+                              {file.Progress == 100 && (
+                                <DeleteOutlined
+                                  onClick={() => handlerRemove(file.uid)}
+                                />
+                              )}
+                            </Space>
+                            <Progress
+                              className="progress"
+                              percent={file.Progress}
+                              strokeWidth={1}
+                              strokeColor={"#64ec67"}
+                            />
+                          </div>
+                        );
+                      })}
+                    </Form.Item>
+                  </Col>
+                </Col>
+              </Row>
+
               <Row className="submit">
-                <Col xl={24} lg={24} md={24} sm={24}>
+                <Col xl={16} lg={16} md={24} sm={24} xs={24}>
                   {account ? (
                     <Form.Item
                       style={{ display: "flex", justifyContent: "center" }}
@@ -310,54 +493,6 @@ function Submit() {
               </Row>
             </Form>
           </div>
-        </Col>
-        <Col xl={1} lg={1}></Col>
-
-        <Col xl={8} lg={8} md={24}>
-          <Form
-            layout="vertical"
-            name="basic"
-            onFinish={onFinish}
-            onFinishFailed={onFinishFailed}
-            initialValues={{
-              country: null,
-              category: null,
-              city: "",
-              description: "",
-              title: "",
-            }}
-            labelCol={{
-              span: 24,
-            }}
-            wrapperCol={{
-              span: 24,
-            }}
-            size="large"
-            className="submit-page-form"
-          >
-            <Form.Item
-              label="Upload Files"
-              name="uploadFiles"
-              valuePropName="fileList"
-              getValueFromEvent={normFile}
-            >
-              <Dragger {...props}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined style={{ color: "#64ec67" }} />
-                </p>
-                <p className="ant-upload-text">
-                  Click or drag file to this area to upload
-                </p>
-                <p className="ant-upload-hint">
-                  files, images and screenshots, audio files, video
-                </p>
-              </Dragger>
-
-              <Upload multiple customRequest={handleFIlepload}>
-                <div style={{ padding: "5px", color: "green" }}>upload</div>
-              </Upload>
-            </Form.Item>
-          </Form>
         </Col>
       </Row>
     </div>

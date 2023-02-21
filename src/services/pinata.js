@@ -1,10 +1,11 @@
-import { message } from "antd";
 import axios from "axios";
 import { DateTime } from "luxon";
+
+const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
+
 // handler image upload to pinata
 export const handlerImageUpload = async (selectedFile) => {
   try {
-    const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
     const uId = selectedFile.uid;
     const formData = new FormData();
 
@@ -31,13 +32,6 @@ export const handlerImageUpload = async (selectedFile) => {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percentage = Math.floor((loaded * 100) / total);
-        // setPercent(() => {
-        //   const newPercent = percentage;
-        //   if (newPercent > 100) {
-        //     return 100;
-        //   }
-        //   return newPercent;
-        // });
         console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
       },
     };
@@ -63,8 +57,7 @@ export const handlerImageUpload = async (selectedFile) => {
 
 // handler image drop from pinata
 export const handlerDropImage = async (cid) => {
-  const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-
+  console.log(cid);
   if (cid) {
     const res = await axios.delete(
       `https://api.pinata.cloud/pinning/unpin/${cid}`,
@@ -87,7 +80,6 @@ export const handlerDropImage = async (cid) => {
 
 export const handlerPinningJson = async (payload) => {
   try {
-    const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
     const fileName = `leaks-${DateTime.now().valueOf()}`;
     const data = {
       pinataOptions: {
@@ -108,13 +100,6 @@ export const handlerPinningJson = async (payload) => {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percentage = Math.floor((loaded * 100) / total);
-        // setPercent(() => {
-        //   const newPercent = percentage;
-        //   if (newPercent > 100) {
-        //     return 100;
-        //   }
-        //   return newPercent;
-        // });
         console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
       },
     };
