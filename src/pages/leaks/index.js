@@ -1,6 +1,8 @@
+import Loader from "@/components/Loader";
 import PostCard from "@/components/PostCard";
 import { Col, Row, Input, Tabs, Radio, Pagination } from "antd";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 const { Search } = Input;
@@ -8,6 +10,20 @@ const { Search } = Input;
 function Leaks() {
   const onSearch = (value) => console.log(value);
   const [mode, setMode] = useState("top");
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (router.isReady) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   return (
     <div className="container">

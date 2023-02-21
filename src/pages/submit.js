@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "antd";
 import { Button, Form, Input, Select, Upload, message } from "antd";
 import { countryList } from "@/constants";
 import { catogories } from "@/constants";
 import { InboxOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import Loader from "@/components/Loader";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -23,11 +25,26 @@ const onFinishFailed = (errorInfo) => {
 };
 
 function Submit() {
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (router.isReady) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
+
   return (
-    <div className="submit-page-main-div">
+    <div className="submit-page-main-div container">
       <Row>
-        <Col xl={6} lg={2} md={1}></Col>
-        <Col xl={12} lg={20} md={22}>
+        {/* <Col xl={6} lg={2} md={1}>wertawserg</Col> */}
+        <Col xl={24} lg={24} md={24}>
           <div className="submit-page-form-main-div">
             <Form
               onFinish={onFinish}
@@ -37,7 +54,7 @@ function Submit() {
                 category: catogories[0],
               }}
               labelCol={{
-                span: 6,
+                span: 5,
               }}
               wrapperCol={{
                 span: 18,
@@ -131,7 +148,7 @@ function Submit() {
                 </Dragger>
               </Form.Item>
               <Row>
-                <Col xl={6} lg={6} md={6} sm={6} xs={8}></Col>
+                <Col xl={5} lg={5} md={5} sm={5} xs={6}></Col>
                 <Col xl={18} lg={18} md={18} sm={18}>
                   <Form.Item className="form-submit-btn-item">
                     <Button
@@ -147,7 +164,7 @@ function Submit() {
             </Form>
           </div>
         </Col>
-        <Col xl={6} lg={2} md={1}></Col>
+        {/* <Col xl={6} lg={2} md={1}></Col> */}
       </Row>
     </div>
   );
