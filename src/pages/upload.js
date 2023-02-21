@@ -135,7 +135,7 @@ export default function upload() {
     }
     if (e.file.status == "removed") {
       // console.log("Remove event:", e);
-      handlerDropImage(e.file.uid);
+      // handlerDropImage(e.file.uid);
     }
     return e?.fileList;
   };

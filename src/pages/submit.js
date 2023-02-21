@@ -1,9 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row } from "antd";
 import { Button, Form, Input, Select, Upload, message } from "antd";
 import { countryList } from "@/constants";
 import { catogories } from "@/constants";
 import { InboxOutlined } from "@ant-design/icons";
+import {
+  handlerDropImage,
+  handlerImageUpload,
+  handlerPinningJson,
+} from "@/services/pinata";
+import { useContractWrite, usePrepareContractWrite } from "wagmi";
+import { WhistlBlowerConfig } from "@/blockchain/bsc/web3.config";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -15,14 +22,94 @@ const normFile = (e) => {
   return e?.fileList;
 };
 
-const onFinish = (values) => {
-  console.log("Success:", values);
-};
 const onFinishFailed = (errorInfo) => {
   console.log("Failed:", errorInfo);
 };
 
 function Submit() {
+  const [formData, setFormData] = useState({});
+  const [selectedFile, setSelectedFile] = useState();
+  const [isLoading, setIsLoading] = useState(false);
+  const [hashes, setHashes] = useState([]);
+  const [percent, setPercent] = useState(0);
+  const [uri, setUri] = useState("");
+
+  const { config } = usePrepareContractWrite({
+    address: WhistlBlowerConfig.contractAddress,
+    abi: WhistlBlowerConfig.contractAbi,
+    functionName: "createCase",
+    args: [uri],
+  });
+
+  const {
+    data,
+    isLoading: writeContractLoading,
+    isSuccess,
+    write,
+  } = useContractWrite(config);
+
+  const handleCreateUri = async () => {
+    try {
+      // setIsWritingLoading(true);
+      const txRecepit = await write?.();
+      await txRecepit?.wait();
+      // setIsWritingLoading(false);
+
+      console.log(data && data);
+    } catch (error) {
+      // setIsWritingLoading(false);
+      console.log("error while writing to smart contract", error);
+    }
+  };
+
+  const onFinish = async (values) => {
+    setFormData({
+      country: values.country,
+      city: values.city,
+      category: values.category,
+      title: values.title,
+      description: values.description,
+      uploadfiles: hashes,
+    });
+
+    setTimeout(async () => {
+      console.log(formData);
+      let ipfshHash = await handlerPinningJson(
+        formData,
+        setIsLoading,
+        setPercent
+      );
+      let url = `https://gateway.pinata.cloud/ipfs/${ipfshHash}`;
+      setUri(url);
+    }, 4000);
+
+    // await handleCreateUri();
+  };
+
+  const props = {
+    name: "file",
+    listType: "text",
+    onRemove: (file) => {
+      handlerDropImage(file.uid, hashes, setHashes, setIsLoading);
+    },
+    beforeUpload: async (file) => {
+      setSelectedFile(file);
+    },
+    onChange(info) {
+      const { status } = info.file;
+
+      if (status === "done") {
+        handlerImageUpload(
+          selectedFile,
+          hashes,
+          setHashes,
+          setIsLoading,
+          setPercent
+        );
+      }
+    },
+  };
+
   return (
     <div className="submit-page-main-div">
       <Row>
@@ -62,17 +149,17 @@ function Submit() {
                   })}
                 </Select>
               </Form.Item>
-              <Form.Item label="City/State">
-                <Input
-                  placeholder="City/State"
-                  name="City/State"
-                  required={[
-                    {
-                      required: true,
-                      message: "Please Select Your City/State!",
-                    },
-                  ]}
-                />
+              <Form.Item
+                label="city"
+                name="city"
+                required={[
+                  {
+                    required: true,
+                    message: "Please Select Your city!",
+                  },
+                ]}
+              >
+                <Input placeholder="city" />
               </Form.Item>
               <Form.Item
                 label="Category"
@@ -118,7 +205,7 @@ function Submit() {
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
-                <Dragger multiple={true}>
+                <Dragger {...props}>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined style={{ color: "#64ec67" }} />
                   </p>
