@@ -6,6 +6,36 @@
   font-family: "Roboto Mono", monospace !important;
 }
 
+.container {
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 576px) {
+  .container {
+    max-width: 576px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+
+@media (min-width: 992px) {
+  .container {
+    max-width: 992px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+  }
+}
+
 .full-screen-nav-menu {
   width: 100%;
 }
@@ -386,7 +416,6 @@ span.ant-select-selection-placeholder {
   background: none !important;
   color: #ffe58f;
 }
-
 
 /* loader svg */
 .loader-div {
