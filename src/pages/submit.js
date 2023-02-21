@@ -33,7 +33,6 @@ function Submit() {
   const [percent, setPercent] = useState(0);
   const [leakJsonCID, setSetLeakJsonCID] = useState('');
   const [isCreateLeakLoading, setIsCreateLeakLoading] = useState(false);
-  å
   const { config: createCaseConfig } = usePrepareContractWrite({
     address: whistleblowerConfig?.contractAddress,
     abi: whistleblowerConfig?.contractAbi,
@@ -46,7 +45,7 @@ function Submit() {
 
   useEffect(() => {
     if (leakJsonCID) {
-      createCaseOnChain()
+      // createCaseOnChain()
       // (async () => {
 
       //   const createCaseReceipt = await createCaseWriteAsync?.();
@@ -63,7 +62,6 @@ function Submit() {
 
   const createCaseOnChain = async () => {
     try {
-      console.log('leakJsonCID', leakJsonCID)
       setIsCreateLeakLoading(true);
       const createCaseReceipt = await createCaseWriteAsync?.();
       await createCaseReceipt?.wait();
@@ -127,13 +125,15 @@ function Submit() {
         <Col xl={12} lg={20} md={22}>
           <div className="submit-page-form-main-div">
             <Form
+              name="basic"
               onFinish={onFinish}
               onFinishFailed={onFinishFailed}
               initialValues={{
-                country: countryList[0],
-                category: categories[0],
+                country: null,
+                category: null,
                 city: '',
-                description: ''
+                description: '',
+                title: ''
               }}
               labelCol={{
                 span: 6,
@@ -144,14 +144,19 @@ function Submit() {
               size="large"
               className="submit-page-form"
             >
+
               <Form.Item
                 label="country"
                 name="country"
                 required={[
                   { required: true, message: "Please Select Your Country!" },
                 ]}
+                rules={[{ required: true, message: 'Please select the country!' }]}
               >
-                <Select showSearch>
+                <Select
+                  placeholder="Select Country"
+                  noStyle
+                  showSearch>
                   {countryList.map((country, index) => {
                     return (
                       <Select.Option key={index} value={country}>
@@ -161,6 +166,7 @@ function Submit() {
                   })}
                 </Select>
               </Form.Item>
+
               <Form.Item
                 label="city"
                 name="city"
@@ -170,17 +176,20 @@ function Submit() {
                     message: "Please Select Your city!",
                   },
                 ]}
+                rules={[{ required: true, message: 'Please enter the city!' }]}
               >
                 <Input placeholder="city" />
               </Form.Item>
+
               <Form.Item
                 label="Category"
                 name="category"
                 required={[
                   { required: true, message: "Please Select the category!" },
                 ]}
+                rules={[{ required: true, message: 'Please select the category!' }]}
               >
-                <Select>
+                <Select placeholder="Select Category">
                   {categories.map((category, index) => {
                     return (
                       <Select.Option key={index} value={category}>
@@ -196,6 +205,7 @@ function Submit() {
                 required={[
                   { required: true, message: "Please Enter the Title!" },
                 ]}
+                rules={[{ required: true, message: 'Please enter the title!' }]}
               >
                 <Input placeholder="Add a title" />
               </Form.Item>
@@ -205,6 +215,7 @@ function Submit() {
                 required={[
                   { required: true, message: "Please Enter the description!" },
                 ]}
+                rules={[{ required: true, message: 'Please enter the description' }]}
               >
                 <TextArea
                   rows={10}
