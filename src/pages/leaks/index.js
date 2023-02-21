@@ -68,6 +68,7 @@ function Leaks() {
             width: "100%",
             marginTop: "30px",
           }}
+          className="pagination"
         >
           <Pagination
             total={85}
