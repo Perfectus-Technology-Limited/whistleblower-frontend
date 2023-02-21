@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "antd";
 import { Button, Form, Input, Select, Upload, message } from "antd";
 import { countryList } from "@/constants";
-import { catogories } from "@/constants";
+import { categories } from "@/constants";
 import { InboxOutlined } from "@ant-design/icons";
 import {
   handlerDropImage,
@@ -10,7 +10,7 @@ import {
   handlerPinningJson,
 } from "@/services/pinata";
 import { useContractWrite, usePrepareContractWrite } from "wagmi";
-import { WhistlBlowerConfig } from "@/blockchain/bsc/web3.config";
+import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -27,63 +27,74 @@ const onFinishFailed = (errorInfo) => {
 };
 
 function Submit() {
-  const [formData, setFormData] = useState({});
   const [selectedFile, setSelectedFile] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [percent, setPercent] = useState(0);
-  const [uri, setUri] = useState("");
+  const [leakJsonCID, setSetLeakJsonCID] = useState('');
+  const [isCreateLeakLoading, setIsCreateLeakLoading] = useState(false);
 
-  const { config } = usePrepareContractWrite({
-    address: WhistlBlowerConfig.contractAddress,
-    abi: WhistlBlowerConfig.contractAbi,
+  const { config: createCaseConfig } = usePrepareContractWrite({
+    address: whistleblowerConfig?.contractAddress,
+    abi: whistleblowerConfig?.contractAbi,
     functionName: "createCase",
-    args: [uri],
+    args: ['bafkreifexthlhwj5tpbqd6oclt5humysetfpamyirdclrc2df35ihl3ueu'],
   });
 
-  const {
-    data,
-    isLoading: writeContractLoading,
-    isSuccess,
-    write,
-  } = useContractWrite(config);
+  const { writeAsync: createCaseWriteAsync, error } = useContractWrite(createCaseConfig);
 
-  const handleCreateUri = async () => {
+
+  useEffect(() => {
+    if (leakJsonCID) {
+      createCaseOnChain()
+      // (async () => {
+
+      //   const createCaseReceipt = await createCaseWriteAsync?.();
+      //   await createCaseReceipt?.wait();
+
+      // })
+
+      // createCaseOnChain()
+    }
+
+  }, [leakJsonCID])
+
+  //bafkreifexthlhwj5tpbqd6oclt5humysetfpamyirdclrc2df35ihl3ueu
+
+  const createCaseOnChain = async () => {
     try {
-      // setIsWritingLoading(true);
-      const txRecepit = await write?.();
-      await txRecepit?.wait();
-      // setIsWritingLoading(false);
-
-      console.log(data && data);
+      console.log('leakJsonCID', leakJsonCID)
+      setIsCreateLeakLoading(true);
+      const createCaseReceipt = await createCaseWriteAsync?.();
+      await createCaseReceipt?.wait();
+      setIsCreateLeakLoading(true)
+      message.success('Case has been created successfully')
     } catch (error) {
-      // setIsWritingLoading(false);
-      console.log("error while writing to smart contract", error);
+      setIsCreateLeakLoading(false)
+      console.log("ERROR while trying to create a case in on chain", error);
     }
   };
 
   const onFinish = async (values) => {
-    setFormData({
-      country: values.country,
-      city: values.city,
-      category: values.category,
-      title: values.title,
-      description: values.description,
-      uploadfiles: hashes,
-    });
+    try {
+      setIsLoading(true)
+      const payload = {
+        country: values?.country,
+        city: values?.city,
+        category: values?.category,
+        title: values?.title,
+        description: values?.description,
+        uploadedFiles: hashes,
+      }
+      const CID = await handlerPinningJson(payload, setPercent)
+      setSetLeakJsonCID(CID)
+      message.info('File has been uploaded successfully hold on for on chain confirmation');
+    } catch (error) {
+      console.log("ERROR while trying to create a case", error)
+      message.error('Something went wrong while creating a case')
+      setIsLoading(false)
+    }
 
-    setTimeout(async () => {
-      console.log(formData);
-      let ipfshHash = await handlerPinningJson(
-        formData,
-        setIsLoading,
-        setPercent
-      );
-      let url = `https://gateway.pinata.cloud/ipfs/${ipfshHash}`;
-      setUri(url);
-    }, 4000);
-
-    // await handleCreateUri();
   };
 
   const props = {
@@ -97,7 +108,6 @@ function Submit() {
     },
     onChange(info) {
       const { status } = info.file;
-
       if (status === "done") {
         handlerImageUpload(
           selectedFile,
@@ -121,7 +131,9 @@ function Submit() {
               onFinishFailed={onFinishFailed}
               initialValues={{
                 country: countryList[0],
-                category: catogories[0],
+                category: categories[0],
+                city: '',
+                description: ''
               }}
               labelCol={{
                 span: 6,
@@ -169,10 +181,10 @@ function Submit() {
                 ]}
               >
                 <Select>
-                  {catogories.map((catogory, index) => {
+                  {categories.map((category, index) => {
                     return (
-                      <Select.Option key={index} value={catogory}>
-                        {catogory}
+                      <Select.Option key={index} value={category}>
+                        {category}
                       </Select.Option>
                     );
                   })}
@@ -201,7 +213,7 @@ function Submit() {
               </Form.Item>
               <Form.Item
                 label="Upload Files"
-                name="uploadfiles"
+                name="uploadFiles"
                 valuePropName="fileList"
                 getValueFromEvent={normFile}
               >
