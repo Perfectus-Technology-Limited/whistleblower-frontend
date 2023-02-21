@@ -10,7 +10,6 @@ const { Dragger } = Upload;
 const { TextArea } = Input;
 
 const normFile = (e) => {
-  console.log("Upload event:", e);
   if (Array.isArray(e)) {
     return e;
   }
