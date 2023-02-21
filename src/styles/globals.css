@@ -502,3 +502,7 @@
   margin-inline-start: 0px !important;
   margin-inline-end: 0px !important;
 }
+
+span.ant-select-selection-placeholder {
+  color: #424444 !important;
+}

@@ -14,6 +14,16 @@ export const navlinks = [
     name: "Submit",
     navlink: "/submit",
   },
+  {
+    id: "/test",
+    name: "test",
+    navlink: "/test",
+  },
+  {
+    id: "/upload",
+    name: "upload",
+    navlink: "/upload",
+  },
 ];
 
 export const footernavlinks = [
@@ -286,7 +296,7 @@ export const countryList = [
   "Åland Islands",
 ];
 
-export const catogories = [
+export const categories = [
   "fraud",
   "corruption",
   "Harassment",
