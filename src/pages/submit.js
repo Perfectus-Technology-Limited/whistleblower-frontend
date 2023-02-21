@@ -33,12 +33,12 @@ function Submit() {
   const [percent, setPercent] = useState(0);
   const [leakJsonCID, setSetLeakJsonCID] = useState('');
   const [isCreateLeakLoading, setIsCreateLeakLoading] = useState(false);
-
+  å
   const { config: createCaseConfig } = usePrepareContractWrite({
     address: whistleblowerConfig?.contractAddress,
     abi: whistleblowerConfig?.contractAbi,
     functionName: "createCase",
-    args: ['bafkreifexthlhwj5tpbqd6oclt5humysetfpamyirdclrc2df35ihl3ueu'],
+    args: [leakJsonCID?.toString()],
   });
 
   const { writeAsync: createCaseWriteAsync, error } = useContractWrite(createCaseConfig);
