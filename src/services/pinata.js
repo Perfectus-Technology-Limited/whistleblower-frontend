@@ -2,15 +2,8 @@ import { message } from "antd";
 import axios from "axios";
 import { DateTime } from "luxon";
 // handler image upload to pinata
-export const handlerImageUpload = async (
-  selectedFile,
-  hashes,
-  setHashes,
-  setIsLoading,
-  setPercent
-) => {
+export const handlerImageUpload = async (selectedFile) => {
   try {
-    setIsLoading(true);
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
     const uId = selectedFile.uid;
     const formData = new FormData();
@@ -38,13 +31,13 @@ export const handlerImageUpload = async (
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percentage = Math.floor((loaded * 100) / total);
-        setPercent(() => {
-          const newPercent = percentage;
-          if (newPercent > 100) {
-            return 100;
-          }
-          return newPercent;
-        });
+        // setPercent(() => {
+        //   const newPercent = percentage;
+        //   if (newPercent > 100) {
+        //     return 100;
+        //   }
+        //   return newPercent;
+        // });
         console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
       },
     };
@@ -55,20 +48,13 @@ export const handlerImageUpload = async (
       options
     );
 
+    let hash;
     if (res.data.IpfsHash) {
-      message.success(`${selectedFile?.name} file uploaded successfully.`);
-      setTimeout(() => {
-        setPercent(0);
-        setIsLoading(false);
-      }, 4000);
+      hash = { uid: uId, cid: res.data.IpfsHash, meta: metaData };
+      return hash;
     }
 
-    setHashes([
-      ...hashes,
-      { uid: uId, cid: res.data.IpfsHash, meta: metaData },
-    ]);
-
-    console.log("hashes", hashes);
+    return false;
   } catch (error) {
     setIsLoading(false);
     console.log("while file uploading error" + error);
@@ -76,53 +62,33 @@ export const handlerImageUpload = async (
 };
 
 // handler image drop from pinata
-export const handlerDropImage = async (
-  uId,
-  hashes,
-  setHashes,
-  setIsLoading
-) => {
-  setIsLoading(true);
-  const find = hashes.find((obj) => {
-    return obj.uid === uId;
-  });
-  console.log("UID", uId);
-  console.log("find", find);
-  console.log("hases", hashes);
-
+export const handlerDropImage = async (cid) => {
   const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
 
-  if (find) {
-    const formData = new FormData();
-
+  if (cid) {
     const res = await axios.delete(
-      `https://api.pinata.cloud/pinning/unpin/${find.cid}`,
+      `https://api.pinata.cloud/pinning/unpin/${cid}`,
       {
         maxBodyLength: "Infinity",
         headers: {
-          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
           Authorization: `Bearer ${JWT}`,
         },
       }
     );
 
     if (res.data == "OK") {
-      console.log(hashes.filter((obj) => obj.cid == find.cid));
-      setHashes(hashes.filter((obj) => obj.cid !== find.cid));
-      setIsLoading(false);
-      message.success(`file deleted successfully.`);
-      console.log(res);
+      return cid;
     }
+    return false;
   } else {
-    setIsLoading(false);
     console.log("this file not available");
   }
 };
 
-export const handlerPinningJson = async (values, setPercent) => {
+export const handlerPinningJson = async (payload) => {
   try {
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-    const fileName = `leaks-${DateTime.now().valueOf()}`
+    const fileName = `leaks-${DateTime.now().valueOf()}`;
     const data = {
       pinataOptions: {
         cidVersion: 1,
@@ -130,7 +96,7 @@ export const handlerPinningJson = async (values, setPercent) => {
       pinataMetadata: {
         name: fileName,
       },
-      pinataContent: values,
+      pinataContent: payload,
     };
 
     const options = {
@@ -142,13 +108,13 @@ export const handlerPinningJson = async (values, setPercent) => {
       onUploadProgress: (progressEvent) => {
         const { loaded, total } = progressEvent;
         let percentage = Math.floor((loaded * 100) / total);
-        setPercent(() => {
-          const newPercent = percentage;
-          if (newPercent > 100) {
-            return 100;
-          }
-          return newPercent;
-        });
+        // setPercent(() => {
+        //   const newPercent = percentage;
+        //   if (newPercent > 100) {
+        //     return 100;
+        //   }
+        //   return newPercent;
+        // });
         console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
       },
     };
@@ -160,12 +126,15 @@ export const handlerPinningJson = async (values, setPercent) => {
     );
 
     if (res && res.status === 200) {
-      return res?.data?.IpfsHash
+      return res?.data?.IpfsHash;
     } else {
-      return null
+      return null;
     }
   } catch (error) {
-    console.log("ERROR something went wrong while uploading the file to IPFS", error)
-    return null
+    console.log(
+      "ERROR something went wrong while uploading the file to IPFS",
+      error
+    );
+    return null;
   }
 };
