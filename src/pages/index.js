@@ -11,7 +11,7 @@ const style = {
 
 export default function Home() {
   const { Meta } = Card;
-
+  const array = [1, 2, 3, 4, 5, 6, 7, 8];
   return (
     <>
       <Head>
@@ -30,14 +30,18 @@ export default function Home() {
             </Col>
           </Row>
           <Row justify="space-between">
+
+            {array.map((row, index) => (
+              <PostCard key={index} index={index} />
+            ))}
+
+            {/* <PostCard />
             <PostCard />
             <PostCard />
             <PostCard />
             <PostCard />
             <PostCard />
-            <PostCard />
-            <PostCard />
-            <PostCard />
+            <PostCard /> */}
           </Row>
         </Row>
 
