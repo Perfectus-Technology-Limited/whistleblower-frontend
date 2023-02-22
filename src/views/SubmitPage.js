@@ -14,22 +14,12 @@ import {
 } from "antd";
 import React, { useState, useEffect } from "react";
 import { countryList, categories } from "@/constants";
-import {
-  DeleteColumnOutlined,
-  DeleteFilled,
-  DeleteOutlined,
-  FileOutlined,
-  InboxOutlined,
-} from "@ant-design/icons";
+import { DeleteOutlined, FileOutlined, InboxOutlined } from "@ant-design/icons";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
-import {
-  handlerDropImage,
-  handlerImageUpload,
-  handlerPinningJson,
-} from "@/services/pinata";
+import { handlerDropImage, handlerPinningJson } from "@/services/pinata";
 
 const { Dragger } = Upload;
 const { TextArea } = Input;
@@ -47,11 +37,11 @@ const styles = {
     borderRadius: "10px",
   },
 };
+
 function SubmitPage() {
   const [files, setFiles] = useState([]);
   const [coverImage, setCoverImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [isPageLoading, setIsPageLoading] = useState(true);
   const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
@@ -73,57 +63,6 @@ function SubmitPage() {
       message.error(caseCreateOnChainError?.message);
     }
   }, [caseCreateOnChainError]);
-
-  const draggerProps = {
-    name: "file",
-    listType: "text",
-    onRemove: async (file) => {
-      const find = hashes.find((obj) => {
-        return obj.uid === file.uid;
-      });
-
-      if (find) {
-        setIsLoading(true);
-        const response = await handlerDropImage(find.cid);
-        if (response) {
-          setHashes(hashes.filter((obj) => obj.cid !== response));
-          message.success("File delted succesfully");
-          setIsLoading(false);
-        } else {
-          setIsLoading(false);
-          message.success("File delted failed");
-        }
-      } else {
-        setIsLoading(false);
-        console.log("File not found");
-      }
-    },
-    beforeUpload: async (file) => {
-      setSelectedFile(file);
-    },
-    onChange: async (info) => {
-      const { status } = info.file;
-      if (status === "done") {
-        setIsLoading(true);
-        const response = await handlerImageUpload(selectedFile);
-        setHashes([...hashes, response]);
-        if (response) {
-          setIsLoading(false);
-          message.success("File uploading has been successfully");
-        } else {
-          setIsLoading(false);
-          message.error("File uploading has been failed");
-        }
-      }
-    },
-  };
-
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
 
   const onFinishFailed = (errorInfo) => {
     console.log("Failed:", errorInfo);
@@ -162,6 +101,8 @@ function SubmitPage() {
           recklesslySetUnpreparedArgs: [CID],
         });
         const response = await txReceipt?.wait();
+        form.resetFields();
+        router.push("/leaks");
         message.success(
           "Your case has been uploaded successfully thank you for being brave"
         );
@@ -178,9 +119,28 @@ function SubmitPage() {
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
     try {
       setIsLoading(true);
+
+      if (file) {
+        let find;
+        if (!find) {
+          find = hashes.find((obj) => {
+            return obj.name === file.name;
+          });
+        }
+        if (!find) {
+          find = fileHashes.find((obj) => {
+            return obj.name === file.name;
+          });
+        }
+        if (find) {
+          message.error(`This file already uploaded ${file?.name}`);
+          setIsLoading(false);
+          return "";
+        }
+      }
+
       if (from === "cover") {
         const response = await handlerDropImage(hashes[0]?.cid);
-        console.log(response);
         setCoverImage([]);
         setHashes([]);
         setCoverImage((pre) => {
@@ -286,7 +246,6 @@ function SubmitPage() {
           return obj.uid === uid;
         });
       }
-      console.log(find);
       if (find) {
         setIsLoading(true);
         const response = await handlerDropImage(find.cid);
@@ -316,6 +275,7 @@ function SubmitPage() {
       console.log(error);
     }
   };
+  const [form] = Form.useForm();
 
   return (
     <div>
@@ -331,6 +291,7 @@ function SubmitPage() {
         {/* main form section start */}
         <Col lg={12} md={12} xs={24} style={styles.formUploadContainer}>
           <Form
+            form={form}
             layout="vertical"
             name="basic"
             onFinish={onFinish}
@@ -416,6 +377,7 @@ function SubmitPage() {
                 })}
               </Select>
             </Form.Item>
+
             <Form.Item
               label="Title"
               name="title"
@@ -426,6 +388,7 @@ function SubmitPage() {
             >
               <Input placeholder="Add a title" />
             </Form.Item>
+
             <Form.Item
               label="Description"
               name="description"
@@ -444,11 +407,11 @@ function SubmitPage() {
             >
               <TextArea rows={10} placeholder="Full description of the issue" />
             </Form.Item>
+
             <Form.Item
               label="Upload Cover Image"
               name="uploadFiles"
               valuePropName="fileList"
-              getValueFromEvent={normFile}
             >
               <Dragger
                 customRequest={(file) => handleFUpload(file, "cover")}
@@ -462,6 +425,7 @@ function SubmitPage() {
                 </p>
                 <p className="ant-upload-hint">For cover image</p>
               </Dragger>
+
               <div className="file-uploaded-section">
                 {Object.values(coverImage)?.map((file, i) => {
                   return (
