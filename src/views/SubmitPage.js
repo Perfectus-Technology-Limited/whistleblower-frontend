@@ -69,6 +69,7 @@ function SubmitPage() {
   };
 
   const onFinish = async (values) => {
+    console.log("TT Values ", values)
     try {
       setIsCaseCreationLoading(true);
       let uploaded = [];
@@ -86,12 +87,13 @@ function SubmitPage() {
       }
       const payload = {
         title: values?.title,
-        description: values?.title,
-        country: values?.title,
-        city: values?.title,
+        description: values?.description,
+        country: values?.country,
+        city: values?.city,
+        category: values?.category,
         date: new Date().toISOString(),
         account: address,
-        coverImage: hashes[0].cid,
+        coverImage: hashes[0]?.cid,
         uploadedFiles: uploaded,
       };
 
@@ -101,11 +103,46 @@ function SubmitPage() {
           recklesslySetUnpreparedArgs: [CID],
         });
         const response = await txReceipt?.wait();
+
+        if (response) {
+          //upload rest of the data into the database
+          const offChainPayload = {
+            blockHash: response?.blockHash,
+            blockNumber: response?.blockNumber,
+            transactionHash: response?.transactionHash,
+            ipfsCID: CID,
+            ipfsContent: JSON.stringify(payload),
+            title: values?.title,
+            description: values?.description,
+            country: values?.country,
+            category: values?.category,
+            walletAddress: address
+          }
+
+          const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/create`
+          var data = JSON.stringify(offChainPayload);
+          var config = {
+            method: 'post',
+            maxBodyLength: Infinity,
+            url: endpoint,
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            data: data
+          };
+
+          const offChainResponse = await axios(config)
+          if (offChainResponse && offChainResponse.status === 200) {
+            message.success(
+              "Your case has been uploaded successfully thank you for being brave"
+            );
+          }
+        }
         form.resetFields();
-        router.push("/leaks");
-        message.success(
-          "Your case has been uploaded successfully thank you for being brave"
-        );
+        setCoverImage([])
+        setFiles([])
+        // router.push("/leaks");
+
         setIsCaseCreationLoading(false);
       }
     } catch (error) {
@@ -410,7 +447,6 @@ function SubmitPage() {
 
             <Form.Item
               label="Upload Cover Image"
-              name="uploadFiles"
               valuePropName="fileList"
             >
               <Dragger
@@ -468,6 +504,7 @@ function SubmitPage() {
             <div className="submit-button">
               {address ? (
                 <Form.Item
+                  name="submit-button"
                   style={{ display: "flex", justifyContent: "center" }}
                 >
                   <Button
