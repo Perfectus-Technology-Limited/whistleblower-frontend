@@ -55,26 +55,24 @@ function SubmitPage() {
   const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
-  const [leakJsonCID, setSetLeakJsonCID] = useState("");
-  const { address, isConnecting, isDisconnected } = useAccount();
+
+  const { address } = useAccount();
   const router = useRouter();
 
-  const { config: createCaseConfig } = usePrepareContractWrite({
-    address: whistleblowerConfig.contractAddress,
-    abi: JSON.parse(whistleblowerConfig.contractAbi),
-    functionName: "createCase",
-    args: [String(leakJsonCID)],
-    enabled: leakJsonCID ? true : false,
-  });
-
-  const { error, writeAsync: createCaseAsyncCall } =
-    useContractWrite(createCaseConfig);
+  const { error: caseCreateOnChainError, writeAsync: caseCreateOnChainWrite } =
+    useContractWrite({
+      mode: "recklesslyUnprepared",
+      address: whistleblowerConfig.contractAddress,
+      abi: JSON.parse(whistleblowerConfig.contractAbi),
+      functionName: "createCase(string)",
+      args: [],
+    });
 
   useEffect(() => {
-    if (error) {
-      message.error(error?.message);
+    if (caseCreateOnChainError) {
+      message.error(caseCreateOnChainError?.message);
     }
-  }, [error]);
+  }, [caseCreateOnChainError]);
 
   const draggerProps = {
     name: "file",
@@ -134,21 +132,36 @@ function SubmitPage() {
   const onFinish = async (values) => {
     try {
       setIsCaseCreationLoading(true);
+      let uploaded = [];
+      {
+        fileHashes.map((hash) => {
+          hash = {
+            name: hash.name,
+            cid: hash.cid,
+            sizeInKb: hash.sizeInKb,
+            type: hash.type,
+            description: hash.description,
+          };
+          uploaded.push(hash);
+        });
+      }
       const payload = {
-        country: values?.country,
-        city: values?.city,
-        category: values?.category,
         title: values?.title,
-        description: values?.description,
-        coverImage: hashes,
-        files: fileHashes,
+        description: values?.title,
+        country: values?.title,
+        city: values?.title,
+        date: new Date().toISOString(),
+        account: address,
+        coverImage: hashes[0].cid,
+        uploadedFiles: uploaded,
       };
+
       const CID = await handlerPinningJson(payload);
       if (CID) {
-        setSetLeakJsonCID(CID);
-        const createCaseReceipt = await createCaseAsyncCall?.();
-        const result = await createCaseReceipt.wait();
-        console.log("TT result", result);
+        const txReceipt = await caseCreateOnChainWrite?.({
+          recklesslySetUnpreparedArgs: [CID],
+        });
+        const response = await txReceipt?.wait();
         message.success(
           "Your case has been uploaded successfully thank you for being brave"
         );
@@ -234,7 +247,16 @@ function SubmitPage() {
       );
       let hash;
       if (res.data.IpfsHash) {
-        hash = { uid: file.uid, cid: res.data.IpfsHash, meta: metaData };
+        // hash = { uid: file.uid, cid: res.data.IpfsHash, meta: metaData };
+        hash = {
+          uid: file.uid,
+          name: file?.name,
+          cid: res.data.IpfsHash,
+          sizeInKb: file.size / 1024,
+          type: file.type,
+          meta: metaData,
+          description: "description",
+        };
         if (from == "cover") {
           setHashes((hashes) => [...hashes, ...[hash]]);
         }
@@ -488,7 +510,8 @@ function SubmitPage() {
                     className="form-submit-btn"
                     type="primary"
                     htmlType="submit"
-                    loading={isCaseCreationLoading || isLoading}
+                    loading={isCaseCreationLoading}
+                    disabled={isLoading}
                   >
                     submit
                   </Button>
@@ -524,13 +547,6 @@ function SubmitPage() {
                 files, images and screenshots, audio files, video
               </p>
             </Dragger>
-
-            {/* <Upload
-              style={{ height: "200px" }}
-              multiple
-              customRequest={handleFUpload}
-              showUploadList={false}
-            ></Upload> */}
           </div>
 
           <div className="file-uploaded-section">
