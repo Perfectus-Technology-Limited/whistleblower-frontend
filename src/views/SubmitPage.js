@@ -252,40 +252,46 @@ function SubmitPage() {
   };
 
   const handlerRemove = async (uid, from) => {
-    let find;
-    if (from == "cover") {
-      find = hashes.find((obj) => {
-        return obj.uid === uid;
-      });
-    }
-    if (from == "files") {
-      find = fileHashes.find((obj) => {
-        return obj.uid === uid;
-      });
-    }
-    console.log(find);
-    if (find) {
-      setIsLoading(true);
-      const response = await handlerDropImage(find.cid);
-      if (response) {
-        if (from == "cover") {
-          setCoverImage(
-            Object.values(coverImage).filter((obj) => obj.uid !== uid)
-          );
-          setFileHashes(hashes.filter((obj) => obj.cid !== response));
-        }
-        if (from == "files") {
-          setFiles(Object.values(files).filter((obj) => obj.uid !== uid));
-          setFileHashes(fileHashes.filter((obj) => obj.cid !== response));
-        }
-        setIsLoading(false);
-        message.success("File delted succesfully");
-      } else {
-        setIsLoading(false);
-        message.success("File delted failed");
+    try {
+      let find;
+      if (from == "cover") {
+        find = hashes.find((obj) => {
+          return obj.uid === uid;
+        });
       }
-    } else {
-      console.log("file not available");
+      if (from == "files") {
+        find = fileHashes.find((obj) => {
+          return obj.uid === uid;
+        });
+      }
+      console.log(find);
+      if (find) {
+        setIsLoading(true);
+        const response = await handlerDropImage(find.cid);
+        if (response) {
+          if (from == "cover") {
+            setCoverImage(
+              Object.values(coverImage).filter((obj) => obj.uid !== uid)
+            );
+            // setFileHashes(hashes.filter((obj) => obj.cid !== response));
+            setHashes([]);
+          }
+          if (from == "files") {
+            setFiles(Object.values(files).filter((obj) => obj.uid !== uid));
+            setFileHashes(fileHashes.filter((obj) => obj.cid !== response));
+          }
+          setIsLoading(false);
+          message.success("File delted succesfully");
+        } else {
+          setIsLoading(false);
+          message.success("File delted failed");
+        }
+      } else {
+        console.log("file not available");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
     }
   };
 
