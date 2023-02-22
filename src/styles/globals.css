@@ -370,7 +370,7 @@
   background-color: #74ec67 !important;
 }
 
-.submit-page-form .ant-btn-primary:disabled  {
+.submit-page-form .ant-btn-primary:disabled {
   color: rgb(173 173 173) !important;
   background-color: rgb(54 54 54) !important;
 }
@@ -608,4 +608,10 @@ span.ant-select-selection-placeholder {
 .file-icon svg {
   color: red !important;
   fill: #74ec67 !important;
+}
+
+.ant-pagination-options-size-changer .ant-select-selector {
+  border: none !important;
+  color: white !important;
+  background: none !important;
 }
