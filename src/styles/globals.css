@@ -151,7 +151,6 @@
   margin: 25px 0px;
 }
 
-
 .card-footer {
   display: flex;
   justify-content: flex-end;
@@ -529,10 +528,6 @@ span.ant-select-selection-placeholder {
   color: #ffe58f;
 }
 
-/* loader svg */
-.loader-div {
-  
-}
 /* FOR LOADER */
 .center {
   display: flex;
@@ -549,8 +544,7 @@ span.ant-select-selection-placeholder {
   background-color: rgba(0, 0, 0, 0.829);
   z-index: 9999;
 }
-.loader-svg::backdrop {
-}
+
 .ring {
   position: absolute;
   width: 200px;
@@ -600,6 +594,11 @@ span.ant-select-selection-placeholder {
   color: #ffffff !important;
 }
 
-.stats-widget  .ant-card-head {
+.stats-widget .ant-card-head {
   border-bottom: none;
+}
+
+.anticon-delete svg, .file-icon svg {
+  color: red !important;
+  fill: #74ec67 !important;
 }
