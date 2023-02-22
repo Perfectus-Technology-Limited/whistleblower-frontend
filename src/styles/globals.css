@@ -151,11 +151,6 @@
   margin: 25px 0px;
 }
 
-.col-main-div {
-  background-color: #000000 !important;
-  display: flex;
-  justify-content: center;
-}
 
 .card-footer {
   display: flex;
@@ -599,4 +594,12 @@ span.ant-select-selection-placeholder {
   50% {
     color: black;
   }
+}
+
+.stats-widget .ant-card-head-title {
+  color: #ffffff !important;
+}
+
+.stats-widget  .ant-card-head {
+  border-bottom: none;
 }
