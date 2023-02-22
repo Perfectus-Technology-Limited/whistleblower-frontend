@@ -9,7 +9,8 @@ import {
   Space,
   Typography,
   Progress,
-  message
+  message,
+  Button
 } from 'antd'
 import React, { useState, useEffect } from 'react'
 import { countryList, categories } from '@/constants';
@@ -17,13 +18,18 @@ import {
   DeleteColumnOutlined,
   DeleteFilled,
   DeleteOutlined,
-  DeleteRowOutlined,
   FileOutlined,
   InboxOutlined,
 } from "@ant-design/icons";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import { whistleblowerConfig } from '@/blockchain/bsc/web3.config';
+import {
+  handlerDropImage,
+  handlerImageUpload,
+  handlerPinningJson,
+} from '@/services/pinata';
 
 const { Dragger } = Upload;
 const { TextArea } = Input;
@@ -38,26 +44,39 @@ const styles = {
   formUploadContainer: {
     padding: '40px 30px',
     border: '1px solid #373737',
-    borderRadius: '10px'
+    borderRadius: '10px',
   }
 }
 function SubmitPage() {
 
-  const { account } = useAccount()
   const [files, setFiles] = useState([]);
-
   const [selectedFile, setSelectedFile] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
+  const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
   const [leakJsonCID, setSetLeakJsonCID] = useState('');
-  const [isCreateLeakLoading, setIsCreateLeakLoading] = useState(false);
   const { address, isConnecting, isDisconnected } = useAccount();
   const router = useRouter();
 
+  const { config: createCaseConfig } = usePrepareContractWrite({
+    address: whistleblowerConfig.contractAddress,
+    abi: JSON.parse(whistleblowerConfig.contractAbi),
+    functionName: 'createCase',
+    args: [String(leakJsonCID)],
+    enabled: leakJsonCID ? true : false
+  })
+
+  const { error, writeAsync: createCaseAsyncCall } = useContractWrite(createCaseConfig)
+
+  useEffect(() => {
+    if (error) {
+      message.error(error?.message)
+    }
+  }, [error])
+
   const draggerProps = {
-    // maxCount:1,
     name: "file",
     listType: "text",
     onRemove: async (file) => {
@@ -114,7 +133,7 @@ function SubmitPage() {
 
   const onFinish = async (values) => {
     try {
-      setIsLoading(true);
+      setIsCaseCreationLoading(true);
       const payload = {
         country: values?.country,
         city: values?.city,
@@ -127,19 +146,22 @@ function SubmitPage() {
       const CID = await handlerPinningJson(payload);
       if (CID) {
         setSetLeakJsonCID(CID);
-        setIsLoading(false);
-        message.info(
-          "File has been uploaded successfully hold on for on chain confirmation"
+        const createCaseReceipt = await createCaseAsyncCall?.()
+        const result = await createCaseReceipt.wait()
+        console.log("TT result", result)
+        message.success(
+          "Your case has been uploaded successfully thank you for being brave"
         );
+        setIsCaseCreationLoading(false);
       }
     } catch (error) {
       console.log("ERROR while trying to create a case", error);
-      message.error("Something went wrong while creating a case");
-      setIsLoading(false);
+      // message.error("Something went wrong while creating a case");
+      setIsCaseCreationLoading(false);
     }
   };
 
-  const handleFIlepload = async ({ file }) => {
+  const handleFUpload = async ({ file }) => {
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
 
     setFiles((pre) => {
@@ -155,15 +177,11 @@ function SubmitPage() {
     };
 
     const formData = new FormData();
-
     formData.append("file", file);
-
     const metaData = JSON.stringify({
       name: file?.name,
     });
-
     formData.append("pinataMetadata", metaData);
-
     const pinataOptions = JSON.stringify({
       cidVersion: 0,
     });
@@ -210,7 +228,7 @@ function SubmitPage() {
         </Col>
       </Row>
 
-      <Row gutter={20}>
+      <Row gutter={48}>
         {/* main form section start */}
         <Col lg={12} md={12} xs={24} style={styles.formUploadContainer}>
           <Form
@@ -352,7 +370,7 @@ function SubmitPage() {
             </Form.Item>
 
             <div className='submit-button'>
-              {account ? (
+              {address ? (
                 <Form.Item
                   style={{ display: "flex", justifyContent: "center" }}
                 >
@@ -360,6 +378,7 @@ function SubmitPage() {
                     className="form-submit-btn"
                     type="primary"
                     htmlType="submit"
+                    loading={isCaseCreationLoading}
                   >
                     submit
                   </Button>
@@ -377,71 +396,73 @@ function SubmitPage() {
         {/* main form section end */}
 
         {/* file upload section start */}
-        <Col lg={12} md={12} xs={24}>
+        <Col lg={12} md={12} xs={24} style={styles.formUploadContainer}>
+          <div className='file-upload-container'>
+            <Dragger
+              multiple
+              customRequest={handleFUpload}
+              showUploadList={false}
+              style={{ height: '200px' }}
+            >
+              <p className="ant-upload-drag-icon">
+                <InboxOutlined style={{ color: "#64ec67" }} />
+              </p>
+              <p className="ant-upload-text">
+                Click or drag file to this area to upload
+              </p>
+              <p className="ant-upload-hint">
+                files, images and screenshots, audio files, video
+              </p>
+            </Dragger>
 
-          <Dragger
-            multiple
-            customRequest={handleFIlepload}
-            showUploadList={false}
-          >
-            <p className="ant-upload-drag-icon">
-              <InboxOutlined style={{ color: "#64ec67" }} />
-            </p>
-            <p className="ant-upload-text">
-              Click or drag file to this area to upload
-            </p>
-            <p className="ant-upload-hint">
-              files, images and screenshots, audio files, video
-            </p>
-          </Dragger>
+            <Upload
+              style={{ height: '200px' }}
+              multiple
+              customRequest={handleFUpload}
+              showUploadList={false}
+            ></Upload>
+          </div>
 
-          <Upload
-            multiple
-            customRequest={handleFIlepload}
-            showUploadList={false}
-          ></Upload>
-
-          {Object.values(files)?.map((file, i) => {
-            return (
-              <div
-                key={i}
-                style={{
-                  padding: "5px 5px 0 5px",
-                  width: "100%",
-                  margin: "10px 0",
-                }}
-              >
-                <Space
-                  direction="horizontal"
+          <div className='file-uploaded-section'>
+            {Object.values(files)?.map((file, i) => {
+              return (
+                <div
                   key={i}
-                  className="main-space"
+                  style={{
+                    padding: "5px 5px 0 5px",
+                    width: "100%",
+                    margin: "10px 0",
+                  }}
                 >
-                  <FileOutlined className="file-icon" />
-                  <Typography className="filename">
-                    <div>{file.name}</div>
-                  </Typography>
-                  {file.Progress == 100 && (
-                    <DeleteOutlined
-                      style={{ color: '#fff' }}
-                      onClick={() => handlerRemove(file.uid)}
-                    />
-                  )}
-                </Space>
-                <Progress
-                  className="progress"
-                  percent={file.Progress}
-                  strokeWidth={1}
-                  strokeColor={"#64ec67"}
-                />
-              </div>
-            );
-          })}
+                  <Space
+                    direction="horizontal"
+                    key={i}
+                    className="main-space"
+                  >
+                    <FileOutlined className="file-icon" />
+                    <Typography className="filename">
+                      <div>{file.name}</div>
+                    </Typography>
+                    {file.Progress == 100 && (
+                      <DeleteOutlined
+                        style={{ color: '#fff' }}
+                        onClick={() => handlerRemove(file.uid)}
+                      />
+                    )}
+                  </Space>
+                  <Progress
+                    className="progress"
+                    percent={file.Progress}
+                    strokeWidth={1}
+                    strokeColor={"#64ec67"}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </Col>
         {/* file upload section end */}
-
       </Row>
-
-
     </div >
   )
 }
