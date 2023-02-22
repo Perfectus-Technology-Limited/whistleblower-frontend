@@ -21,17 +21,11 @@ function Paths({ projection }) {
     Promise.all(promises).then(function (promise) {
       setData(promise);
     });
-
-    console.log(data);
   }, []);
 
   useEffect(() => {
     // console.log(d3.json(url));
   }, [data]);
-
-  if (!data) {
-    return <>dfgbfg</>;
-  }
 
   return (
     <>

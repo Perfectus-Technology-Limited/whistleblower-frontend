@@ -1,14 +1,30 @@
 import FileList from "@/components/FileList";
+import Loader from "@/components/Loader";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconBxUserCircle from "@/utils/IconBxUserCircle";
 import { Avatar, Col, Row } from "antd";
 import { Empty } from "antd";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function Details() {
   const [like, setLike] = useState(0);
   const [dislike, setDislike] = useState(0);
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    if (router.isReady) {
+      setTimeout(() => {
+        setIsLoading(false);
+      }, 1000);
+    }
+  }, [router]);
+
+  if (isLoading) {
+    return <Loader />;
+  }
 
   const IncreeseHandle = () => {
     setLike(like + 1);
