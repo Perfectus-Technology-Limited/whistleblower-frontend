@@ -21,8 +21,9 @@ function Marker({ projection }) {
 
   return (
     <>
-      {locations.map((d) => (
+      {locations.map((d, index) => (
         <circle
+          key={index}
           cx={projection([+d.homelon, +d.homelat])[0]}
           cy={projection([+d.homelon, +d.homelat])[1]}
           r={size(+d.n)}
