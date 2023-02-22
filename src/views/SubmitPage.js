@@ -56,25 +56,26 @@ function SubmitPage() {
   const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
-  const [leakJsonCID, setSetLeakJsonCID] = useState('');
-  const { address, isConnecting, isDisconnected } = useAccount();
+
+  const { address } = useAccount();
   const router = useRouter();
 
-  const { config: createCaseConfig } = usePrepareContractWrite({
+  const {
+    error: caseCreateOnChainError,
+    writeAsync: caseCreateOnChainWrite
+  } = useContractWrite({
+    mode: 'recklesslyUnprepared',
     address: whistleblowerConfig.contractAddress,
     abi: JSON.parse(whistleblowerConfig.contractAbi),
-    functionName: 'createCase',
-    args: [String(leakJsonCID)],
-    enabled: leakJsonCID ? true : false
+    functionName: 'createCase(string)',
+    args: [],
   })
 
-  const { error, writeAsync: createCaseAsyncCall } = useContractWrite(createCaseConfig)
-
   useEffect(() => {
-    if (error) {
-      message.error(error?.message)
+    if (caseCreateOnChainError) {
+      message.error(caseCreateOnChainError?.message)
     }
-  }, [error])
+  }, [caseCreateOnChainError])
 
   const draggerProps = {
     name: "file",
@@ -132,6 +133,7 @@ function SubmitPage() {
   };
 
   const onFinish = async (values) => {
+
     try {
       setIsCaseCreationLoading(true);
       const payload = {
@@ -145,10 +147,10 @@ function SubmitPage() {
       };
       const CID = await handlerPinningJson(payload);
       if (CID) {
-        setSetLeakJsonCID(CID);
-        const createCaseReceipt = await createCaseAsyncCall?.()
-        const result = await createCaseReceipt.wait()
-        console.log("TT result", result)
+        const txReceipt = await caseCreateOnChainWrite?.({
+          recklesslySetUnpreparedArgs: [CID]
+        })
+        const response = await txReceipt?.wait()
         message.success(
           "Your case has been uploaded successfully thank you for being brave"
         );
@@ -378,6 +380,7 @@ function SubmitPage() {
                     className="form-submit-btn"
                     type="primary"
                     htmlType="submit"
+                    // disabled={!caseCreateOnChainWrite}
                     loading={isCaseCreationLoading}
                   >
                     submit
