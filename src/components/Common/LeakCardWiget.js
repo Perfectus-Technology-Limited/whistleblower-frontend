@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, Card } from "antd";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
 import { useRouter } from "next/router";
 import HeroAvatar from "@/images/hero-unknown.png"
 import { truncateText } from "@/utils/helpers";
-
+import { DateTime } from "luxon";
+import { fetchDataFromIPFSCID } from "@/services/ipfs.service";
 const { Meta } = Card;
 
 const styles = {
@@ -40,10 +41,31 @@ const styles = {
 }
 
 function LeakCardWidget({ index, data }) {
+
+  const [coverImageCID, setCoverImageCID] = useState('')
+  const [isCoverImageLoading, setIsCoverImageLoading] = useState(false)
+  const [coverImageURL, setCoverImageURL] = useState('')
+
+
   const router = useRouter();
   const handleClick = () => {
     router.push("/leaks/test");
   };
+
+  useEffect(() => {
+    if (data) {
+      const jsonResponse = JSON.parse(data?.ipfsContent)
+      setCoverImageCID(jsonResponse?.coverImage)
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (coverImageCID) {
+      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}`
+      setCoverImageURL(URI)
+    }
+  }, [coverImageCID])
+
 
   return (
     <div className="leak-widget" style={styles.LeakCardWidgetContainer}>
@@ -54,7 +76,9 @@ function LeakCardWidget({ index, data }) {
         cover={
           <img
             alt="example"
-            src={`https://loremflickr.com/320/240?random=${index + 1}`}
+            height="200px"
+            style={{ objectFit: 'cover' }}
+            src={coverImageURL}
           />
         }
       >
@@ -69,10 +93,10 @@ function LeakCardWidget({ index, data }) {
           />
           <div style={{ display: "flex", flexDirection: "column", color: "#ffffff" }}>
             <span className="publisher-wallet-address">
-              {data?.account}
+              {data?.walletAddress}
             </span>
             <span className="published-date">
-              {data?.date}
+              {DateTime.fromISO(data?.createdAt).toFormat('yyyy/LL/dd')}
             </span>
           </div>
         </div>
