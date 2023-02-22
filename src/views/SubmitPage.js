@@ -10,10 +10,10 @@ import {
   Typography,
   Progress,
   message,
-  Button
-} from 'antd'
-import React, { useState, useEffect } from 'react'
-import { countryList, categories } from '@/constants';
+  Button,
+} from "antd";
+import React, { useState, useEffect } from "react";
+import { countryList, categories } from "@/constants";
 import {
   DeleteColumnOutlined,
   DeleteFilled,
@@ -22,35 +22,34 @@ import {
   InboxOutlined,
 } from "@ant-design/icons";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
-import axios from 'axios';
-import { useRouter } from 'next/router';
-import { whistleblowerConfig } from '@/blockchain/bsc/web3.config';
+import axios from "axios";
+import { useRouter } from "next/router";
+import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import {
   handlerDropImage,
   handlerImageUpload,
   handlerPinningJson,
-} from '@/services/pinata';
+} from "@/services/pinata";
 
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
 const styles = {
   tagline: {
-    color: '#74ec67',
-    fontSize: '20px',
-    marginTop: '50px',
-    marginBottom: '50px'
+    color: "#74ec67",
+    fontSize: "20px",
+    marginTop: "50px",
+    marginBottom: "50px",
   },
   formUploadContainer: {
-    padding: '40px 30px',
-    border: '1px solid #373737',
-    borderRadius: '10px',
-  }
-}
+    padding: "40px 30px",
+    border: "1px solid #373737",
+    borderRadius: "10px",
+  },
+};
 function SubmitPage() {
-
   const [files, setFiles] = useState([]);
-  const [selectedFile, setSelectedFile] = useState();
+  const [coverImage, setCoverImage] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isPageLoading, setIsPageLoading] = useState(true);
   const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
@@ -60,22 +59,20 @@ function SubmitPage() {
   const { address } = useAccount();
   const router = useRouter();
 
-  const {
-    error: caseCreateOnChainError,
-    writeAsync: caseCreateOnChainWrite
-  } = useContractWrite({
-    mode: 'recklesslyUnprepared',
-    address: whistleblowerConfig.contractAddress,
-    abi: JSON.parse(whistleblowerConfig.contractAbi),
-    functionName: 'createCase(string)',
-    args: [],
-  })
+  const { error: caseCreateOnChainError, writeAsync: caseCreateOnChainWrite } =
+    useContractWrite({
+      mode: "recklesslyUnprepared",
+      address: whistleblowerConfig.contractAddress,
+      abi: JSON.parse(whistleblowerConfig.contractAbi),
+      functionName: "createCase(string)",
+      args: [],
+    });
 
   useEffect(() => {
     if (caseCreateOnChainError) {
-      message.error(caseCreateOnChainError?.message)
+      message.error(caseCreateOnChainError?.message);
     }
-  }, [caseCreateOnChainError])
+  }, [caseCreateOnChainError]);
 
   const draggerProps = {
     name: "file",
@@ -133,24 +130,38 @@ function SubmitPage() {
   };
 
   const onFinish = async (values) => {
-
     try {
       setIsCaseCreationLoading(true);
+      let uploaded = [];
+      {
+        fileHashes.map((hash) => {
+          hash = {
+            name: hash.name,
+            cid: hash.cid,
+            sizeInKb: hash.sizeInKb,
+            type: hash.type,
+            description: hash.description,
+          };
+          uploaded.push(hash);
+        });
+      }
       const payload = {
-        country: values?.country,
-        city: values?.city,
-        category: values?.category,
         title: values?.title,
-        description: values?.description,
-        coverImage: hashes,
-        files: fileHashes,
+        description: values?.title,
+        country: values?.title,
+        city: values?.title,
+        date: new Date().toISOString(),
+        account: address,
+        coverImage: hashes[0].cid,
+        uploadedFiles: uploaded,
       };
+
       const CID = await handlerPinningJson(payload);
       if (CID) {
         const txReceipt = await caseCreateOnChainWrite?.({
-          recklesslySetUnpreparedArgs: [CID]
-        })
-        const response = await txReceipt?.wait()
+          recklesslySetUnpreparedArgs: [CID],
+        });
+        const response = await txReceipt?.wait();
         message.success(
           "Your case has been uploaded successfully thank you for being brave"
         );
@@ -163,68 +174,154 @@ function SubmitPage() {
     }
   };
 
-  const handleFUpload = async ({ file }) => {
+  const handleFUpload = async ({ file }, from) => {
     const JWT = process.env.NEXT_PUBLIC_PINATA_JWT;
-
-    setFiles((pre) => {
-      return { ...pre, [file.uid]: file };
-    });
-
-    const getFileObject = (Progress) => {
-      return {
-        name: file.name,
-        uid: file.uid,
-        Progress: Progress,
-      };
-    };
-
-    const formData = new FormData();
-    formData.append("file", file);
-    const metaData = JSON.stringify({
-      name: file?.name,
-    });
-    formData.append("pinataMetadata", metaData);
-    const pinataOptions = JSON.stringify({
-      cidVersion: 0,
-    });
-
-    formData.append("pinataOptions", pinataOptions);
-
-    const options = {
-      maxBodyLength: "Infinity",
-      headers: {
-        "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
-        Authorization: `Bearer ${JWT}`,
-      },
-      onUploadProgress: (event) => {
-        console.log("TT event", event);
-        const { loaded, total } = event;
-        let percentage = Math.floor((loaded * 100) / total);
-        // console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
-        setFiles((pre) => {
-          return { ...pre, [file.uid]: getFileObject(percentage) };
+    try {
+      setIsLoading(true);
+      if (from === "cover") {
+        const response = await handlerDropImage(hashes[0]?.cid);
+        console.log(response);
+        setCoverImage([]);
+        setHashes([]);
+        setCoverImage((pre) => {
+          return { ...pre, [file.uid]: file };
         });
-      },
-    };
+      }
 
-    const res = await axios.post(
-      "https://api.pinata.cloud/pinning/pinFileToIPFS",
-      formData,
-      options
-    );
-    let hash;
-    if (res.data.IpfsHash) {
-      hash = { uid: file.uid, cid: res.data.IpfsHash, meta: metaData };
-      setFileHashes((fileHashes) => [...fileHashes, ...[hash]]);
-      message.success(`File upload success ${JSON.parse(metaData).name}`);
+      if (from === "files") {
+        setFiles((pre) => {
+          return { ...pre, [file.uid]: file };
+        });
+      }
+
+      const getFileObject = (Progress) => {
+        return {
+          name: file.name,
+          uid: file.uid,
+          Progress: Progress,
+        };
+      };
+
+      const formData = new FormData();
+      formData.append("file", file);
+      const metaData = JSON.stringify({
+        name: file?.name,
+      });
+      formData.append("pinataMetadata", metaData);
+      const pinataOptions = JSON.stringify({
+        cidVersion: 0,
+      });
+
+      formData.append("pinataOptions", pinataOptions);
+
+      const options = {
+        maxBodyLength: "Infinity",
+        headers: {
+          "Content-Type": `multipart/form-data; boundary=${formData._boundary}`,
+          Authorization: `Bearer ${JWT}`,
+        },
+        onUploadProgress: (event) => {
+          console.log("TT event", event);
+          const { loaded, total } = event;
+          let percentage = Math.floor((loaded * 100) / total);
+          // console.log(`${loaded}kb of ${total}kb | ${percentage}%`);
+
+          if (from === "cover") {
+            setCoverImage((pre) => {
+              return { ...pre, [file.uid]: getFileObject(percentage) };
+            });
+          }
+
+          if (from === "files") {
+            setFiles((pre) => {
+              return { ...pre, [file.uid]: getFileObject(percentage) };
+            });
+          }
+        },
+      };
+
+      const res = await axios.post(
+        "https://api.pinata.cloud/pinning/pinFileToIPFS",
+        formData,
+        options
+      );
+      let hash;
+      if (res.data.IpfsHash) {
+        // hash = { uid: file.uid, cid: res.data.IpfsHash, meta: metaData };
+        hash = {
+          uid: file.uid,
+          name: file?.name,
+          cid: res.data.IpfsHash,
+          sizeInKb: file.size / 1024,
+          type: file.type,
+          meta: metaData,
+          description: "description",
+        };
+        if (from == "cover") {
+          setHashes((hashes) => [...hashes, ...[hash]]);
+        }
+
+        if (from == "files") {
+          setFileHashes((fileHashes) => [...fileHashes, ...[hash]]);
+        }
+        setIsLoading(false);
+        message.success(`File upload success ${JSON.parse(metaData).name}`);
+      }
+    } catch (error) {
+      console.log(error);
+      setIsLoading(false);
+    }
+  };
+
+  const handlerRemove = async (uid, from) => {
+    try {
+      let find;
+      if (from == "cover") {
+        find = hashes.find((obj) => {
+          return obj.uid === uid;
+        });
+      }
+      if (from == "files") {
+        find = fileHashes.find((obj) => {
+          return obj.uid === uid;
+        });
+      }
+      console.log(find);
+      if (find) {
+        setIsLoading(true);
+        const response = await handlerDropImage(find.cid);
+        if (response) {
+          if (from == "cover") {
+            setCoverImage(
+              Object.values(coverImage).filter((obj) => obj.uid !== uid)
+            );
+            // setFileHashes(hashes.filter((obj) => obj.cid !== response));
+            setHashes([]);
+          }
+          if (from == "files") {
+            setFiles(Object.values(files).filter((obj) => obj.uid !== uid));
+            setFileHashes(fileHashes.filter((obj) => obj.cid !== response));
+          }
+          setIsLoading(false);
+          message.success("File delted succesfully");
+        } else {
+          setIsLoading(false);
+          message.success("File delted failed");
+        }
+      } else {
+        console.log("file not available");
+      }
+    } catch (error) {
+      setIsLoading(false);
+      console.log(error);
     }
   };
 
   return (
     <div>
-      <Row gutter={20} style={{ marginTop: '50px' }}>
+      <Row gutter={20} style={{ marginTop: "50px" }}>
         <Col xs={12}>
-          <div className='form-tagline' style={styles.tagline}>
+          <div className="form-tagline" style={styles.tagline}>
             Exposing corruption starts with you. Be a hero.
           </div>
         </Col>
@@ -288,9 +385,7 @@ function SubmitPage() {
                   message: "Please Select Your city!",
                 },
               ]}
-              rules={[
-                { required: true, message: "Please enter the city!" },
-              ]}
+              rules={[{ required: true, message: "Please enter the city!" }]}
             >
               <Input placeholder="city" />
             </Form.Item>
@@ -327,9 +422,7 @@ function SubmitPage() {
               required={[
                 { required: true, message: "Please Enter the Title!" },
               ]}
-              rules={[
-                { required: true, message: "Please enter the title!" },
-              ]}
+              rules={[{ required: true, message: "Please enter the title!" }]}
             >
               <Input placeholder="Add a title" />
             </Form.Item>
@@ -349,10 +442,7 @@ function SubmitPage() {
                 },
               ]}
             >
-              <TextArea
-                rows={10}
-                placeholder="Full description of the issue"
-              />
+              <TextArea rows={10} placeholder="Full description of the issue" />
             </Form.Item>
             <Form.Item
               label="Upload Cover Image"
@@ -360,7 +450,10 @@ function SubmitPage() {
               valuePropName="fileList"
               getValueFromEvent={normFile}
             >
-              <Dragger {...draggerProps}>
+              <Dragger
+                customRequest={(file) => handleFUpload(file, "cover")}
+                showUploadList={false}
+              >
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined style={{ color: "#64ec67" }} />
                 </p>
@@ -369,9 +462,46 @@ function SubmitPage() {
                 </p>
                 <p className="ant-upload-hint">For cover image</p>
               </Dragger>
+              <div className="file-uploaded-section">
+                {Object.values(coverImage)?.map((file, i) => {
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        padding: "5px 5px 0 5px",
+                        width: "100%",
+                        margin: "10px 0",
+                      }}
+                    >
+                      <Space
+                        direction="horizontal"
+                        key={i}
+                        className="main-space"
+                      >
+                        <FileOutlined className="file-icon" />
+                        <Typography className="filename">
+                          <div>{file.name}</div>
+                        </Typography>
+                        {file.Progress == 100 && !isLoading && (
+                          <DeleteOutlined
+                            style={{ color: "#fff" }}
+                            onClick={() => handlerRemove(file.uid, "cover")}
+                          />
+                        )}
+                      </Space>
+                      <Progress
+                        className="progress"
+                        percent={file.Progress}
+                        strokeWidth={1}
+                        strokeColor={"#64ec67"}
+                      />
+                    </div>
+                  );
+                })}
+              </div>
             </Form.Item>
 
-            <div className='submit-button'>
+            <div className="submit-button">
               {address ? (
                 <Form.Item
                   style={{ display: "flex", justifyContent: "center" }}
@@ -380,8 +510,8 @@ function SubmitPage() {
                     className="form-submit-btn"
                     type="primary"
                     htmlType="submit"
-                    // disabled={!caseCreateOnChainWrite}
                     loading={isCaseCreationLoading}
+                    disabled={isLoading}
                   >
                     submit
                   </Button>
@@ -400,12 +530,12 @@ function SubmitPage() {
 
         {/* file upload section start */}
         <Col lg={12} md={12} xs={24} style={styles.formUploadContainer}>
-          <div className='file-upload-container'>
+          <div className="file-upload-container">
             <Dragger
               multiple
-              customRequest={handleFUpload}
+              customRequest={(file) => handleFUpload(file, "files")}
               showUploadList={false}
-              style={{ height: '200px' }}
+              style={{ height: "200px" }}
             >
               <p className="ant-upload-drag-icon">
                 <InboxOutlined style={{ color: "#64ec67" }} />
@@ -417,16 +547,9 @@ function SubmitPage() {
                 files, images and screenshots, audio files, video
               </p>
             </Dragger>
-
-            <Upload
-              style={{ height: '200px' }}
-              multiple
-              customRequest={handleFUpload}
-              showUploadList={false}
-            ></Upload>
           </div>
 
-          <div className='file-uploaded-section'>
+          <div className="file-uploaded-section">
             {Object.values(files)?.map((file, i) => {
               return (
                 <div
@@ -437,19 +560,15 @@ function SubmitPage() {
                     margin: "10px 0",
                   }}
                 >
-                  <Space
-                    direction="horizontal"
-                    key={i}
-                    className="main-space"
-                  >
+                  <Space direction="horizontal" key={i} className="main-space">
                     <FileOutlined className="file-icon" />
                     <Typography className="filename">
                       <div>{file.name}</div>
                     </Typography>
-                    {file.Progress == 100 && (
+                    {file.Progress == 100 && !isLoading && (
                       <DeleteOutlined
-                        style={{ color: '#fff' }}
-                        onClick={() => handlerRemove(file.uid)}
+                        style={{ color: "#fff" }}
+                        onClick={() => handlerRemove(file.uid, "files")}
                       />
                     )}
                   </Space>
@@ -466,8 +585,8 @@ function SubmitPage() {
         </Col>
         {/* file upload section end */}
       </Row>
-    </div >
-  )
+    </div>
+  );
 }
 
-export default SubmitPage
+export default SubmitPage;

@@ -57,7 +57,6 @@ export const handlerImageUpload = async (selectedFile) => {
 
 // handler image drop from pinata
 export const handlerDropImage = async (cid) => {
-  console.log(cid);
   if (cid) {
     const res = await axios.delete(
       `https://api.pinata.cloud/pinning/unpin/${cid}`,
