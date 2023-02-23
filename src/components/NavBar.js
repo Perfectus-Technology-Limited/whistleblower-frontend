@@ -31,6 +31,7 @@ export default function NavBar() {
           <div style={{ display: "flex", alignItems: "center" }}>
             <Menu
               items={items}
+              selectedKeys={router.pathname}
               style={{
                 display: "flex",
                 width: "500px",
