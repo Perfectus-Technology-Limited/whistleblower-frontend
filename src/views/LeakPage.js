@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Row, Col, Pagination, Spin } from 'antd';
 import SearchBar from '@/components/Leaks/SearchBar';
-import { leaksList } from '@/constants/mockData';
 import LeakCardWidget from '@/components/Common/LeakCardWiget';
 import axios from 'axios'
 
@@ -9,10 +8,12 @@ function LeakPage() {
 
   const [searchKey, setSearchKey] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
-  const [pageSize, setPageSize] = useState(16)
+  const [pageSize, setPageSize] = useState(8)
   const [leakList, setLeakList] = useState([])
+  const [totalItemCount, setTotalItemCount] = useState(0)
   const [isLeakListLoading, setIsLeakListLoading] = useState(false)
 
+  const pageSizeOptions = [8, 16, 24, 32, 40, 48, 56]
   useEffect(() => {
     fetchLeaks()
   }, [pageSize, currentPage, searchKey])
@@ -24,8 +25,10 @@ function LeakPage() {
       const response = await axios.get(endpoint)
       if (response && response.status === 200) {
         const payload = response.data
+        console.log(payload)
         const itemList = payload?.payload?.items
         setLeakList(itemList)
+        setTotalItemCount(payload?.payload?.meta?.totalItems)
       }
       setIsLeakListLoading(false)
     } catch (error) {
@@ -33,6 +36,17 @@ function LeakPage() {
       setIsLeakListLoading(false)
       setLeakList([])
     }
+  }
+
+  const handlePageChange = (_currentPage, _pageSize) => {
+    if (_pageSize) {
+      setPageSize(_pageSize)
+    }
+
+    if (_currentPage) {
+      setCurrentPage(_currentPage)
+    }
+
   }
 
   return (
@@ -54,8 +68,8 @@ function LeakPage() {
       <Row className="gutter-row" justify="start">
         {
           isLeakListLoading ? (
-            <div className='d-flex justify-content-center'>
-              <Spin />
+            <div className='d-flex justify-content center'>
+              <Spin size='large' />
             </div>
           ) : (
             leakList?.map((data, index) => (
@@ -71,11 +85,12 @@ function LeakPage() {
       <Row className="gutter-row" justify="center">
         <Col span={24}>
           <Pagination
-            onChange={(_currentPage) => setCurrentPage(_currentPage)}
-            onShowSizeChange={(_pageSize) => setPageSize(_pageSize)}
-            total={leakList?.length}
+            onChange={handlePageChange}
+            total={totalItemCount}
             showSizeChanger
+            defaultPageSize={8}
             showQuickJumper
+            pageSizeOptions={pageSizeOptions}
             showTotal={(total) => `Total ${total} items`}
             style={{
               color: "#fff",
