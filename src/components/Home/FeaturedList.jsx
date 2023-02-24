@@ -44,11 +44,18 @@ function FeaturedList({ featuredItems }) {
               <Spin />
             </div>
           ) : (
-            leakList?.map((data, index) => (
-              <Col xxl={6} xl={6} lg={8} md={12} sm={24} xs={24} key={index} style={{ marginBottom: '40px' }}>
-                <LeakCardWidget data={data} index={index} />
-              </Col>
-            ))
+            leakList && leakList.length > 0 ? (
+              leakList?.map((data, index) => (
+                <Col xxl={6} xl={6} lg={8} md={12} sm={24} xs={24} key={index} style={{ marginBottom: '40px' }}>
+                  <LeakCardWidget data={data} index={index} />
+                </Col>
+              ))
+            ) : (
+              <div className='d-flex justify-content-center'>
+                <h3 style={{ color: "#ffffff" }}>No leaks found</h3>
+              </div>
+            )
+
           )
         }
       </Row>
