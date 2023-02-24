@@ -2,67 +2,67 @@ import React, { useEffect, useState } from "react";
 import { Avatar, Card } from "antd";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
-import HeroAvatar from "@/images/hero-unknown.png"
+import HeroAvatar from "@/images/hero-unknown.png";
 import { truncateText } from "@/utils/helpers";
 import { DateTime } from "luxon";
-import PlaceHolderImage from "@/images/placeholder.png"
+import PlaceHolderImage from "@/images/placeholder.png";
 import Link from "next/link";
+import Jazzicon from "react-jazzicon/dist/Jazzicon";
+import { jsNumberForAddress } from "react-jazzicon";
 const { Meta } = Card;
 
 const styles = {
   LeakCardWidgetContainer: {
-    border: '1px solid #red !important',
-    backgroundColor: '#000000 !important',
-    display: 'flex',
-    justifyContent: 'space-between',
+    border: "1px solid #red !important",
+    backgroundColor: "#000000 !important",
+    display: "flex",
+    justifyContent: "space-between",
   },
   LeakCardWidget: {
     width: 300,
-    minHeight: '500px',
-    mexHeight: '500px',
+    minHeight: "500px",
+    mexHeight: "500px",
     cursor: "pointer",
-    background: '#141415b8',
+    background: "#141415b8",
   },
   upVote: {
     paddingRight: "10px",
     display: "flex",
     alignItems: "center",
     color: "#74ec67",
-    fontSize: '18px'
+    fontSize: "18px",
   },
   downVote: {
     display: "flex",
     alignItems: "center",
     color: "#ff0000",
-    fontSize: '18px'
+    fontSize: "18px",
   },
   avatar: {
-    width: '2.5em',
-    height: '2.5em'
-  }
-}
+    width: "2.5em",
+    height: "2.5em",
+  },
+};
 
 function LeakCardWidget({ index, data }) {
-
-  const [coverImageCID, setCoverImageCID] = useState('')
-  const [coverImageURL, setCoverImageURL] = useState('')
+  const [coverImageCID, setCoverImageCID] = useState("");
+  const [coverImageURL, setCoverImageURL] = useState("");
 
   useEffect(() => {
     if (data) {
-      const jsonResponse = JSON.parse(data?.ipfsContent)
-      setCoverImageCID(jsonResponse?.coverImage)
+      const jsonResponse = JSON.parse(data?.ipfsContent);
+      setCoverImageCID(jsonResponse?.coverImage);
     }
-  }, [data])
+  }, [data]);
 
   useEffect(() => {
     if (coverImageCID) {
-      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}`
-      setCoverImageURL(URI)
+      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}`;
+      setCoverImageURL(URI);
     } else {
-      setCoverImageURL(PlaceHolderImage?.src)
+      setCoverImageURL(PlaceHolderImage?.src);
     }
-  }, [coverImageCID])
-
+  }, [coverImageCID]);
 
   return (
     <div className="leak-widget" style={styles.LeakCardWidgetContainer}>
@@ -74,7 +74,7 @@ function LeakCardWidget({ index, data }) {
             <img
               alt="example"
               height="200px"
-              style={{ objectFit: 'cover' }}
+              style={{ objectFit: "cover" }}
               src={coverImageURL}
             />
           }
@@ -82,18 +82,26 @@ function LeakCardWidget({ index, data }) {
           <div className="avatar-div">
             <Meta
               avatar={
-                <Avatar
-                  style={styles.avatar}
-                  src={HeroAvatar.src}
+                <Jazzicon
+                  diameter={35}
+                  seed={jsNumberForAddress(
+                    data?.walletAddress ? data?.walletAddress.toString() : ""
+                  )}
                 />
               }
             />
-            <div style={{ display: "flex", flexDirection: "column", color: "#ffffff" }}>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                color: "#ffffff",
+              }}
+            >
               <span className="publisher-wallet-address">
                 {data?.walletAddress}
               </span>
               <span className="published-date">
-                {DateTime.fromISO(data?.createdAt).toFormat('yyyy/LL/dd')}
+                {DateTime.fromISO(data?.createdAt).toFormat("yyyy/LL/dd")}
               </span>
             </div>
           </div>
@@ -105,9 +113,7 @@ function LeakCardWidget({ index, data }) {
           <div className="card-entire-footer">
             <div className="card-footer">
               <div className="card-footer-arrows">
-                <div
-                  style={styles.upVote}
-                >
+                <div style={styles.upVote}>
                   <IconArrowUpSquareFill />
                   <span style={{ paddingLeft: "5px" }}>55</span>
                 </div>

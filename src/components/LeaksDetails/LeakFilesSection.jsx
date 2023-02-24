@@ -22,8 +22,10 @@ const styles = {
     color: '#ffffff',
   },
   title: {
-    fontSize: '15px',
+    fontSize: '18px',
+    fontWeight: '800',
     color: '#ffffff',
+    paddingBottom:'10px'
   },
   fileRow: {
     margin: '10px 0',
@@ -41,7 +43,7 @@ const styles = {
     fontSize: '10px'
   },
   fileDownloadIcon: {
-    marginLeft: '20px',
+    marginLeft: 'auto',
     fontSize: '30px',
     color: '#ffffff',
   }
@@ -85,6 +87,7 @@ function LeakFilesSection({ files }) {
     }
     return <FileUnknownOutlined />
   }
+
   return (
     <div className='leak-file-container' style={{ marginTop: '30px' }}>
       <div className='leak-file-title' style={styles.title}>

@@ -30,6 +30,7 @@ const styles = {
     fontSize: "20px",
     marginTop: "50px",
     marginBottom: "50px",
+    textAlign: "center",
   },
   formUploadContainer: {
     padding: "40px 30px",
@@ -69,7 +70,7 @@ function SubmitPage() {
   };
 
   const onFinish = async (values) => {
-    console.log("TT Values ", values)
+    console.log("TT Values ", values);
     try {
       setIsCaseCreationLoading(true);
       let uploaded = [];
@@ -116,22 +117,22 @@ function SubmitPage() {
             description: values?.description,
             country: values?.country,
             category: values?.category,
-            walletAddress: address
-          }
+            walletAddress: address,
+          };
 
-          const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/create`
+          const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/create`;
           var data = JSON.stringify(offChainPayload);
           var config = {
-            method: 'post',
+            method: "post",
             maxBodyLength: Infinity,
             url: endpoint,
             headers: {
-              'Content-Type': 'application/json'
+              "Content-Type": "application/json",
             },
-            data: data
+            data: data,
           };
 
-          const offChainResponse = await axios(config)
+          const offChainResponse = await axios(config);
           if (offChainResponse && offChainResponse.status === 200) {
             message.success(
               "Your case has been uploaded successfully thank you for being brave"
@@ -139,8 +140,8 @@ function SubmitPage() {
           }
         }
         form.resetFields();
-        setCoverImage([])
-        setFiles([])
+        setCoverImage([]);
+        setFiles([]);
         // router.push("/leaks");
 
         setIsCaseCreationLoading(false);
@@ -317,7 +318,7 @@ function SubmitPage() {
   return (
     <div>
       <Row gutter={20} style={{ marginTop: "50px" }}>
-        <Col xs={12}>
+        <Col xs={24}>
           <div className="form-tagline" style={styles.tagline}>
             Exposing corruption starts with you. Be a hero.
           </div>
@@ -445,10 +446,7 @@ function SubmitPage() {
               <TextArea rows={10} placeholder="Full description of the issue" />
             </Form.Item>
 
-            <Form.Item
-              label="Upload Cover Image"
-              valuePropName="fileList"
-            >
+            <Form.Item label="Upload Cover Image" valuePropName="fileList">
               <Dragger
                 customRequest={(file) => handleFUpload(file, "cover")}
                 showUploadList={false}

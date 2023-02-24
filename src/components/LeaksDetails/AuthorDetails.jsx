@@ -8,7 +8,7 @@ const styles = {
     paddingRight: '10px',
   },
   authorAddress: {
-    color: '#ffffff'
+    color: '#ffffff',
   },
   authorDetails: {
     display: 'flex',
@@ -22,9 +22,9 @@ const styles = {
     flexDirection: 'column',
   },
   submitBy: {
-    marginBottom: '10px',
+    marginBottom: '20px',
     color: '#ffffff',
-    fontSize: '15px',
+    fontSize: '18px',
     fontWeight: '800',
   }
 }
@@ -33,7 +33,7 @@ function AuthorDetails({ address, date }) {
   return (
     <div className='author-container'>
       <div className='submit-by' style={styles.submitBy}>
-        Submitted by:
+        Submitted by :
       </div>
       <div className='author-details' style={styles.authorDetails}>
         <div className='author-avatar' style={styles.authorAvatar}>

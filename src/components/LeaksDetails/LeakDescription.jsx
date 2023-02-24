@@ -5,6 +5,7 @@ const styles = {
     fontSize: '15px',
     color: '#ffffff',
     marginTop: '20px',
+    marginBottom:"70px",
     whiteSpace: 'pre-line',
   }
 }
