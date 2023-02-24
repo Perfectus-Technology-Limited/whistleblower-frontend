@@ -10,13 +10,13 @@ function FooterComp() {
   }));
 
   return (
-    <div>
-      <Row justify="space-between">
-        <Col xxl={8} md={12} style={{ display: "flex", alignItems: "center" }} className="logo-col">
+    <div style={{ marginTop: "130px" }}>
+      <Row>
+        {/* <Col xxl={8} md={12} style={{ display: "flex", alignItems: "center" }} className="logo-col">
           <h1 style={{ color: "#74ec67" }}>Logo</h1>
-        </Col>
-        <Col md={12} xxl={16} className="footer-links-credits">
-          <div style={{ display: "flex", justifyContent: "flex-end" }}>
+        </Col> */}
+        <Col md={24} xxl={24} className="footer-links-credits">
+          <div style={{ display: "flex", justifyContent: "center" }}>
             <Menu
               items={items}
               style={{
@@ -25,12 +25,12 @@ function FooterComp() {
                 backgroundColor: "#000000",
                 color: "#ffffff",
                 fontSize: "20px",
-                textAlign: "end",
+                textAlign: "center",
               }}
               className="footer-menu-links"
             />
           </div>
-          <div>
+          <div style={{ textAlign: "center" }}>
             <p style={{ color: "#fff", fontSize: "10px", fontWeight: "200" }}>
               Unicrypt Network © 2021 • support@unicrypt.network • All rights
               reserved. Designed by nuixw
