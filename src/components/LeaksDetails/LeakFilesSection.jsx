@@ -11,6 +11,8 @@ import {
   FileUnknownOutlined,
   CloudDownloadOutlined
 } from '@ant-design/icons'
+import Link from 'next/link'
+import { shortenEthAddress } from '@/utils/helpers'
 const styles = {
   noFiles: {
     fontSize: '15px',
@@ -25,7 +27,7 @@ const styles = {
     fontSize: '18px',
     fontWeight: '800',
     color: '#ffffff',
-    paddingBottom:'10px'
+    paddingBottom: '10px'
   },
   fileRow: {
     margin: '10px 0',
@@ -105,7 +107,7 @@ function LeakFilesSection({ files }) {
 
                 <div className='file-metadata' style={styles.fileMetadata}>
                   <div className='file-name' style={styles.fileName}>
-                    {file?.name}
+                    {shortenEthAddress(file?.name || '', 13, 40)}
                   </div>
                   <div className='file-type' style={styles.fileMetadata}>
                     {file?.type}
@@ -116,7 +118,11 @@ function LeakFilesSection({ files }) {
                 </div>
 
                 <div className='file-download-icon' style={styles.fileDownloadIcon}>
-                  <CloudDownloadOutlined />
+                  <Link
+                    target={'_blank'}
+                    href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${file?.cid}`} download>
+                    <CloudDownloadOutlined />
+                  </Link>
                 </div>
               </div>
             ))

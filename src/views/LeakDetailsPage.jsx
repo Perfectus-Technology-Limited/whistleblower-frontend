@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { fetchDataFromIPFSCID } from "@/services/ipfs.service";
-import { Col, Row, Avatar, Spin } from "antd";
-import IconBxUserCircle from "@/utils/IconBxUserCircle";
-import FileList from "@/components/FileList";
+import { Col, Row, Spin } from "antd";
 import LeakHeader from "@/components/LeaksDetails/LeakHeader";
 import LeakDescription from "@/components/LeaksDetails/LeakDescription";
 import AuthorDetails from "@/components/LeaksDetails/AuthorDetails";
 import LeakFilesSection from "@/components/LeaksDetails/LeakFilesSection";
+import VoteCastWidget from "@/components/LeaksDetails/VoteCastWidget";
 
 const styles = {
   pageContainer: {
@@ -64,13 +63,14 @@ function LeakDetailsPage({ ipfsCID }) {
               {/* TODO: we might meed to add like latest votes address and status or comments */}
             </Col>
             <Col lg={1}></Col>
-            
+
             <Col sx={24} md={24} lg={7}>
               <AuthorDetails
                 address={leakData?.account}
                 date={leakData?.date}
               />
 
+              <VoteCastWidget leakCID={ipfsCID} />
               <div className="voting-container"></div>
 
               <LeakFilesSection files={leakData?.uploadedFiles} />
