@@ -79,7 +79,6 @@ export default function App({ Component, pageProps }) {
           </Header>
           <Content
             style={{
-              padding: "0 50px",
               minHeight: "100vh",
               backgroundColor: "#151617",
               margin: "60px 0 150px 0"

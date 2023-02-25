@@ -616,6 +616,12 @@ span.ant-select-selection-placeholder {
   background: none !important;
 }
 
+.tag-line-homepage{
+  text-align: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: #74ec67 !important;
+}
 
 .container-glitch {
   position: absolute;
@@ -895,3 +901,10 @@ span.ant-select-selection-placeholder {
     transform: rotateX(0deg) skewX(0deg);
  }
 }
+
+@media screen and (min-width: 376px) and (max-width: 425px) {
+  .leak-card{
+    width: 400px !important;
+  }
+}
+
