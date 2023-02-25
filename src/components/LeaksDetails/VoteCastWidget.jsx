@@ -71,7 +71,8 @@ function VoteCastWidget({ leakCID }) {
     abi: whistleblowerConfig?.contractAbi,
     functionName: 'voteCounts',
     args: [leakCID],
-    enabled: !!leakCID
+    enabled: !!leakCID,
+    watch: true,
   })
 
   const handleUpVote = async () => {
@@ -156,7 +157,7 @@ function VoteCastWidget({ leakCID }) {
                     <LikeFilled />
                   </div>
                   <div className='upvote-count' style={styles.upvoteCount}>
-                    {voteCount && voteCount[1].toString()}
+                    {voteCount && voteCount[0].toString()}
                   </div>
                 </div>
               )
@@ -175,7 +176,7 @@ function VoteCastWidget({ leakCID }) {
                     <DislikeFilled />
                   </div>
                   <div className='downvote-count' style={styles.downvoteCount}>
-                    {voteCount && voteCount[0].toString()}
+                    {voteCount && voteCount[1].toString()}
                   </div>
                 </div>
               )

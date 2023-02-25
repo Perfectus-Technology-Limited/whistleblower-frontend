@@ -27,7 +27,8 @@ function VoteCount({ leakCID }) {
     abi: whistleblowerConfig?.contractAbi,
     functionName: 'voteCounts',
     args: [leakCID],
-    enabled: !!leakCID
+    enabled: !!leakCID,
+    watch: true,
   })
 
   return (
