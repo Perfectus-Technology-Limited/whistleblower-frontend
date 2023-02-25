@@ -29,6 +29,7 @@ const styles = {
     borderRadius: "5px",
     marginTop: "30px",
     marginRight: "20px",
+    background: "none",
   },
   upvoteIcon: {
     fontSize: "50px",
@@ -49,6 +50,7 @@ const styles = {
     border: "1px solid #940000",
     borderRadius: "5px",
     marginTop: "30px",
+    background:"none"
   },
   downvoteIcon: {
     fontSize: "50px",
@@ -75,9 +77,6 @@ function VoteCastWidget({ leakCID }) {
   });
 
   const handleUpVote = async () => {
-    if (isUpVotingLoading || isDownVotingLoading) {
-      return "";
-    }
     try {
       setUpIsVotingLoading(true);
       const config = await prepareWriteContract({
@@ -105,9 +104,6 @@ function VoteCastWidget({ leakCID }) {
   };
 
   const handleDownVote = async () => {
-    if (isDownVotingLoading || isUpVotingLoading) {
-      return "";
-    }
     try {
       setDownIsVotingLoading(true);
       const config = await prepareWriteContract({
@@ -155,7 +151,8 @@ function VoteCastWidget({ leakCID }) {
               </div>
             </div>
           ) : ( */}
-          <div
+          <button
+            disabled={isUpVotingLoading || isDownVotingLoading}
             className="vote-upvote"
             style={styles.upvote}
             onClick={handleUpVote}
@@ -174,7 +171,7 @@ function VoteCastWidget({ leakCID }) {
             <div className="upvote-count" style={styles.upvoteCount}>
               {voteCount && voteCount[0].toString()}
             </div>
-          </div>
+          </button>
           {/* )} */}
 
           {/* {isDownVotingLoading ? (
@@ -184,24 +181,25 @@ function VoteCastWidget({ leakCID }) {
               </div>
             </div>
           ) : ( */}
-            <div
-              className="vote-downvote"
-              style={styles.downvote}
-              onClick={handleDownVote}
-            >
-              {isDownVotingLoading ? (
-                <div className="voting-loading" style={{ margin: "25px" }}>
-                  <Spin />
-                </div>
-              ) : (
-                <div className="downvote-icon" style={styles.downvoteIcon}>
-                  <DislikeFilled />
-                </div>
-              )}
-              <div className="downvote-count" style={styles.downvoteCount}>
-                {voteCount && voteCount[1].toString()}
+          <button
+            disabled={isUpVotingLoading || isDownVotingLoading}
+            className="vote-downvote"
+            style={styles.downvote}
+            onClick={handleDownVote}
+          >
+            {isDownVotingLoading ? (
+              <div className="voting-loading" style={{ margin: "25px" }}>
+                <Spin />
               </div>
+            ) : (
+              <div className="downvote-icon" style={styles.downvoteIcon}>
+                <DislikeFilled />
+              </div>
+            )}
+            <div className="downvote-count" style={styles.downvoteCount}>
+              {voteCount && voteCount[1].toString()}
             </div>
+          </button>
           {/* )} */}
         </div>
       )}
