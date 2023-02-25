@@ -44,13 +44,13 @@ function VoteCount({ leakCID }) {
               <div style={styles.upVote}>
                 <IconArrowUpSquareFill />
                 <span style={{ paddingLeft: "5px" }}>
-                  {voteCount && voteCount[1].toString()}
+                  {voteCount && voteCount[0].toString()}
                 </span>
               </div>
               <div style={styles.downVote}>
                 <IconArrowDownSquareFill />
                 <span style={{ paddingLeft: "5px" }}>
-                  {voteCount && voteCount[0].toString()}
+                  {voteCount && voteCount[1].toString()}
                 </span>
               </div>
             </div>
