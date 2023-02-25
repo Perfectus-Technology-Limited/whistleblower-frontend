@@ -1,19 +1,24 @@
 import React from 'react'
-import Lottie from 'react-lottie';
 
 const styles = {
   cardContainer: {
     display: 'flex',
+    flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     // border: '1px solid red',
-    backgroundColor: '#000000e0',
+    backgroundColor: '#151617',
     borderRadius: '10px',
     color: '#ffffff',
     height: '130px'
   },
   title: {
-    paddingRight: '40px'
+
+  },
+  statValue: {
+    fontSize: '35px',
+    fontWeight: '800',
+    color: '#910000',
   }
 }
 
@@ -25,11 +30,11 @@ const defaultOptions = {
   }
 };
 
-function StatsWidget({ title, animation }) {
+function StatsWidget({ title, value }) {
   return (
     <div className='stats-widget' style={styles.cardContainer}>
-      <div className='animation'>
-        <Lottie options={{ ...defaultOptions, animationData: animation }} height={100} width={100} />
+      <div className='animation stat-value' style={styles.statValue}>
+        {value}
       </div>
       <div className='title' style={styles.title}>
         {title}
