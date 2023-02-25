@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { LikeOutlined, DislikeOutlined } from '@ant-design/icons'
+import { LikeFilled, DislikeFilled } from '@ant-design/icons'
 import { useContractRead } from 'wagmi'
 import { whistleblowerConfig } from '@/blockchain/bsc/web3.config'
 import { message, Spin } from 'antd'
@@ -33,7 +33,7 @@ const styles = {
   upvoteIcon: {
     fontSize: '50px',
     margin: '5px',
-    color: '#ffffff',
+    color: '#74ec67',
   },
   upvoteCount: {
     fontSize: '30px',
@@ -53,7 +53,7 @@ const styles = {
   downvoteIcon: {
     fontSize: '50px',
     margin: '5px',
-    color: '#ffffff',
+    color: '#c7143b',
   },
   downvoteCount: {
     fontSize: '30px',
@@ -61,6 +61,7 @@ const styles = {
     color: '#ffffff',
   }
 }
+
 function VoteCastWidget({ leakCID }) {
 
   const [isUpVotingLoading, setUpIsVotingLoading] = useState(false)
@@ -83,12 +84,18 @@ function VoteCastWidget({ leakCID }) {
         args: [leakCID, 1],
       })
       const txReceipt = await writeContract(config)
-      const result = await txReceipt.wait()
-      console.log('upvote result', result)
+      await txReceipt.wait()
       setUpIsVotingLoading(false)
       message.success('Your vote has been casted')
     } catch (error) {
-      message.error(error?.message || 'Something went wrong')
+      let errorMessage = 'Something went wrong while trying to cast your vote'
+      if (error && error.message) {
+        errorMessage = error.message
+      }
+      if (error && error.reason && error.reason !== '') {
+        errorMessage = error.reason
+      }
+      message.error(errorMessage)
       console.log("ERROR while trying to upvote", error)
       setUpIsVotingLoading(false)
     }
@@ -103,12 +110,19 @@ function VoteCastWidget({ leakCID }) {
         functionName: 'vote',
         args: [leakCID, 0],
       })
-      const tx = await writeContract(config)
-      console.log('downvote tx', tx)
+      const txReceipt = await writeContract(config)
+      await txReceipt.wait()
       setDownIsVotingLoading(false)
       message.success('Your vote has been casted')
     } catch (error) {
-      message.error(error?.message || 'Something went wrong')
+      let errorMessage = 'Something went wrong while trying to cast your vote'
+      if (error && error.message) {
+        errorMessage = error.message
+      }
+      if (error && error.reason && error.reason !== '') {
+        errorMessage = error.reason
+      }
+      message.error(errorMessage)
       console.log("ERROR while trying to downvote", error)
       setDownIsVotingLoading(false)
     }
@@ -139,7 +153,7 @@ function VoteCastWidget({ leakCID }) {
               ) : (
                 <div className='vote-upvote' style={styles.upvote} onClick={handleUpVote}>
                   <div className='upvote-icon' style={styles.upvoteIcon}>
-                    <LikeOutlined />
+                    <LikeFilled />
                   </div>
                   <div className='upvote-count' style={styles.upvoteCount}>
                     {voteCount && voteCount[1].toString()}
@@ -158,7 +172,7 @@ function VoteCastWidget({ leakCID }) {
               ) : (
                 <div className='vote-downvote' style={styles.downvote} onClick={handleDownVote}>
                   <div className='downvote-icon' style={styles.downvoteIcon}>
-                    <DislikeOutlined />
+                    <DislikeFilled />
                   </div>
                   <div className='downvote-count' style={styles.downvoteCount}>
                     {voteCount && voteCount[0].toString()}
