@@ -12,7 +12,7 @@ const { Meta } = Card;
 const styles = {
   LeakCardWidgetContainer: {
     border: "1px solid #red !important",
-    backgroundColor: "#000000 !important",
+    backgroundColor: "#151617 !important",
     display: "flex",
     justifyContent: "space-between",
   },
