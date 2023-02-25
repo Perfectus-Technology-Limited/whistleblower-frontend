@@ -12,11 +12,15 @@ function HomePage() {
       <Row>
         <Col span={24} className="gutter-row">
 
-          <div className="container-glitch">
+          <div className="tag-line-homepage">
+            <h2>Whistleblowers unite! Your voice can change the world!</h2>
+          </div>
+
+          {/* <div className="container-glitch">
             <div className="glitch"> Whistleblowers unite! Your voice can change the world!</div>
             <div className="glow">Whistleblowers unite! Your voice can change the world!</div>
           </div>
-          <div className="scanlines"></div>
+          <div className="scanlines"></div> */}
         </Col>
       </Row>
 

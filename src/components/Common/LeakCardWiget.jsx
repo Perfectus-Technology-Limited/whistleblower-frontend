@@ -14,7 +14,7 @@ const styles = {
     border: "1px solid #red !important",
     backgroundColor: "#151617 !important",
     display: "flex",
-    justifyContent: "space-between",
+    justifyContent: "center",
   },
   LeakCardWidget: {
     width: 300,
