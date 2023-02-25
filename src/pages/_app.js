@@ -57,7 +57,7 @@ export default function App({ Component, pageProps }) {
         })}
         chains={chains}
       >
-        <Layout>
+        <Layout style={{background:"black"}}>
           <Head>
             <title>Whistleblowers unite!</title>
             <meta name="description" content="Whistleblowers unite! Your voice can change the world!" />
@@ -79,6 +79,7 @@ export default function App({ Component, pageProps }) {
               padding: "0 50px",
               minHeight: "100vh",
               backgroundColor: "#000000",
+              margin:"80px 0 150px 0"
             }}
           >
             <div>
