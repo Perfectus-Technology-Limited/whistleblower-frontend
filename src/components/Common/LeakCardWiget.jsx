@@ -22,6 +22,12 @@ const styles = {
     mexHeight: "500px",
     cursor: "pointer",
     background: "#141415b8",
+  },
+  avatarSection: {
+    display: 'flex',
+    justifyContent: 'flex-start',
+    alignItems: 'center',
+    marginBottom: '10px',
   }
 };
 
@@ -60,7 +66,7 @@ function LeakCardWidget({ index, data }) {
             />
           }
         >
-          <div className="avatar-div">
+          <div className="avatar-div" style={styles.avatarSection}>
             <Meta
               avatar={
                 <Jazzicon
