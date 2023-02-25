@@ -35,7 +35,7 @@ export default function NavBar() {
               style={{
                 display: "flex",
                 width: "500px",
-                backgroundColor: "#000000",
+                backgroundColor: "#151617",
                 color: "#ffffff",
                 fontSize: "20px",
                 textAlign: "center",

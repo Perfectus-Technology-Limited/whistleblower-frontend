@@ -22,7 +22,7 @@ function FooterComp() {
               style={{
                 display: "flex",
                 width: "800px",
-                backgroundColor: "#000000",
+                backgroundColor: "#151617",
                 color: "#ffffff",
                 fontSize: "20px",
                 textAlign: "center",

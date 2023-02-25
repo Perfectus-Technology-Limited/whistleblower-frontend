@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Row, Col, Spin } from 'antd'
 import LeakCardWidget from '../Common/LeakCardWiget'
 import axios from 'axios'
-function FeaturedList({ featuredItems }) {
+function RecentList() {
 
   const [leakList, setLeakList] = useState([])
   const [isLeakListLoading, setIsLeakListLoading] = useState(false)
@@ -32,7 +32,7 @@ function FeaturedList({ featuredItems }) {
     <>
       <Row style={{ display: 'flex', justifyContent: 'center', marginTop: '30px' }}>
         <Col className="gutter-row">
-          <h2 style={{ color: "#ffffff" }}>Featured</h2>
+          <h2 style={{ color: "#ffffff" }}>Recently Added</h2>
         </Col>
       </Row>
 
@@ -63,4 +63,4 @@ function FeaturedList({ featuredItems }) {
   )
 }
 
-export default FeaturedList
+export default RecentList
