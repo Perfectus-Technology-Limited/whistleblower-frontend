@@ -24,7 +24,7 @@ export default function NavBar() {
       >
         <div>
           <Link href={"/"}>
-            <h1 style={{ color: "#74ec67" }}>LOGO</h1>
+            <h1 style={{ color: "#00A771" }}>LOGO</h1>
           </Link>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>

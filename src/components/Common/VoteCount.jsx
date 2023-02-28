@@ -10,13 +10,13 @@ const styles = {
     paddingRight: "10px",
     display: "flex",
     alignItems: "center",
-    color: "#74ec67",
+    color: "#00A771",
     fontSize: "18px",
   },
   downVote: {
     display: "flex",
     alignItems: "center",
-    color: "#ff0000",
+    color: "#F05250",
     fontSize: "18px",
   }
 };
