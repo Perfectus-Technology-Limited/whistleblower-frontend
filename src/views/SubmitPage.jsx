@@ -106,6 +106,10 @@ function SubmitPage() {
         });
         const response = await txReceipt?.wait();
 
+
+        const counrydetails = getCountryWithDetails;
+        const find = counrydetails.find((detail) => detail.country == values?.country);
+
         if (response) {
           //upload rest of the data into the database
           const offChainPayload = {
@@ -119,8 +123,8 @@ function SubmitPage() {
             country: values?.country,
             category: values?.category,
             walletAddress: address,
-            country_latitude: countryLocation.latitude,
-            country_longitude: countryLocation.longitude,
+            country_latitude: find.latitude,
+            country_longitude: find.longitude,
           };
           console.log("offChainPay", offChainPayload);
           const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/create`;
@@ -319,17 +323,6 @@ function SubmitPage() {
 
   const [form] = Form.useForm();
 
-  const handleSelectCountry = (e) => {
-    const counrydetails = getCountryWithDetails;
-    const find = counrydetails.find((detail) => detail.country == e);
-
-    countryLocation = {
-      latitude: find.latitude,
-      longitude: find.longitude,
-    };
-    console.log("eee", countryLocation);
-  };
-
   return (
     <div>
       <Row gutter={20} style={{ marginTop: "50px" }}>
@@ -382,7 +375,6 @@ function SubmitPage() {
               <Select
                 placeholder="Select Country"
                 showSearch
-                onSelect={(e) => handleSelectCountry(e)}
               >
                 {countryList.map((country, index) => {
                   return (
