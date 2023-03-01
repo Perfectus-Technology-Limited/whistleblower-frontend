@@ -34,7 +34,7 @@ const styles = {
   upvoteIcon: {
     fontSize: "50px",
     margin: "5px",
-    color: "#74ec67",
+    color: "#00A771",
   },
   upvoteCount: {
     fontSize: "30px",
@@ -55,7 +55,7 @@ const styles = {
   downvoteIcon: {
     fontSize: "50px",
     margin: "5px",
-    color: "#c7143b",
+    color: "#D02E49",
   },
   downvoteCount: {
     fontSize: "30px",
