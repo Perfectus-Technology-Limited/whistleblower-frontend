@@ -13,7 +13,7 @@ import {
   Button,
 } from "antd";
 import React, { useState, useEffect } from "react";
-import { countryList, categories } from "@/constants";
+import { countryList, categories, getCountryWithDetails } from "@/constants";
 import { DeleteOutlined, FileOutlined, InboxOutlined } from "@ant-design/icons";
 import { useAccount, useContractWrite, usePrepareContractWrite } from "wagmi";
 import axios from "axios";
@@ -26,7 +26,7 @@ const { TextArea } = Input;
 
 const styles = {
   tagline: {
-    color: "#74ec67",
+    color: "#00A771",
     fontSize: "20px",
     marginTop: "50px",
     marginBottom: "50px",
@@ -46,6 +46,7 @@ function SubmitPage() {
   const [isCaseCreationLoading, setIsCaseCreationLoading] = useState(false);
   const [hashes, setHashes] = useState([]);
   const [fileHashes, setFileHashes] = useState([]);
+  let countryLocation;
 
   const { address } = useAccount();
   const router = useRouter();
@@ -105,6 +106,10 @@ function SubmitPage() {
         });
         const response = await txReceipt?.wait();
 
+
+        const counrydetails = getCountryWithDetails;
+        const find = counrydetails.find((detail) => detail.country == values?.country);
+
         if (response) {
           //upload rest of the data into the database
           const offChainPayload = {
@@ -118,8 +123,10 @@ function SubmitPage() {
             country: values?.country,
             category: values?.category,
             walletAddress: address,
+            country_latitude: find.latitude,
+            country_longitude: find.longitude,
           };
-
+          console.log("offChainPay", offChainPayload);
           const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/create`;
           var data = JSON.stringify(offChainPayload);
           var config = {
@@ -313,6 +320,7 @@ function SubmitPage() {
       console.log(error);
     }
   };
+
   const [form] = Form.useForm();
 
   return (
@@ -364,7 +372,10 @@ function SubmitPage() {
                 { required: true, message: "Please select the country!" },
               ]}
             >
-              <Select placeholder="Select Country" showSearch>
+              <Select
+                placeholder="Select Country"
+                showSearch
+              >
                 {countryList.map((country, index) => {
                   return (
                     <Select.Option key={index} value={country}>
@@ -452,7 +463,7 @@ function SubmitPage() {
                 showUploadList={false}
               >
                 <p className="ant-upload-drag-icon">
-                  <InboxOutlined style={{ color: "#64ec67" }} />
+                  <InboxOutlined style={{ color: "#00A771" }} />
                 </p>
                 <p className="ant-upload-text">
                   Click or drag file to this area to upload
@@ -491,7 +502,7 @@ function SubmitPage() {
                         className="progress"
                         percent={file.Progress}
                         strokeWidth={1}
-                        strokeColor={"#64ec67"}
+                        strokeColor={"#00A771"}
                       />
                     </div>
                   );
@@ -537,7 +548,7 @@ function SubmitPage() {
               style={{ height: "200px" }}
             >
               <p className="ant-upload-drag-icon">
-                <InboxOutlined style={{ color: "#64ec67" }} />
+                <InboxOutlined style={{ color: "#00A771" }} />
               </p>
               <p className="ant-upload-text">
                 Click or drag file to this area to upload
@@ -575,7 +586,7 @@ function SubmitPage() {
                     className="progress"
                     percent={file.Progress}
                     strokeWidth={1}
-                    strokeColor={"#64ec67"}
+                    strokeColor={"#00A771"}
                   />
                 </div>
               );
