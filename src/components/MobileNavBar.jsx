@@ -35,7 +35,7 @@ export default function MobileNavBar() {
         }}
       >
         <div>
-          <h1 style={{ color: "#74ec67" }}>Logo</h1>
+          <h1 style={{ color: "#00A771" }}>Logo</h1>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconHamburgerMenu onClick={showDrawer} />
