@@ -33,7 +33,10 @@ function CommentDetails({ ipfsCID }) {
   let end = pageSize * currentPage;
   let start = end - pageSize;
 
-  if (comments) {
+  if (comments?.length > 0 && commentedUsers?.length > 0) {
+    if (end > comments.length) {
+      end = comments.length;
+    }
     for (let i = start; i < end; i++) {
       commentsWithUser.push({
         user: commentedUsers[i],
@@ -43,7 +46,6 @@ function CommentDetails({ ipfsCID }) {
   }
 
   const handlePageChange = (_currentPage, _pageSize) => {
-    console.log(_currentPage, _pageSize);
     if (_pageSize) {
       setPageSize(_pageSize);
     }
