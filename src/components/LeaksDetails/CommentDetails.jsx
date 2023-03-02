@@ -7,7 +7,7 @@ import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { useContractRead } from "wagmi";
 
 function CommentDetails({ ipfsCID }) {
-  const [pageSize, setPageSize] = useState(2);
+  const [pageSize, setPageSize] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
   let commentsWithUser = [];
 
@@ -17,7 +17,7 @@ function CommentDetails({ ipfsCID }) {
     functionName: "getAllComments",
     args: [ipfsCID],
     // enabled: !!ipfsCID,
-    // watch: true,
+    watch: true,
   });
 
   const { data: commentedUsers, isLoading: commentedUserLoading } =
@@ -27,8 +27,11 @@ function CommentDetails({ ipfsCID }) {
       functionName: "getAllCommentedUsers",
       args: [ipfsCID],
       // enabled: !!ipfsCID,
-      // watch: true,
+      watch: true,
     });
+
+  let newComments = comments?.slice().reverse();
+  let newCommentedUser = commentedUsers?.slice().reverse();
 
   let end = pageSize * currentPage;
   let start = end - pageSize;
@@ -39,8 +42,8 @@ function CommentDetails({ ipfsCID }) {
     }
     for (let i = start; i < end; i++) {
       commentsWithUser.push({
-        user: commentedUsers[i],
-        comment: comments[i],
+        user: newCommentedUser[i],
+        comment: newComments[i],
       });
     }
   }
