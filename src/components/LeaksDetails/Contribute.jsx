@@ -22,7 +22,7 @@ const styles = {
   signHereBtn: {
     justifyContent: "center",
     display: "flex",
-    width: "150px",
+    // width: "150px",
     color: "#00A771",
     fontWeight: "600px",
     fontSize: "20px",
@@ -107,26 +107,17 @@ function Contribute({ leakCID }) {
       <div className="sign-here" style={styles.signHere}>
         <div style={{ display: "flex", flexDirection: "column" }}>
           <button
-          className="sign-here-btn"
+            className="sign-here-btn"
             style={styles.signHereBtn}
             onClick={showModal}
-            disabled={commentedUsers?.some((account) => account === address) || !address}
+            disabled={
+              commentedUsers?.some((account) => account === address) || !address
+            }
           >
-            Sign Here
+            {commentedUsers?.some((account) => account === address)
+              ? " Already signed"
+              : " Sign Here"}
           </button>
-
-          {commentedUsers?.some((account) => account === address) && (
-            <span
-              style={{
-                color: "#D02E49",
-                padding: "10px 0",
-                textAlign: "center",
-                width: "150px",
-              }}
-            >
-              Already signed
-            </span>
-          )}
         </div>
 
         <Modal
