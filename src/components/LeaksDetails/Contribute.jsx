@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { Button, Input, message, Modal, Spin } from "antd";
 import { prepareWriteContract, writeContract } from "@wagmi/core";
+import { useAccount, useContractRead } from "wagmi";
 const { TextArea } = Input;
 
 const styles = {
@@ -39,6 +40,17 @@ function Contribute({ leakCID }) {
   const [commentLoading, setCommentLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const [comment, setComment] = useState("");
+  const { address } = useAccount();
+
+  const { data: commentedUsers, isLoading: commentedUserLoading } =
+    useContractRead({
+      address: whistleblowerConfig?.contractAddress,
+      abi: whistleblowerConfig?.contractAbi,
+      functionName: "getAllCommentedUsers",
+      args: [leakCID],
+      // enabled: !!ipfsCID,
+      // watch: true,
+    });
 
   const showModal = () => {
     setOpen(true);
@@ -88,21 +100,33 @@ function Contribute({ leakCID }) {
       <div className="vote-cast-title" style={styles.contribute}>
         Contribute :
       </div>
+      <span style={{color:"white",fontSize:"13px"}}>{commentedUsers?.length} have signed</span>
 
       <div className="sign-here" style={styles.signHere}>
         <div className="comment-count"></div>
 
-        <button style={styles.signHereBtn} onClick={showModal}>
-          Sign Here
-        </button>
+        {!commentedUsers?.some((account) => account === address) ? (
+          <button
+            style={styles.signHereBtn}
+            onClick={showModal}
+            disabled={!address}
+          >
+            Sign Here
+          </button>
+        ) : (
+          <span style={{ color: "#D02E49", padding: "10px 0" }}>
+            Already signed
+          </span>
+        )}
 
         <Modal
           maskStyle={{ background: "#101420", opacity: "0.9" }}
           onCancel={handleCancel}
           open={open}
-          title="Comment Here"
+          title="Signing Here"
           footer={[
             <Button
+              style={{ color: "white", background: "#00A771" }}
               key="submit"
               type="primary"
               loading={commentLoading}
