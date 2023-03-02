@@ -6,10 +6,10 @@ export const truncateText = (text, length = 50) => {
 }
 
 export const shortenEthAddress = (address, sliceValue, maxLength = 10) => {
-  if (address.length < maxLength) return address;
+  if (address?.length < maxLength) return address;
 
-  const firstPart = address.slice(0, sliceValue);
-  const lastPart = address.slice(-sliceValue);
+  const firstPart = address?.slice(0, sliceValue);
+  const lastPart = address?.slice(-sliceValue);
   const middlePart = '...';
   const shortenedAddress = `${firstPart}${middlePart}${lastPart}`;
 
