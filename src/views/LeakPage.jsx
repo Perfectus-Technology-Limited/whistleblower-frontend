@@ -25,7 +25,7 @@ function LeakPage() {
       const response = await axios.get(endpoint)
       if (response && response.status === 200) {
         const payload = response.data
-        console.log(payload)
+        // console.log(payload)
         const itemList = payload?.payload?.items
         setLeakList(itemList)
         setTotalItemCount(payload?.payload?.meta?.totalItems)

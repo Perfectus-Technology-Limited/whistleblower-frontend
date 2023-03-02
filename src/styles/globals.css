@@ -907,3 +907,61 @@ span.ant-select-selection-placeholder {
     width: 375px !important;
   }
 }
+
+/* comment card */
+.ant-card-body{
+  padding: 10px 15px !important;
+}
+
+/* sign model */
+.ant-modal-content{
+  background: rgb(0, 0, 0) !important;
+}
+
+.ant-modal-header{
+  background: none !important;
+}
+
+.ant-modal-title{
+  color:white !important;
+}
+
+.anticon-close svg{
+  fill: white;
+}
+
+
+.ant-modal-body .ant-input{
+  /* background-color: #000000 !important;
+   */
+   background: none !important;
+  color: white !important;
+  border: 1px solid #4c4c4c !important;
+}
+
+.ant-input-data-count{
+  color: #ccc !important;
+}
+
+.ant-picker-input>input::placeholder {
+  color: red;
+}
+
+.shrot-address {
+  display: none !important;
+ }
+
+@media screen and (max-width: 500px) {
+  .full-address {
+   display: none !important;
+  }
+  .shrot-address {
+    display: block !important;
+   }
+}
+
+.sign-here-btn:disabled{
+  color:#878787 !important;
+  border: 1px solid #878787 !important;
+}
+

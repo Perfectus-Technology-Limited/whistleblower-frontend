@@ -5,7 +5,8 @@ import LeakHeader from "@/components/LeaksDetails/LeakHeader";
 import LeakDescription from "@/components/LeaksDetails/LeakDescription";
 import AuthorDetails from "@/components/LeaksDetails/AuthorDetails";
 import LeakFilesSection from "@/components/LeaksDetails/LeakFilesSection";
-import VoteCastWidget from "@/components/LeaksDetails/VoteCastWidget";
+import Contribute from "@/components/LeaksDetails/Contribute";
+import CommentDetails from "@/components/LeaksDetails/CommentDetails";
 
 const styles = {
   pageContainer: {
@@ -24,11 +25,11 @@ const styles = {
     color: "#ffffff",
   },
 };
+
 function LeakDetailsPage({ ipfsCID }) {
   const [isLeaksDataLoading, setIsLeaksDataLoading] = useState(false);
   const [leakData, setLeakData] = useState(null);
 
-  console.log(leakData);
   useEffect(() => {
     if (ipfsCID) {
       fetchDataFromIPFS();
@@ -70,7 +71,7 @@ function LeakDetailsPage({ ipfsCID }) {
                 date={leakData?.date}
               />
 
-              <VoteCastWidget leakCID={ipfsCID} />
+              <Contribute leakCID={ipfsCID} />
               <div className="voting-container"></div>
 
               <LeakFilesSection files={leakData?.uploadedFiles} />
@@ -78,6 +79,8 @@ function LeakDetailsPage({ ipfsCID }) {
           </>
         )}
       </Row>
+
+      <CommentDetails ipfsCID={ipfsCID} />
     </div>
   );
 }
