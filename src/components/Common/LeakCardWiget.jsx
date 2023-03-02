@@ -6,7 +6,7 @@ import PlaceHolderImage from "@/images/placeholder.png";
 import Link from "next/link";
 import Jazzicon from "react-jazzicon/dist/Jazzicon";
 import { jsNumberForAddress } from "react-jazzicon";
-import VoteCount from "./VoteCount";
+import SignersCount from "./SignersCount";
 const { Meta } = Card;
 
 const styles = {
@@ -97,7 +97,7 @@ function LeakCardWidget({ index, data }) {
             title={truncateText(data?.title)}
             description={truncateText(data?.description, 150)}
           />
-          {/* <VoteCount leakCID={data?.ipfsCID} /> */}
+          <SignersCount leakCID={data?.ipfsCID} />
         </Card>
       </Link>
     </div>

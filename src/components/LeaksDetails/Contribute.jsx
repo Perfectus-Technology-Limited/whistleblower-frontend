@@ -100,24 +100,34 @@ function Contribute({ leakCID }) {
       <div className="vote-cast-title" style={styles.contribute}>
         Contribute :
       </div>
-      <span style={{color:"white",fontSize:"13px"}}>{commentedUsers?.length} have signed</span>
+      <span style={{ color: "white", fontSize: "13px" }}>
+        {commentedUsers?.length} have signed
+      </span>
 
       <div className="sign-here" style={styles.signHere}>
-        <div className="comment-count"></div>
-
-        {!commentedUsers?.some((account) => account === address) ? (
+        <div style={{ display: "flex", flexDirection: "column" }}>
           <button
+          className="sign-here-btn"
             style={styles.signHereBtn}
             onClick={showModal}
-            disabled={!address}
+            disabled={commentedUsers?.some((account) => account === address) || !address}
           >
             Sign Here
           </button>
-        ) : (
-          <span style={{ color: "#D02E49", padding: "10px 0" }}>
-            Already signed
-          </span>
-        )}
+
+          {commentedUsers?.some((account) => account === address) && (
+            <span
+              style={{
+                color: "#D02E49",
+                padding: "10px 0",
+                textAlign: "center",
+                width: "150px",
+              }}
+            >
+              Already signed
+            </span>
+          )}
+        </div>
 
         <Modal
           maskStyle={{ background: "#101420", opacity: "0.9" }}
