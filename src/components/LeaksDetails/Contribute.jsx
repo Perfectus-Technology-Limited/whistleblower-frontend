@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { Button, Input, message, Modal, Spin } from "antd";
 import { prepareWriteContract, writeContract } from "@wagmi/core";
@@ -95,6 +95,10 @@ function Contribute({ leakCID }) {
     setOpen(false);
   };
 
+  useEffect(()=>{
+
+  },[address])
+
   return (
     <div className="vote-cast-container" style={styles.contributeContainer}>
       <div className="vote-cast-title" style={styles.contribute}>
@@ -111,7 +115,7 @@ function Contribute({ leakCID }) {
             style={styles.signHereBtn}
             onClick={showModal}
             disabled={
-              commentedUsers?.some((account) => account === address) || !address
+              commentedUsers?.some((account) => account === address)
             }
           >
             {commentedUsers?.some((account) => account === address)
