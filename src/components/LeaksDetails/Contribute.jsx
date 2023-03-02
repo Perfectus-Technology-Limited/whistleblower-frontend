@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { LikeFilled, DislikeFilled } from "@ant-design/icons";
-import { useContractRead, useContractWrite } from "wagmi";
+import React, { useState } from "react";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { Button, Input, message, Modal, Spin } from "antd";
 import { prepareWriteContract, writeContract } from "@wagmi/core";
-const {TextArea} =Input;
+const { TextArea } = Input;
 
 const styles = {
   contributeContainer: {
@@ -45,7 +43,7 @@ function Contribute({ leakCID }) {
   const showModal = () => {
     setOpen(true);
   };
-  
+
   const handleOk = async () => {
     try {
       setCommentLoading(true);
@@ -55,24 +53,32 @@ function Contribute({ leakCID }) {
         functionName: "comment",
         args: [leakCID, comment],
       });
+
       const txReceipt = await writeContract(config);
       await txReceipt.wait();
+
       setCommentLoading(false);
+      setOpen(false);
+      setComment("");
+
       message.success("Your comment has been recorded");
     } catch (error) {
       let errorMessage = "Something went wrong while trying to your comment";
+
       if (error && error.message) {
         errorMessage = error.message;
       }
+
       if (error && error.reason && error.reason !== "") {
         errorMessage = error.reason;
       }
+
       message.error(errorMessage);
       console.log("ERROR while trying to comment", error);
       setCommentLoading(false);
     }
   };
-  
+
   const handleCancel = () => {
     setOpen(false);
   };
@@ -86,15 +92,12 @@ function Contribute({ leakCID }) {
       <div className="sign-here" style={styles.signHere}>
         <div className="comment-count"></div>
 
-        <button
-          style={styles.signHereBtn}
-          onClick={showModal}
-        >
+        <button style={styles.signHereBtn} onClick={showModal}>
           Sign Here
         </button>
 
         <Modal
-         maskStyle={{ background: "#101420", opacity: "0.9" }}
+          maskStyle={{ background: "#101420", opacity: "0.9" }}
           onCancel={handleCancel}
           open={open}
           title="Comment Here"
