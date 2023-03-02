@@ -42,8 +42,8 @@ function CommentDetails({ ipfsCID }) {
     }
     for (let i = start; i < end; i++) {
       commentsWithUser.push({
-        user: newComments[i],
-        comment: newCommentedUser[i],
+        user: newCommentedUser[i],
+        comment: newComments[i],
       });
     }
   }
