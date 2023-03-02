@@ -908,7 +908,10 @@ span.ant-select-selection-placeholder {
   }
 }
 
-
+/* comment card */
+.ant-card-body{
+  padding: 10px 15px !important;
+}
 
 /* sign model */
 .ant-modal-content{
@@ -920,12 +923,13 @@ span.ant-select-selection-placeholder {
 }
 
 .ant-modal-title{
-  color:#00A771 !important;
+  color:white !important;
 }
 
 .anticon-close svg{
-  fill: #00A771;
+  fill: white;
 }
+
 
 .ant-modal-body .ant-input{
   /* background-color: #000000 !important;
@@ -938,3 +942,21 @@ span.ant-select-selection-placeholder {
 .ant-input-data-count{
   color: #ccc !important;
 }
+
+.ant-picker-input>input::placeholder {
+  color: red;
+}
+
+.shrot-address {
+  display: none !important;
+ }
+
+@media screen and (max-width: 500px) {
+  .full-address {
+   display: none !important;
+  }
+  .shrot-address {
+    display: block !important;
+   }
+}
+
