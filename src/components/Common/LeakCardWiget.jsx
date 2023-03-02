@@ -97,7 +97,7 @@ function LeakCardWidget({ index, data }) {
             title={truncateText(data?.title)}
             description={truncateText(data?.description, 150)}
           />
-          <VoteCount leakCID={data?.ipfsCID} />
+          {/* <VoteCount leakCID={data?.ipfsCID} /> */}
         </Card>
       </Link>
     </div>

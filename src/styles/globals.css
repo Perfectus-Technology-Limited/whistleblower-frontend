@@ -907,3 +907,34 @@ span.ant-select-selection-placeholder {
     width: 375px !important;
   }
 }
+
+
+
+/* sign model */
+.ant-modal-content{
+  background: rgb(0, 0, 0) !important;
+}
+
+.ant-modal-header{
+  background: none !important;
+}
+
+.ant-modal-title{
+  color:#00A771 !important;
+}
+
+.anticon-close svg{
+  fill: #00A771;
+}
+
+.ant-modal-body .ant-input{
+  /* background-color: #000000 !important;
+   */
+   background: none !important;
+  color: white !important;
+  border: 1px solid #4c4c4c !important;
+}
+
+.ant-input-data-count{
+  color: #ccc !important;
+}
