@@ -20,6 +20,7 @@ const styles = {
     justifyContent: "flex-start",
   },
   signHereBtn: {
+    cursor: "pointer",
     justifyContent: "center",
     display: "flex",
     // width: "150px",
@@ -49,7 +50,7 @@ function Contribute({ leakCID }) {
       functionName: "getAllCommentedUsers",
       args: [leakCID],
       // enabled: !!ipfsCID,
-      // watch: true,
+      watch: true,
     });
 
   const showModal = () => {
@@ -137,7 +138,7 @@ function Contribute({ leakCID }) {
               loading={commentLoading}
               onClick={handleOk}
             >
-              Submit
+              Sign
             </Button>,
           ]}
         >
