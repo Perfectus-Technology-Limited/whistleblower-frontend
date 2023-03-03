@@ -1,7 +1,7 @@
 import React from "react";
 import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
 import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
-import { useContractRead } from "wagmi";
+import { useContractRead, useWebSocketProvider } from "wagmi";
 import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { Spin } from "antd";
 import { EditFilled } from "@ant-design/icons";
@@ -22,6 +22,10 @@ const styles = {
   },
 };
 function SignersCount({ leakCID }) {
+
+  const wsProvider = useWebSocketProvider({
+    chainId: 97,
+  })
   const { data: comments, isLoading: isCommentsLoading } = useContractRead({
     address: whistleblowerConfig?.contractAddress,
     abi: whistleblowerConfig?.contractAbi,
@@ -32,7 +36,7 @@ function SignersCount({ leakCID }) {
   })
 
   return (
-    <div className="card-entire-footer" style={{position:"relative",position:"sticky"}}>
+    <div className="card-entire-footer" style={{ position: "relative", position: "sticky" }}>
       {/* { */}
       {/* // isVoteCountLoading ? ( */}
       {/* <div className="d-flex">
