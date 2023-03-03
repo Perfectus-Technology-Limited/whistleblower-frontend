@@ -37,8 +37,8 @@ function CommentDetails({ ipfsCID }) {
   let start = end - pageSize;
 
   if (comments?.length > 0 && commentedUsers?.length > 0) {
-    if (end > comments.length) {
-      end = comments.length;
+    if (end > comments?.length) {
+      end = comments?.length;
     }
     for (let i = start; i < end; i++) {
       commentsWithUser.push({
@@ -68,52 +68,56 @@ function CommentDetails({ ipfsCID }) {
         <span style={{ color: "#ccc", fontSize: "13px" }}>
           {commentedUsers?.length} have signed
         </span>
-        {commentsWithUser.map((comment) => (
-          <Col sx={24} md={24} lg={16}>
-            <Card
-              style={{
-                marginTop: "15px",
-                background: "none",
-                border: "1px solid #134c04",
-                color: "white",
-              }}
-              sx={24}
-              md={24}
-              lg={16}
-            >
-              <Space direction="vertical" size={2}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "left",
-                    alignItems: "center",
-                  }}
-                >
-                  <Space size={16}>
-                    <span>
-                      <Jazzicon
-                        diameter={35}
-                        seed={jsNumberForAddress(
-                          comment.user ? comment.user.toString() : ""
-                        )}
-                      />
+        {
+
+          commentsWithUser.map((comment, index) => (
+            <Col sx={24} md={24} lg={16} key={index}>
+              <Card
+                style={{
+                  marginTop: "15px",
+                  background: "none",
+                  border: "1px solid #134c04",
+                  color: "white",
+                }}
+                sx={24}
+                md={24}
+                lg={16}
+              >
+                <Space direction="vertical" size={2}>
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "row",
+                      justifyContent: "left",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Space size={16}>
+                      <span>
+                        <Jazzicon
+                          diameter={35}
+                          seed={jsNumberForAddress(
+                            comment.user ? comment.user.toString() : ""
+                          )}
+                        />
+                      </span>
+                      <span className="shrot-address">
+                        {shortenEthAddress(comment.user, 8)}
+                      </span>
+                      <span className="full-address">{comment.user}</span>
+                    </Space>
+                  </div>
+                  <div>
+                    <span style={{ color: "#aaa", fontSize: "12px" }}>
+                      {comment.comment}
                     </span>
-                    <span className="shrot-address">
-                      {shortenEthAddress(comment.user, 8)}
-                    </span>
-                    <span className="full-address">{comment.user}</span>
-                  </Space>
-                </div>
-                <div>
-                  <span style={{ color: "#aaa", fontSize: "12px" }}>
-                    {comment.comment}
-                  </span>
-                </div>
-              </Space>
-            </Card>
-          </Col>
-        ))}
+                  </div>
+                </Space>
+              </Card>
+            </Col>
+          ))
+
+        }
       </Row>
       <Row>
         <Col

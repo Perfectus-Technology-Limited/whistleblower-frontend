@@ -35,6 +35,7 @@ function LeakCardWidget({ index, data }) {
   const [coverImageCID, setCoverImageCID] = useState("");
   const [coverImageURL, setCoverImageURL] = useState("");
 
+
   useEffect(() => {
     if (data) {
       const jsonResponse = JSON.parse(data?.ipfsContent);
