@@ -896,7 +896,7 @@ span.ant-select-selection-placeholder {
  }
 }
 
-@media screen and (min-width: 400px) and (max-width: 425px) {
+/* @media screen and (min-width: 400px) and (max-width: 425px) {
   .leak-card{
     width: 390px !important;
   }
@@ -905,6 +905,12 @@ span.ant-select-selection-placeholder {
 @media screen and (min-width: 380px) and (max-width: 400px) {
   .leak-card{
     width: 375px !important;
+  }
+} */
+
+@media screen and (max-width: 767px) {
+  .leak-card{
+    width: 265px !important;
   }
 }
 

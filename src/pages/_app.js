@@ -105,7 +105,7 @@ export default function App({ Component, pageProps }) {
           <Content
             style={{
               minHeight: "100vh",
-              backgroundColor: "#151617",
+              // backgroundColor: "#151617",
               margin: "10px 0 0px 0"
             }}
           >
@@ -115,7 +115,7 @@ export default function App({ Component, pageProps }) {
               </Provider>
             </div>
           </Content>
-          <Footer style={{ backgroundColor: "#151617" }}>
+          <Footer style={{ backgroundColor: "#151617",marginTop:"130px" }}>
             <FooterComp />
           </Footer>
         </Layout>
