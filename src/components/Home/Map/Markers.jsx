@@ -53,7 +53,7 @@ function Marker({ projection }) {
           stroke={d.n > 2000 ? "white" : "none"}
           strokeWidth="1"
           fillOpacity="0.4"
-          style={{ fill: "red" }}
+          style={{ fill: "#D02E49" }}
         ></circle>
       ))}
     </>

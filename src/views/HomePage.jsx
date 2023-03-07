@@ -1,43 +1,43 @@
-import React from 'react'
-import Map from '@/components/Home/Map/Map'
-import FeaturedList from '@/components/Home/FeaturedList'
-import { Row, Col } from 'antd'
-import StatsContainer from '@/components/Home/ProjectStats/StatsContainer'
-import RecentList from '@/components/Home/RecentList'
+import React from "react";
+import Map from "@/components/Home/Map/Map";
+import FeaturedList from "@/components/Home/FeaturedList";
+import { Row, Col } from "antd";
+import StatsContainer from "@/components/Home/ProjectStats/StatsContainer";
+import RecentList from "@/components/Home/RecentList";
 
 function HomePage() {
-
   return (
-    <main className="container">
-      <Row>
+    <>
+      <Map />
+
+      <main className="container">
+        {/* <Row>
         <Col span={24} className="gutter-row">
 
           <div className="tag-line-homepage">
             <h2>Whistleblowers unite! Your voice can change the world!</h2>
-          </div>
+          </div> */}
 
-          {/* <div className="container-glitch">
+        {/* <div className="container-glitch">
             <div className="glitch"> Whistleblowers unite! Your voice can change the world!</div>
             <div className="glow">Whistleblowers unite! Your voice can change the world!</div>
           </div>
           <div className="scanlines"></div> */}
-        </Col>
-      </Row>
+        {/* </Col>
+      </Row> */}
 
-      <Row className='map-full-width'>
-        <Col className="gutter-row" span={24}>
-          <Map />
-        </Col>
-      </Row>
+        {/* <Row className="map-full-width">
+          <Col className="gutter-row" span={24}></Col>
+        </Row> */}
 
-      <FeaturedList />
+        <FeaturedList />
 
-      <StatsContainer />
+        <StatsContainer />
 
-      <RecentList />
-
-    </main>
-  )
+        <RecentList />
+      </main>
+    </>
+  );
 }
 
-export default HomePage
+export default HomePage;

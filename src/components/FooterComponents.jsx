@@ -10,7 +10,7 @@ function FooterComp() {
   }));
 
   return (
-    <div style={{ marginTop: "130px" }}>
+    <div>
       <Row>
         {/* <Col xxl={8} md={12} style={{ display: "flex", alignItems: "center" }} className="logo-col">
           <h1 style={{ color: "#74ec67" }}>Logo</h1>
