@@ -82,7 +82,7 @@ export default function App({ Component, pageProps }) {
         })}
         chains={chains}
       >
-        <Layout style={{ background: "#151617" }}>
+        <Layout style={{ background: "#000000" }}>
           <Head>
             <title>Whistleblowers unite!</title>
             <meta name="description" content="Whistleblowers unite! Your voice can change the world!" />
@@ -97,7 +97,7 @@ export default function App({ Component, pageProps }) {
               paddingTop: '10px',
               paddingBottom: '70px',
               borderBottom: '1px solid #242525',
-              backgroundColor: "#151617",
+              backgroundColor: "#0f0f0f",
             }}
           >
             <NavBar />
@@ -115,7 +115,7 @@ export default function App({ Component, pageProps }) {
               </Provider>
             </div>
           </Content>
-          <Footer style={{ backgroundColor: "#151617",marginTop:"130px" }}>
+          <Footer style={{ backgroundColor: "#0f0f0f",marginTop:"130px" }}>
             <FooterComp />
           </Footer>
         </Layout>
