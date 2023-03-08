@@ -74,7 +74,7 @@ export const CustomConnectionButton = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     Wrong network
                   </button>
@@ -211,8 +211,10 @@ export const CustomConnectionButtonForMobile = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    style={{ color: "red" }}
-                    className="connect-btn"
+                    style={{
+                      width: "100%",
+                    }}
+                    className="connect-btn-wrong"
                   >
                     Wrong network
                   </button>
