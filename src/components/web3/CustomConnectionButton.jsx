@@ -62,7 +62,7 @@ export const CustomConnectionButton = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     Connect
                   </button>
@@ -74,7 +74,7 @@ export const CustomConnectionButton = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     Wrong network
                   </button>
@@ -87,7 +87,7 @@ export const CustomConnectionButton = () => {
                     onClick={openChainModal}
                     style={{ display: "flex", alignItems: "center" }}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     {chain.hasIcon && (
                       <div
@@ -118,7 +118,7 @@ export const CustomConnectionButton = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     {windowSize > 1100
                       ? address + "(" + balance + ")"
@@ -196,7 +196,7 @@ export const CustomConnectionButtonForMobile = () => {
                   <button
                     onClick={openConnectModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                     style={{
                       width: "100%",
                     }}
@@ -211,8 +211,10 @@ export const CustomConnectionButtonForMobile = () => {
                   <button
                     onClick={openChainModal}
                     type="button"
-                    style={{ color: "red" }}
-                    className="connect-btn"
+                    style={{
+                      width: "100%",
+                    }}
+                    className="connect-btn-wrong"
                   >
                     Wrong network
                   </button>
@@ -231,7 +233,7 @@ export const CustomConnectionButtonForMobile = () => {
                       marginTop: "0px",
                     }}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                   >
                     <div
                       style={{
@@ -268,7 +270,7 @@ export const CustomConnectionButtonForMobile = () => {
                   <button
                     onClick={openAccountModal}
                     type="button"
-                    className="connect-btn"
+                    className="connect-btn-wrong"
                     style={{ width: "100%", margin: "4px" }}
                   >
                     {address + "(" + balance + ")"}

@@ -7,18 +7,16 @@ const styles = {
     alignItems: 'center',
     justifyContent: 'center',
     // border: '1px solid red',
-    backgroundColor: '#151617',
+    backgroundColor: '#0f0f0f',
     borderRadius: '10px',
     color: '#ffffff',
-    height: '130px'
-  },
-  title: {
-
+    height: '130px',
   },
   statValue: {
     fontSize: '35px',
     fontWeight: '800',
-    color: '#910000',
+    color: '#D80E2F',
+    textShadow:"0 2px #D80E2F"
   }
 }
 

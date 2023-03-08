@@ -7,17 +7,11 @@ import { Spin } from "antd";
 import { EditFilled } from "@ant-design/icons";
 
 const styles = {
-  upVote: {
+  signnerCount: {
     paddingRight: "10px",
     display: "flex",
     alignItems: "center",
-    color: "#00A771",
-    fontSize: "18px",
-  },
-  downVote: {
-    display: "flex",
-    alignItems: "center",
-    color: "#F05250",
+    color: "#D80E2F",
     fontSize: "18px",
   },
 };
@@ -45,10 +39,10 @@ function SignersCount({ leakCID }) {
       {/* // ) : ( */}
       <div className="card-footer">
         <div className="card-footer-arrows">
-          <div style={styles.upVote}>
+          <div style={styles.signnerCount}>
             <EditFilled />
 
-            <span style={{ paddingLeft: "10px", fontSize: "14px" }}>
+            <span style={{ paddingLeft: "10px", fontSize: "14px",color:"#fff"}}>
               {`${comments?.length} Signers`}
             </span>
           </div>
