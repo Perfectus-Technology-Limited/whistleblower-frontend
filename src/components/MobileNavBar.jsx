@@ -1,6 +1,7 @@
 import { navlinks } from "@/constants";
 import IconHamburgerMenu from "@/utils/HamburgerIcon";
 import { Drawer, Menu } from "antd";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { CustomConnectionButtonForMobile } from "./web3/CustomConnectionButton";
@@ -35,7 +36,18 @@ export default function MobileNavBar() {
         }}
       >
         <div>
-          <h1 style={{ color: "#00A771" }}>Logo</h1>
+          <Link href={"/"} style={{ height: "64px", display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "9px",
+              }}
+            >
+              <img src="/NewUiDesigns/logo.png" />
+            </div>
+          </Link>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
           <IconHamburgerMenu onClick={showDrawer} />

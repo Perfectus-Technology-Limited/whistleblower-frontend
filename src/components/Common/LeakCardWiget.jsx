@@ -11,8 +11,8 @@ const { Meta } = Card;
 
 const styles = {
   LeakCardWidgetContainer: {
-    border: "1px solid #red !important",
-    backgroundColor: "#151617 !important",
+    border: "none !important",
+    backgroundColor: "#0f0f0f !important",
     display: "flex",
     justifyContent: "center",
   },
@@ -21,7 +21,7 @@ const styles = {
     // minHeight: "500px",
     // mexHeight: "500px",
     cursor: "pointer",
-    background: "#141415b8",
+    background: "#0f0f0f",
   },
   avatarSection: {
     display: 'flex',
