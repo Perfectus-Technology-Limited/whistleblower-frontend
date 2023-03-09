@@ -2,6 +2,7 @@ import { getCountries } from "@/constants";
 import React, { useEffect, useState } from "react";
 import * as d3 from "d3";
 import axios from "axios";
+import {  Marker as Mark } from "google-maps-react";
 
 function Marker({ projection }) {
   const [data, setData] = useState([]);
@@ -45,16 +46,24 @@ function Marker({ projection }) {
   return (
     <>
       {locations.map((d, index) => (
-        <circle
-          key={index}
-          cx={projection([+d.homelon, +d.homelat])[0]}
-          cy={projection([+d.homelon, +d.homelat])[1]}
-          r={size(+d.n)}
-          stroke={d.n > 2000 ? "white" : "none"}
-          strokeWidth="1"
-          fillOpacity="0.4"
-          style={{ fill: "#D02E49" }}
-        ></circle>
+        // <circle
+        //   key={index}
+        //   cx={projection([+d.homelon, +d.homelat])[0]}
+        //   cy={projection([+d.homelon, +d.homelat])[1]}
+        //   r={size(+d.n)}
+        //   stroke={d.n > 2000 ? "white" : "none"}
+        //   strokeWidth="1"
+        //   fillOpacity="0.4"
+        //   style={{ fill: "#D02E49" }}
+        // ></circle>
+        <Mark
+        position={{ lat: +d.homelat, lng: +d.homelon }}
+        icon={{
+          url: "/circle-icon.svg",
+          anchor: new google.maps.Point(32, 32),
+          scaledSize: new google.maps.Size(20, 20),
+        }}
+      />
       ))}
     </>
   );

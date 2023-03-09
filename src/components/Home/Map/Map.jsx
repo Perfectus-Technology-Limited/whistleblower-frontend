@@ -15,9 +15,11 @@
 //   );
 // }
 
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Map as MapView, Marker, GoogleApiWrapper } from "google-maps-react";
-// import Marker as Mark from "./Markers";
+import * as d3 from "d3";
+import axios from "axios";
+import { index } from "d3";
 
 const mapStyle = [
   {
@@ -232,14 +234,24 @@ const mapStyle = [
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000",
+        color: "#000",
       },
       {
-        lightness: 17,
+        lightness: 10,
       },
     ],
   },
 ];
+
+const containerStyle = {
+  position: "absolute",
+  width: "100%",
+  top: 81,
+  right: 0,
+  left: 0,
+  bottom: 0,
+  height: "750px",
+};
 
 export class Map extends Component {
   _mapLoaded(mapProps, map) {
@@ -247,26 +259,82 @@ export class Map extends Component {
       styles: mapStyle,
     });
   }
+
   render() {
+    let data = [];
+    let isLoadingCountry = false;
+    let a;
     const coords = { lat: 32, lng: 53 };
+
+    const valueExtent = d3.extent(data, function (d) {
+      return +d.n;
+    });
+
+    const size = d3.scaleSqrt().domain(valueExtent).range([1, 10]);
+
+    const locations = data
+      .sort(function (a, b) {
+        return +b.n - +a.n;
+      })
+      .filter(function (d, i) {
+        return true;
+      });
+
+    const countries = async () => {
+      try {
+        isLoadingCountry = true;
+        const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/countries`;
+        const response = await axios.get(endpoint);
+        if (response && response.status === 200) {
+          const payload = response.data;
+          data.push(payload);
+        }
+        isLoadingCountry = false;
+      } catch (error) {
+        console.log("ERROR while fetching leaks data from API ", error);
+        isLoadingCountry = false;
+        data.push([]);
+      }
+    };
+
+    countries();
+
     return (
-      <div style={{height:"600px"}}>
+      <div style={{ height: "997px" }}>
         <MapView
-          style={{ height: "600px"}}
+          containerStyle={containerStyle}
+          style={{ height: "997px" }}
           google={this.props.google}
-          zoom={2}
-          initialCenter={{ lat: 7, lng: 81 }}
+          streetViewControl={false}
+          mapTypeControl={false}
+          zoom={3}
+          initialCenter={{ lat: 55.575459, lng: 2.878064 }}
           onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}
         >
-          {/* <Marker
+          {/* <Marker position={{ lat: 7, lng: 81 }} /> */}
+          <Marker
             position={coords}
             icon={{
-              url: "/favicon.ico",
+              url: "/circle-icon.svg",
               anchor: new google.maps.Point(32, 32),
-              scaledSize: new google.maps.Size(10, 10),
+              scaledSize: new google.maps.Size(20, 20),
+              fillColor: "#0000ff",
+              fillOpacity: 1,
             }}
-          /> */}
-          <Marker position={{ lat: 7, lng: 81 }} />
+          />
+
+          {data[0]?.map((d) => {
+            return (
+              <Marker
+                position={{ lat: d.homelat, lng: d.homelon }}
+                icon={{
+                  url: "/circle-icon.svg",
+                  anchor: new google.maps.Point(32, 32),
+                  scaledSize: new google.maps.Size(20, 20),
+                }}
+              />
+            );
+          })}
         </MapView>
       </div>
     );
