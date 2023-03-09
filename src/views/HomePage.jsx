@@ -8,7 +8,9 @@ import RecentList from "@/components/Home/RecentList";
 function HomePage() {
   return (
     <>
-      <Map />
+      <Row>
+        <Map />
+      </Row>
 
       <main className="container">
         {/* <Row>
