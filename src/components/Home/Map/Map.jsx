@@ -17,6 +17,7 @@
 
 import React, { Component } from "react";
 import { Map as MapView, Marker, GoogleApiWrapper } from "google-maps-react";
+// import Marker as Mark from "./Markers";
 
 const mapStyle = [
   {
@@ -24,220 +25,220 @@ const mapStyle = [
     elementType: "all",
     stylers: [
       {
-        visibility: "on"
-      }
-    ]
+        visibility: "on",
+      },
+    ],
   },
   {
     featureType: "all",
     elementType: "labels.text.fill",
     stylers: [
       {
-        saturation: 36
+        saturation: 36,
       },
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 40
-      }
-    ]
+        lightness: 40,
+      },
+    ],
   },
   {
     featureType: "all",
     elementType: "labels.text.stroke",
     stylers: [
       {
-        visibility: "on"
+        visibility: "on",
       },
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 16
-      }
-    ]
+        lightness: 16,
+      },
+    ],
   },
   {
     featureType: "all",
     elementType: "labels.icon",
     stylers: [
       {
-        visibility: "off"
-      }
-    ]
+        visibility: "off",
+      },
+    ],
   },
   {
     featureType: "administrative",
     elementType: "geometry.fill",
     stylers: [
       {
-        color: "#d81717"
+        color: "#d81717",
       },
       {
-        lightness: 20
+        lightness: 20,
       },
       {
-        visibility: "on"
-      }
-    ]
+        visibility: "on",
+      },
+    ],
   },
   {
     featureType: "administrative",
     elementType: "geometry.stroke",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 17
+        lightness: 17,
       },
       {
-        weight: 1.2
-      }
-    ]
+        weight: 1.2,
+      },
+    ],
   },
   {
     featureType: "administrative",
     elementType: "labels",
     stylers: [
       {
-        visibility: "simplified"
+        visibility: "simplified",
       },
       {
-        lightness: "-22"
-      }
-    ]
+        lightness: "-22",
+      },
+    ],
   },
   {
     featureType: "administrative.country",
     elementType: "geometry",
     stylers: [
       {
-        visibility: "on"
+        visibility: "on",
       },
       {
-        hue: "#ff0000"
-      }
-    ]
+        hue: "#ff0000",
+      },
+    ],
   },
   {
     featureType: "landscape",
     elementType: "all",
     stylers: [
       {
-        visibility: "on"
-      }
-    ]
+        visibility: "on",
+      },
+    ],
   },
   {
     featureType: "landscape",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 20
-      }
-    ]
+        lightness: 20,
+      },
+    ],
   },
   {
     featureType: "poi",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 21
-      }
-    ]
+        lightness: 21,
+      },
+    ],
   },
   {
     featureType: "road.highway",
     elementType: "geometry.fill",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 17
-      }
-    ]
+        lightness: 17,
+      },
+    ],
   },
   {
     featureType: "road.highway",
     elementType: "geometry.stroke",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 29
+        lightness: 29,
       },
       {
-        weight: 0.2
-      }
-    ]
+        weight: 0.2,
+      },
+    ],
   },
   {
     featureType: "road.arterial",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 18
-      }
-    ]
+        lightness: 18,
+      },
+    ],
   },
   {
     featureType: "road.local",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 16
-      }
-    ]
+        lightness: 16,
+      },
+    ],
   },
   {
     featureType: "transit",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 19
-      }
-    ]
+        lightness: 19,
+      },
+    ],
   },
   {
     featureType: "water",
     elementType: "all",
     stylers: [
       {
-        visibility: "on"
-      }
-    ]
+        visibility: "on",
+      },
+    ],
   },
   {
     featureType: "water",
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000"
+        color: "#000000",
       },
       {
-        lightness: 17
-      }
-    ]
-  }
+        lightness: 17,
+      },
+    ],
+  },
 ];
 
 export class Map extends Component {
@@ -251,14 +252,21 @@ export class Map extends Component {
     return (
       <div style={{height:"600px"}}>
         <MapView
-          style={this.mapStyle}
+          style={{ height: "600px"}}
           google={this.props.google}
           zoom={2}
-          initialCenter={{lat: 7, lng: 81}}
+          initialCenter={{ lat: 7, lng: 81 }}
           onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}
         >
-          <Marker position={coords} />
-          <Marker position={{lat: 7, lng: 81}} />
+          {/* <Marker
+            position={coords}
+            icon={{
+              url: "/favicon.ico",
+              anchor: new google.maps.Point(32, 32),
+              scaledSize: new google.maps.Size(10, 10),
+            }}
+          /> */}
+          <Marker position={{ lat: 7, lng: 81 }} />
         </MapView>
       </div>
     );
@@ -266,5 +274,5 @@ export class Map extends Component {
 }
 
 export default GoogleApiWrapper({
-  apiKey: "AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE"
+  apiKey: "AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE",
 })(Map);
