@@ -106,7 +106,7 @@ export default function App({ Component, pageProps }) {
             style={{
               minHeight: "100vh",
               // backgroundColor: "#151617",
-              margin: "10px 0 0px 0"
+              // margin: "10px 0 0px 0"
             }}
           >
             <div>
