@@ -15,7 +15,7 @@ const mapOptions = {
 };
 
 function Map() {
-  const router=useRouter()
+  const router = useRouter();
   const [isMapDataLoading, setIUsMapDataLoading] = useState(false);
   const [markerCoordinates, setMarkerCoordinates] = useState([]);
 
@@ -43,6 +43,7 @@ function Map() {
               lat: item?.homelat,
               lng: item?.homelon,
               n: item.n,
+              country: item.homecontinent,
             };
             coordinatePoints.push(markerPoint);
           });
@@ -57,9 +58,9 @@ function Map() {
     }
   };
 
-  const handleClick = () => {
-    router.push('/leaks')
-  }
+  const handleClick = (country) => {
+    router.push(`/leaks/country?country=${country}`);
+  };
 
   return (
     <LoadScript googleMapsApiKey="AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE">
@@ -72,7 +73,7 @@ function Map() {
         {markerCoordinates &&
           markerCoordinates.map((marker, index) => (
             <Marker
-              onClick={handleClick}
+              onClick={()=>handleClick(marker.country)}
               options={{
                 icon: {
                   url: mapMarker.src,
