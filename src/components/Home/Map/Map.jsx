@@ -68,9 +68,9 @@ function Map() {
   };
 
   const handleClick = (country) => {
-    router.push(`/leaks/country?country=${country}`);
+    router.push(`/leaks/country?name=${country}`);
   };
-  
+
   return (
     isLoaded && (
       <GoogleMap

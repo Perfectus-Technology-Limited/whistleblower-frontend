@@ -6,13 +6,13 @@ import LeakCountryPage from "@/views/LeakCountryPage";
 
 function country() {
   const router = useRouter();
-    const [isLoading, setIsLoading] = useState(true);
-    const [country,setCountry]=useState('')
+  const [isLoading, setIsLoading] = useState(true);
+  const [country, setCountry] = useState('')
 
   useEffect(() => {
     if (router.isReady) {
-        setIsLoading(false);
-        setCountry(router.query.country);
+      setIsLoading(false);
+      setCountry(router.query.name);
     }
   }, [router]);
 
