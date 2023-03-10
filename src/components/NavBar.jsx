@@ -2,7 +2,7 @@ import { navlinks } from "@/constants";
 import { Menu } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { Logo, LogoTagName } from "public/NewUiDesigns";
+import { Logo, LogoTagName } from "../images/NewUiDesigns";
 import MobileNavBar from "./MobileNavBar";
 import { CustomConnectionButton } from "./web3/CustomConnectionButton";
 export default function NavBar() {
