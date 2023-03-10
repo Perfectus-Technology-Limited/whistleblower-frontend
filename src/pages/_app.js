@@ -103,7 +103,7 @@ export default function App({ Component, pageProps }) {
             style={{
               position: "sticky",
               top: 0,
-              zIndex: 1,
+              zIndex: 2,
               paddingTop: "10px",
               paddingBottom: "70px",
               borderBottom: "1px solid #242525",

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { CustomConnectionButtonForMobile } from "./web3/CustomConnectionButton";
+import logo from "../images/NewUiDesigns/logo.png";
 
 export default function MobileNavBar() {
   const router = useRouter();
@@ -45,7 +46,7 @@ export default function MobileNavBar() {
                 marginRight: "9px",
               }}
             >
-              <img src="/NewUiDesigns/logo.png" />
+              <img src={logo.src} />
             </div>
           </Link>
         </div>
