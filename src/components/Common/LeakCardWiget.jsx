@@ -18,6 +18,7 @@ const styles = {
   },
   LeakCardWidget: {
     width: 300,
+    height:500,
     // minHeight: "500px",
     // mexHeight: "500px",
     cursor: "pointer",

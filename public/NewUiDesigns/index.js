@@ -13,7 +13,7 @@ export const Logo = () => {
         <path
           d="M35.635 32.7572C28.607 39.7852 17.2123 39.7852 10.1843 32.7572L0.64033 23.2132L10.1843 13.6692C17.2123 6.64118 28.607 6.64118 35.635 13.6692V13.6692C40.906 18.9402 40.906 27.4862 35.635 32.7572V32.7572Z"
           fill="url(#paint0_linear_19_1993)"
-          fill-opacity="0.7"
+          fillOpacity="0.7"
         />
         <path
           d="M23.0056 13.6692C30.0336 6.64121 41.4283 6.64121 48.4563 13.6692L58.0003 23.2132L48.4563 32.7572C41.4283 39.7852 30.0336 39.7852 23.0056 32.7572V32.7572C17.7346 27.4862 17.7346 18.9402 23.0056 13.6692V13.6692Z"
@@ -28,8 +28,8 @@ export const Logo = () => {
             y2="12.0785"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#D80E2F" stop-opacity="0.2" />
-            <stop offset="1" stop-color="#D80E2F" stop-opacity="0.7" />
+            <stop stopColor="#D80E2F" stopOpacity="0.2" />
+            <stop offset="1" stopColor="#D80E2F" stopOpacity="0.7" />
           </linearGradient>
           <linearGradient
             id="paint1_linear_19_1993"
@@ -39,8 +39,8 @@ export const Logo = () => {
             y2="23"
             gradientUnits="userSpaceOnUse"
           >
-            <stop stop-color="#D80E2F" stop-opacity="0.2" />
-            <stop offset="1" stop-color="#D80E2F" stop-opacity="0.7" />
+            <stop stopColor="#D80E2F" stopOpacity="0.2" />
+            <stop offset="1" stopColor="#D80E2F" stopOpacity="0.7" />
           </linearGradient>
         </defs>
       </svg>

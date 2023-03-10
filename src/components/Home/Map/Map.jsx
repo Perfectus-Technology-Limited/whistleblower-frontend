@@ -1,23 +1,7 @@
-// import React from "react";
-// import * as d3 from "d3";
-// import Marker from "./Markers";
-// import Paths from "./Paths";
-
-// export default function Map() {
-//   const projection = d3.geoMercator();
-//   return (
-//     <>
-//       <svg viewBox="0 0 960 500">
-//         <Paths projection={projection} />
-//         <Marker projection={projection} />
-//       </svg>
-//     </>
-//   );
-// }
-
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { Map as MapView, Marker, GoogleApiWrapper } from "google-maps-react";
-// import Marker as Mark from "./Markers";
+import * as d3 from "d3";
+import axios from "axios";
 
 const mapStyle = [
   {
@@ -232,41 +216,79 @@ const mapStyle = [
     elementType: "geometry",
     stylers: [
       {
-        color: "#000000",
+        color: "#000",
       },
       {
-        lightness: 17,
+        lightness: 10,
       },
     ],
   },
 ];
 
+const containerStyle = {
+  position: "absolute",
+  width: "100%",
+  top: 81,
+  right: 0,
+  left: 0,
+  bottom: 0,
+  height: "750px",
+};
+
 export class Map extends Component {
+  constructor() {
+    super(),
+      (this.state = {
+        mappedData: [],
+      });
+  }
+
+  componentWillMount() {
+    const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/countries`;
+    axios.get(endpoint).then((response) => {
+      this.setState({
+        mappedData: response.data,
+      });
+    });
+  }
+
   _mapLoaded(mapProps, map) {
     map.setOptions({
       styles: mapStyle,
     });
   }
+
   render() {
-    const coords = { lat: 32, lng: 53 };
+    const { mappedData } = this.state;
+
+    const valueExtent = d3.extent(mappedData, function (d) {
+      return +d.n;
+    });
+
+    const size = d3.scaleSqrt().domain(valueExtent).range([3, 10]);
+
     return (
-      <div style={{height:"600px"}}>
+      <div style={{ height: "997px", color: "red" }}>
         <MapView
-          style={{ height: "600px"}}
+          containerStyle={containerStyle}
+          style={{ height: "997px" }}
           google={this.props.google}
-          zoom={2}
-          initialCenter={{ lat: 7, lng: 81 }}
+          streetViewControl={false}
+          mapTypeControl={false}
+          zoom={3}
+          initialCenter={{ lat: 55.575459, lng: 2.878064 }}
           onReady={(mapProps, map) => this._mapLoaded(mapProps, map)}
         >
-          {/* <Marker
-            position={coords}
-            icon={{
-              url: "/favicon.ico",
-              anchor: new google.maps.Point(32, 32),
-              scaledSize: new google.maps.Size(10, 10),
-            }}
-          /> */}
-          <Marker position={{ lat: 7, lng: 81 }} />
+          {mappedData?.map((d) => (
+            <Marker
+              position={{ lat: d.homelat, lng: d.homelon }}
+              icon={{
+                url: "/circle-icon.svg",
+                // anchor: new google.maps.Point(32, 32),
+                scaledSize: new google.maps.Size(size(+d.n), size(+d.n)),
+              }}
+            />
+          ))}
         </MapView>
       </div>
     );
