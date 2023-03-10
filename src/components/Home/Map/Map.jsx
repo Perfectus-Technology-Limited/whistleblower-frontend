@@ -18,7 +18,7 @@ function Map() {
   const router = useRouter();
   const [isMapDataLoading, setIUsMapDataLoading] = useState(false);
   const [markerCoordinates, setMarkerCoordinates] = useState([]);
-
+  const [isLoaded, setIsLoaded] = useState(false);
   const valueExtent = d3.extent(markerCoordinates, function (d) {
     return +d.n;
   });
@@ -27,6 +27,12 @@ function Map() {
 
   useEffect(() => {
     countries();
+  }, []);
+
+  useEffect(() => {
+    if (window.google && window.google.maps) {
+      setIsLoaded(true);
+    }
   }, []);
 
   const countries = async () => {
@@ -63,9 +69,39 @@ function Map() {
   };
 
   return (
-    <LoadScript googleMapsApiKey="AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE">
+
+
+    window.google === undefined ? (
+      <LoadScript googleMapsApiKey="AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE">
+        <GoogleMap
+          mapContainerStyle={{ height: "800px", width: "100%" }}
+          options={mapOptions}
+          zoom={3}
+          center={{ lat: 21.287934, lng: 37.790933 }}
+        >
+          {markerCoordinates &&
+            markerCoordinates.map((marker, index) => (
+              <Marker
+                onClick={handleClick}
+                options={{
+                  icon: {
+                    url: mapMarker.src,
+                    scaledSize: {
+                      width: size(+marker.n),
+                      height: size(+marker.n),
+                    },
+                  },
+                }}
+                key={index}
+                position={{ lat: marker.lat, lng: marker.lng }}
+              />
+            ))}
+        </GoogleMap>
+      </LoadScript>
+    ) : (
+
       <GoogleMap
-        mapContainerStyle={{ height: "70vh", width: "100%" }}
+        mapContainerStyle={{ height: "800px", width: "100%" }}
         options={mapOptions}
         zoom={3}
         center={{ lat: 21.287934, lng: 37.790933 }}
@@ -88,7 +124,8 @@ function Map() {
             />
           ))}
       </GoogleMap>
-    </LoadScript>
+
+    )
   );
 }
 
