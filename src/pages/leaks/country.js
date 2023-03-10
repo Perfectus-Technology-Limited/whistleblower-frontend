@@ -1,4 +1,3 @@
-import LeakPage from "@/views/LeakPage";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loader from "@/components/Loader";
