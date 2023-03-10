@@ -15,7 +15,7 @@ const mapOptions = {
 };
 
 function Map() {
-  const router=useRouter()
+  const router = useRouter()
   const [isMapDataLoading, setIUsMapDataLoading] = useState(false);
   const [markerCoordinates, setMarkerCoordinates] = useState([]);
 
@@ -64,7 +64,7 @@ function Map() {
   return (
     <LoadScript googleMapsApiKey="AIzaSyAlSTMjfsA49Sw0bb9lpcpXxon-fsTVKDE">
       <GoogleMap
-        mapContainerStyle={{ height: "70vh", width: "100%" }}
+        mapContainerStyle={{ height: "800px", width: "100%" }}
         options={mapOptions}
         zoom={3}
         center={{ lat: 21.287934, lng: 37.790933 }}
