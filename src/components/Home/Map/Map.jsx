@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { GoogleMap, LoadScript, Marker, MarkerClusterer } from '@react-google-maps/api'
+import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api'
 import { googleMapStyle } from './MapStyle'
 import axios from 'axios'
 import mapMarker from '../../../images/map-icons/logo.png'
@@ -72,29 +72,14 @@ function Map() {
         zoom={3}
         center={{ lat: 21.287934, lng: 37.790933 }}
       >
-        <MarkerClusterer batchSizeIE={1} options={clustererOptions}>
-          {(clusterer) =>
-            markerCoordinates && markerCoordinates.map((marker, index) => (
 
-              <Marker
-                options={markerOptions}
-                key={index}
-                position={{ lat: marker.lat, lng: marker.lng }}
-                clusterer={clusterer}
-              >
-                {console.log(clusterer)}
-              </Marker>
-            ))
-          }
-        </MarkerClusterer>
-
-        {/* {markerCoordinates && markerCoordinates.map((marker, index) => (
+        {markerCoordinates && markerCoordinates.map((marker, index) => (
           <Marker
             options={markerOptions}
             key={index}
             position={{ lat: marker.lat, lng: marker.lng }}
           />
-        ))} */}
+        ))}
       </GoogleMap>
     </LoadScript>
   )
