@@ -52,13 +52,13 @@ export const googleMapStyle = [
     elementType: "geometry.fill",
     stylers: [
       {
-        color: "#d81717",
+        color: "#101010",
       },
       {
         lightness: 20,
       },
       {
-        visibility: "on",
+        visibility: "off",
       },
     ],
   },

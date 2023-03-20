@@ -27,7 +27,7 @@ function Map() {
     return +d.n;
   });
 
-  const size = d3.scaleSqrt().domain(valueExtent).range([3, 15]);
+  const size = d3.scaleSqrt().domain(valueExtent).range([1, 20]);
 
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
@@ -87,8 +87,8 @@ function Map() {
                 icon: {
                   url: mapMarker.src,
                   scaledSize: {
-                    width: size(+marker?.n),
-                    height: size(+marker?.n),
+                    width: +marker?.n < 10 ? 10 : size(+marker?.n),
+                    height: +marker?.n < 10 ? 10 : size(+marker?.n),
                   },
                 },
               }}
