@@ -2,6 +2,7 @@ import { navlinks } from "@/constants";
 import { Menu } from "antd";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { Logo, LogoTagName } from "../images/NewUiDesigns";
 import MobileNavBar from "./MobileNavBar";
 import { CustomConnectionButton } from "./web3/CustomConnectionButton";
 export default function NavBar() {
@@ -20,11 +21,34 @@ export default function NavBar() {
     <>
       <div
         className="entire-navbardiv"
-        style={{ display: "flex", justifyContent: "space-between" }}
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          flexDirection: "row",
+        }}
       >
         <div>
-          <Link href={"/"}>
-            <h1 style={{ color: "#00A771" }}>LOGO</h1>
+          <Link href={"/"} style={{ height: "64px", display: "flex" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight:"9px"
+              }}
+            >
+              <Logo />
+            </div>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+              className="logo-tag-name"
+            >
+              <LogoTagName/>
+            </div>
           </Link>
         </div>
         <div style={{ display: "flex", alignItems: "center" }}>
@@ -35,7 +59,6 @@ export default function NavBar() {
               style={{
                 display: "flex",
                 width: "500px",
-                backgroundColor: "#151617",
                 color: "#ffffff",
                 fontSize: "20px",
                 textAlign: "center",
