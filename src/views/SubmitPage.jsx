@@ -397,7 +397,7 @@ function SubmitPage() {
               ]}
               rules={[{ required: true, message: "Please enter the city!" }]}
             >
-              <Input placeholder="city" />
+              <Input placeholder="city" autoComplete={"off"} />
             </Form.Item>
 
             <Form.Item
@@ -435,7 +435,7 @@ function SubmitPage() {
               ]}
               rules={[{ required: true, message: "Please enter the title!" }]}
             >
-              <Input placeholder="Add a title" />
+              <Input placeholder="Add a title" autoComplete={"off"} />
             </Form.Item>
 
             <Form.Item

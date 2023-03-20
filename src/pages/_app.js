@@ -16,36 +16,40 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 import { bscTestnet, bsc } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { useWebSocketProvider } from "wagmi";
+import bscmain from "../images/chain-icons/bscmain.png";
+import bsctest from "../images/chain-icons/bsctest.png";
 
 bsc.hasIcon = true;
-bsc.iconUrl = "/bscmain.png";
+bsc.iconUrl = bscmain.src;
 bscTestnet.name = "BSC Testnet";
 bscTestnet.hasIcon = true;
-bscTestnet.iconUrl = "/bsctest.png";
+bscTestnet.iconUrl = bsctest.src;
 
 export const BinanceTestnet = {
   id: 97,
-  name: 'BSC Testnet',
-  network: 'bsc mainnet',
+  name: "BSC Testnet",
+  network: "bsc mainnet",
   nativeCurrency: {
     decimals: 18,
-    name: 'Binance Chain Native Token',
-    symbol: 'tBNB',
+    name: "Binance Chain Native Token",
+    symbol: "tBNB",
   },
   rpcUrls: {
     default: {
-      http: ['https://data-seed-prebsc-2-s1.binance.org:8545'],
-      webSocket: ['wss://floral-late-shadow.bsc-testnet.discover.quiknode.pro/f646c1084c8ffd284d0538fbe89c622521e415bd/']
+      http: ["https://data-seed-prebsc-2-s1.binance.org:8545"],
+      webSocket: [
+        "wss://floral-late-shadow.bsc-testnet.discover.quiknode.pro/f646c1084c8ffd284d0538fbe89c622521e415bd/",
+      ],
     },
   },
   blockExplorers: {
-    default: { name: 'Bscscan', url: 'https://testnet.bscscan.com' },
+    default: { name: "Bscscan", url: "https://testnet.bscscan.com" },
   },
   hasIcon: true,
-  iconUrl: "https://umbria.network/cdn-cgi/mirage/3bbdf2483e57b9a6384adcb4992cf5d0494b4863df5f54b694cf999f87f739c6/1280/assets/images/icon/bsclogo.png?v1",
+  iconUrl:
+    "https://umbria.network/cdn-cgi/mirage/3bbdf2483e57b9a6384adcb4992cf5d0494b4863df5f54b694cf999f87f739c6/1280/assets/images/icon/bsclogo.png?v1",
   testnet: true,
-}
-
+};
 
 const { chains, provider, webSocketProvider } = configureChains(
   [bscTestnet, bsc],
@@ -66,7 +70,7 @@ const wagmiClient = createClient({
   autoConnect: true,
   connectors,
   provider,
-  webSocketProvider
+  webSocketProvider,
 });
 
 export default function App({ Component, pageProps }) {
@@ -82,22 +86,28 @@ export default function App({ Component, pageProps }) {
         })}
         chains={chains}
       >
-        <Layout style={{ background: "#151617" }}>
+        <Layout style={{ background: "#000000" }}>
           <Head>
             <title>Whistleblowers unite!</title>
-            <meta name="description" content="Whistleblowers unite! Your voice can change the world!" />
-            <meta name="viewport" content="width=device-width, initial-scale=1" />
+            <meta
+              name="description"
+              content="Whistleblowers unite! Your voice can change the world!"
+            />
+            <meta
+              name="viewport"
+              content="width=device-width, initial-scale=1"
+            />
             <link rel="icon" href="/favicon.ico" />
           </Head>
           <Header
             style={{
               position: "sticky",
               top: 0,
-              zIndex: 1,
-              paddingTop: '10px',
-              paddingBottom: '70px',
-              borderBottom: '1px solid #242525',
-              backgroundColor: "#151617",
+              zIndex: 2,
+              paddingTop: "10px",
+              paddingBottom: "70px",
+              borderBottom: "1px solid #242525",
+              backgroundColor: "#0f0f0f",
             }}
           >
             <NavBar />
@@ -105,8 +115,8 @@ export default function App({ Component, pageProps }) {
           <Content
             style={{
               minHeight: "100vh",
-              backgroundColor: "#151617",
-              margin: "10px 0 0px 0"
+              // backgroundColor: "#151617",
+              // margin: "10px 0 0px 0"
             }}
           >
             <div>
@@ -115,7 +125,7 @@ export default function App({ Component, pageProps }) {
               </Provider>
             </div>
           </Content>
-          <Footer style={{ backgroundColor: "#151617" }}>
+          <Footer style={{ backgroundColor: "#0f0f0f", marginTop: "130px" }}>
             <FooterComp />
           </Footer>
         </Layout>
