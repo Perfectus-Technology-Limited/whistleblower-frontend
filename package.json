@@ -15,7 +15,7 @@
     "@rainbow-me/rainbowkit": "^0.9.0",
     "@react-google-maps/api": "^2.18.1",
     "@reduxjs/toolkit": "^1.9.2",
-    "antd": "^5.1.7",
+    "antd": "5.2.3",
     "d3": "^7.8.2",
     "d3-geo-projection": "^4.0.0",
     "google-maps-react": "^2.0.2",
