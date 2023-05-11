@@ -3,6 +3,7 @@ import { whistleblowerConfig } from "@/blockchain/bsc/web3.config";
 import { Button, Input, message, Modal, Spin } from "antd";
 import { prepareWriteContract, writeContract } from "@wagmi/core";
 import { useAccount, useContractRead } from "wagmi";
+import axios from "axios";
 const { TextArea } = Input;
 
 const styles = {
@@ -68,13 +69,28 @@ function Contribute({ leakCID }) {
       });
 
       const txReceipt = await writeContract(config);
-      await txReceipt.wait();
+      const response = await txReceipt.wait();
+
+      console.log("res", response);
+
+      const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/update-signers-count/${leakCID}`;
+      var apiConfig = {
+        method: "patch",
+        maxBodyLength: Infinity,
+        url: endpoint,
+        headers: {
+          "Content-Type": "application/json",
+        },
+      };
+
+      const updateSignerResponse = await axios(apiConfig);
+      if (updateSignerResponse && updateSignerResponse.status === 200) {
+        message.success("Your comment has been recorded");
+      }
 
       setCommentLoading(false);
       setOpen(false);
       setComment("");
-
-      message.success("Your comment has been recorded");
     } catch (error) {
       let errorMessage = "Something went wrong while trying to your comment";
 
@@ -96,9 +112,7 @@ function Contribute({ leakCID }) {
     setOpen(false);
   };
 
-  useEffect(()=>{
-
-  },[address])
+  useEffect(() => {}, [address]);
 
   return (
     <div className="vote-cast-container" style={styles.contributeContainer}>
@@ -115,9 +129,7 @@ function Contribute({ leakCID }) {
             className="sign-here-btn"
             style={styles.signHereBtn}
             onClick={showModal}
-            disabled={
-              commentedUsers?.some((account) => account === address)
-            }
+            disabled={commentedUsers?.some((account) => account === address)}
           >
             {commentedUsers?.some((account) => account === address)
               ? " Already signed"
