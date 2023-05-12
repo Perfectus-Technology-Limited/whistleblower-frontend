@@ -76,7 +76,7 @@ function Map() {
       <GoogleMap
         mapContainerStyle={{ height: "500px", width: "100%" }}
         options={mapOptions}
-        zoom={2}
+        zoom={2.5}
         center={{ lat: 21.287934, lng: 37.790933 }}
       >
         {markerCoordinates &&
