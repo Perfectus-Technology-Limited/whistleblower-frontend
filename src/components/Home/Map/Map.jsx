@@ -74,9 +74,9 @@ function Map() {
   return (
     isLoaded && (
       <GoogleMap
-        mapContainerStyle={{ height: "800px", width: "100%" }}
+        mapContainerStyle={{ height: "500px", width: "100%" }}
         options={mapOptions}
-        zoom={3}
+        zoom={2}
         center={{ lat: 21.287934, lng: 37.790933 }}
       >
         {markerCoordinates &&
@@ -87,8 +87,8 @@ function Map() {
                 icon: {
                   url: mapMarker.src,
                   scaledSize: {
-                    width: +marker?.n < 10 ? 10 : size(+marker?.n),
-                    height: +marker?.n < 10 ? 10 : size(+marker?.n),
+                    width: +marker?.n < 15 ? 15 : size(+marker?.n),
+                    height: +marker?.n < 15 ? 15 : size(+marker?.n),
                   },
                 },
               }}
