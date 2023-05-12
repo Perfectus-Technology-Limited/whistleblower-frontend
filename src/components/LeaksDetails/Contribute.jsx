@@ -69,23 +69,23 @@ function Contribute({ leakCID }) {
       });
 
       const txReceipt = await writeContract(config);
-      const response = await txReceipt.wait();
+      const response=await txReceipt.wait();
 
-      console.log("res", response);
+      if (response) {
+        const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/update-signers-count/${leakCID}`;
+        var apiConfig = {
+          method: "patch",
+          maxBodyLength: Infinity,
+          url: endpoint,
+          headers: {
+            "Content-Type": "application/json",
+          },
+        };
 
-      const endpoint = `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/leaks/update-signers-count/${leakCID}`;
-      var apiConfig = {
-        method: "patch",
-        maxBodyLength: Infinity,
-        url: endpoint,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      };
-
-      const updateSignerResponse = await axios(apiConfig);
-      if (updateSignerResponse && updateSignerResponse.status === 200) {
-        message.success("Your comment has been recorded");
+        const updateSignerResponse = await axios(apiConfig);
+        if (updateSignerResponse && updateSignerResponse.status === 200) {
+          message.success("Your comment has been recorded");
+        }
       }
 
       setCommentLoading(false);
