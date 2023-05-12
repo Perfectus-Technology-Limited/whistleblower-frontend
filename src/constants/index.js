@@ -292,17 +292,17 @@ export const countryList = [
 ];
 
 export const categories = [
-  "Fraud",
-  "Corruption",
-  "Harassment",
-  "Discrimination",
-  "Environmental violations",
-  "Safety violations",
-  "Insider trading",
-  "Privacy violations",
-  "Conflicts of interest",
-  "Misuse of funds",
-  "War crimes"
+  "fraud",
+  "corruption",
+  "harassment",
+  "discrimination",
+  "environmental violations",
+  "safety violations",
+  "insider trading",
+  "privacy violations",
+  "conflicts of interest",
+  "misuse of funds",
+  "war crimes"
 ];
 
 export const getCountries = () => {
