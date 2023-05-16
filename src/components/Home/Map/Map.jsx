@@ -23,9 +23,17 @@ function Map() {
   const router = useRouter();
   const [isMapDataLoading, setIUsMapDataLoading] = useState(false);
   const [markerCoordinates, setMarkerCoordinates] = useState([]);
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const valueExtent = d3.extent(markerCoordinates, function (d) {
     return +d.n;
   });
+
+  // map height depend on window size
+  const handleWindowResize = () => {
+    setWindowHeight(window.innerHeight);
+  };
+
+  window.addEventListener("resize", handleWindowResize);
 
   const size = d3.scaleSqrt().domain(valueExtent).range([1, 20]);
 
@@ -74,7 +82,7 @@ function Map() {
   return (
     isLoaded && (
       <GoogleMap
-        mapContainerStyle={{ height: "500px", width: "100%" }}
+        mapContainerStyle={{ height: windowHeight - 81, width: "100%" }}
         options={mapOptions}
         zoom={2.5}
         center={{ lat: 21.287934, lng: 37.790933 }}
