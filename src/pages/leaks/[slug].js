@@ -1,18 +1,33 @@
-import FileList from "@/components/FileList";
-import Loader from "@/components/Loader";
-import IconArrowDownSquareFill from "@/utils/IconArrowDownSquareFill";
-import IconArrowUpSquareFill from "@/utils/IconArrowUpSquareFill";
-import IconBxUserCircle from "@/utils/IconBxUserCircle";
-import { useRouter } from "next/router";
-import LeakDetailsPage from "@/views/LeakDetailsPage";
+import React from 'react';
+import LeakDetailsPage from '@/views/LeakDetailsPage';
+import Head from 'next/head';
+import { fetchDataFromIPFSCID } from '@/services/ipfs.service';
 
-export default function Details() {
-  const router = useRouter();
-  const { slug } = router?.query
-
+function Details({ leakData }) {
   return (
-    <div className="container">
-      <LeakDetailsPage ipfsCID={slug} />
-    </div>
+    <>
+      <Head>
+        <meta property="og:title" content={leakData?.title} />
+        <meta property="og:image" content={leakData?.coverImage} />
+      </Head>
+      <div className="container">
+        <LeakDetailsPage />
+      </div>
+    </>
   );
 }
+
+export async function getServerSideProps(context) {
+  const { slug } = context.query;
+
+  const leakData = await fetchDataFromIPFSCID(slug);
+
+  // Return the data as props
+  return {
+    props: {
+      leakData,
+    },
+  };
+}
+
+export default Details;
