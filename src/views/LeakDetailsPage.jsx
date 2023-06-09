@@ -7,6 +7,8 @@ import AuthorDetails from "@/components/LeaksDetails/AuthorDetails";
 import LeakFilesSection from "@/components/LeaksDetails/LeakFilesSection";
 import Contribute from "@/components/LeaksDetails/Contribute";
 import CommentDetails from "@/components/LeaksDetails/CommentDetails";
+import { useRouter } from "next/router";
+import dynamic from 'next/dynamic';
 
 const styles = {
   pageContainer: {
@@ -26,7 +28,9 @@ const styles = {
   },
 };
 
-function LeakDetailsPage({ ipfsCID }) {
+function LeakDetailsPage() {
+  const router = useRouter();
+  const ipfsCID = router?.query.slug
   const [isLeaksDataLoading, setIsLeaksDataLoading] = useState(false);
   const [leakData, setLeakData] = useState(null);
 
@@ -85,4 +89,4 @@ function LeakDetailsPage({ ipfsCID }) {
   );
 }
 
-export default LeakDetailsPage;
+export default dynamic(() => Promise.resolve(LeakDetailsPage), { ssr: false });
