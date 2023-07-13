@@ -42,7 +42,7 @@ function LeakHeader({ title, date, coverImageCID }) {
 
   useEffect(() => {
     if (coverImageCID) {
-      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}`
+      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}?pinataGatewayToken=${process.env.NEXT_PUBLIC_PINATA_GATEWAY_TOKEN}`
       setCoverImageURL(URI)
     } else {
       setCoverImageURL(PlaceHolderImage?.src)
