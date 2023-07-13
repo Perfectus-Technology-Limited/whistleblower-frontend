@@ -120,7 +120,7 @@ function LeakFilesSection({ files }) {
                 <div className='file-download-icon' style={styles.fileDownloadIcon}>
                   <Link
                     target={'_blank'}
-                    href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${file?.cid}`} download>
+                    href={`${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${file?.cid}?pinataGatewayToken=${process.env.NEXT_PUBLIC_PINATA_GATEWAY_TOKEN}`} download>
                     <CloudDownloadOutlined />
                   </Link>
                 </div>
