@@ -18,7 +18,7 @@ const styles = {
   },
   LeakCardWidget: {
     width: 300,
-    height:500,
+    height: 500,
     // minHeight: "500px",
     // mexHeight: "500px",
     cursor: "pointer",
@@ -43,10 +43,9 @@ function LeakCardWidget({ index, data }) {
       setCoverImageCID(jsonResponse?.coverImage);
     }
   }, [data]);
-
   useEffect(() => {
     if (coverImageCID) {
-      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}`;
+      const URI = `${process.env.NEXT_PUBLIC_IPFS_GATEWAY}/ipfs/${coverImageCID}?pinataGatewayToken=${process.env.NEXT_PUBLIC_PINATA_GATEWAY_TOKEN}`;
       setCoverImageURL(URI);
     } else {
       setCoverImageURL(PlaceHolderImage?.src);
